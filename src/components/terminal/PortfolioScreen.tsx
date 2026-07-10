@@ -81,6 +81,21 @@ type PortfolioScreenProps = {
   onBack: () => void;
 };
 
+const isDeveloperUrl = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  const host = window.location.hostname;
+  const isLocalHost = host === "localhost" || host === "127.0.0.1" || host === "::1";
+  if (!isLocalHost) {
+    return false;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  return params.get("dev") === "1" || params.get("edit") === "1";
+};
+
 export function PortfolioScreen({ category, onBack }: PortfolioScreenProps) {
   const screenRef = useRef<HTMLElement | null>(null);
   const frameRef = useRef<number | null>(null);
@@ -154,12 +169,16 @@ export function PortfolioScreen({ category, onBack }: PortfolioScreenProps) {
   }, [category.id, category.projects]);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsDeveloperMode(params.get("dev") === "1" || params.get("edit") === "1");
+    setIsDeveloperMode(isDeveloperUrl());
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.altKey && event.key.toLowerCase() === "e") {
         event.preventDefault();
+        if (!isDeveloperUrl()) {
+          setIsDeveloperMode(false);
+          setIsDeveloperMenuOpen(false);
+          return;
+        }
         setIsDeveloperMode((current) => !current);
         setIsDeveloperMenuOpen(false);
       }

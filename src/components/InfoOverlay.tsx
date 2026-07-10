@@ -1,4 +1,4 @@
-﻿import { ImagePlus, RotateCcw, Trash2, X } from "lucide-react";
+import { ImagePlus, RotateCcw, Trash2, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import DomeGallery from "./DomeGallery";
@@ -111,7 +111,7 @@ const infoContactColumns = {
     contactTitle: "\u63a5\u89e6",
     profile: [
       ["GitHub", "mumua2031"],
-      ["LinkedIn", "www.linkedin.com/in/希--ba2403419/"],
+      ["LinkedIn", "www.linkedin.com/in/牧希-邹-ba2403419"],
     ],
     contact: [
       ["\u7535\u5b50\u90ae\u7bb1", "mumua2031@gmail.com"],
@@ -128,7 +128,7 @@ const infoContactColumns = {
     contactTitle: "Contact",
     profile: [
       ["GitHub", "mumua2031"],
-      ["LinkedIn", "www.linkedin.com/in/希--ba2403419/"],
+      ["LinkedIn", "www.linkedin.com/in/牧希-邹-ba2403419"],
     ],
     contact: [
       ["Email", "mumua2031@gmail.com"],
@@ -249,12 +249,16 @@ function NarrativeAutoScroll({
   const [hongKongTime, setHongKongTime] = useState(() => hongKongClockFormatter.format(new Date()));
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsDeveloperMode(params.get("dev") === "1" || params.get("edit") === "1");
+    setIsDeveloperMode(isDeveloperUrl());
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.altKey && event.key.toLowerCase() === "e") {
         event.preventDefault();
+        if (!isDeveloperUrl()) {
+          setIsDeveloperMode(false);
+          setIsPageEditing(false);
+          return;
+        }
         setIsDeveloperMode((current) => !current);
         setIsPageEditing(false);
       }
@@ -1170,6 +1174,7 @@ export function InfoOverlay() {
     </motion.aside>
   );
 }
+
 
 
 
