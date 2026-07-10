@@ -6415,3 +6415,118 @@ button:focus-visible {
   -webkit-backdrop-filter: blur(20px) saturate(0.9) !important;
 }
 
+
+/* English info page title containment: prevent long English headings from overflowing or overlapping panels. */
+.immersive-story-scroll.is-en-story .about-title-reveal,
+.immersive-story-scroll.is-en-story .about-title-reveal.is-hero {
+  width: min(100%, 980px) !important;
+  max-width: calc(100vw - clamp(180px, 18vw, 360px)) !important;
+  overflow: visible !important;
+}
+
+.immersive-story-scroll.is-en-story .about-title-reveal .scroll-reveal-text.about-title-reveal-text,
+.immersive-story-scroll.is-en-story .about-title-reveal.is-hero .scroll-reveal-text.about-title-reveal-text {
+  display: block !important;
+  max-width: 100% !important;
+  font-size: clamp(42px, 5vw, 92px) !important;
+  line-height: 0.96 !important;
+  letter-spacing: 0 !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.immersive-story-scroll.is-en-story .about-title-reveal .scroll-reveal-line {
+  display: block !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+}
+
+.immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-axis-copy,
+.immersive-story-scroll.is-experience-story.is-en-story .about-axis-entry.is-immersive-hero .about-axis-copy,
+.immersive-story-scroll.is-services-story.is-en-story .about-axis-entry.is-immersive-hero .about-axis-copy {
+  width: min(62vw, 980px) !important;
+  max-width: calc(100vw - clamp(220px, 24vw, 460px)) !important;
+}
+
+.immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-title-reveal .scroll-reveal-text.about-title-reveal-text {
+  font-size: clamp(44px, 4.85vw, 88px) !important;
+}
+
+.immersive-story-scroll.is-experience-story.is-en-story .about-axis-entry.is-immersive-hero .about-title-reveal .scroll-reveal-text.about-title-reveal-text,
+.immersive-story-scroll.is-services-story.is-en-story .about-axis-entry.is-immersive-hero .about-title-reveal .scroll-reveal-text.about-title-reveal-text {
+  font-size: clamp(46px, 5vw, 90px) !important;
+}
+
+.immersive-story-scroll.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services {
+  grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.55fr) !important;
+  column-gap: clamp(44px, 6vw, 112px) !important;
+  align-items: start !important;
+}
+
+.immersive-story-scroll.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services > h3 {
+  max-width: 100% !important;
+  font-size: clamp(72px, 7.2vw, 132px) !important;
+  line-height: 0.86 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  white-space: normal !important;
+}
+
+.immersive-story-scroll.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article {
+  grid-template-columns: clamp(52px, 5vw, 86px) minmax(190px, 0.7fr) minmax(0, 1.25fr) !important;
+  gap: clamp(20px, 3vw, 56px) !important;
+}
+
+.immersive-story-scroll.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article b,
+.immersive-story-scroll.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article p {
+  min-width: 0 !important;
+  overflow-wrap: normal !important;
+}
+
+@media (max-width: 900px) {
+  .immersive-story-scroll.is-en-story .about-title-reveal,
+  .immersive-story-scroll.is-en-story .about-title-reveal.is-hero,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-axis-copy,
+  .immersive-story-scroll.is-experience-story.is-en-story .about-axis-entry.is-immersive-hero .about-axis-copy,
+  .immersive-story-scroll.is-services-story.is-en-story .about-axis-entry.is-immersive-hero .about-axis-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .immersive-story-scroll.is-en-story .about-title-reveal .scroll-reveal-text.about-title-reveal-text,
+  .immersive-story-scroll.is-en-story .about-title-reveal.is-hero .scroll-reveal-text.about-title-reveal-text {
+    font-size: clamp(34px, 11vw, 58px) !important;
+    line-height: 1 !important;
+  }
+
+  .immersive-story-scroll.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services {
+    grid-template-columns: 1fr !important;
+  }
+
+  .immersive-story-scroll.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+}
+
+/* English About hero: keep the title/text column clear of the portrait area. */
+.immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-axis-copy {
+  width: min(45vw, 580px) !important;
+  max-width: min(45vw, 580px) !important;
+}
+
+.immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-title-reveal,
+.immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-title-reveal.is-hero,
+.immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-reveal-body,
+.immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-reveal-paragraph,
+.immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-static-body {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 900px) {
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-immersive-hero .about-axis-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

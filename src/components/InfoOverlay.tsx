@@ -187,7 +187,7 @@ const copy: Record<Exclude<PrimarySection, "projects" | null>, { cn: OverlayCopy
     },
     en: {
       eyebrow: "About Zoey",
-      title: "I place creativity, visual language, and storytelling into one quiet system.",
+      title: "I place creativity,\nvisual language,\nand storytelling\ninto one quiet system.",
       body: `${SITE_COPY.brand.nameEn} focuses on visual design, digital art, fashion, and spatial direction. ${SITE_COPY.hero.descriptionEn}`,
       meta: ["Visual Direction", "AIGC Workflow", "Spatial Storytelling"],
     },
@@ -202,7 +202,7 @@ const copy: Record<Exclude<PrimarySection, "projects" | null>, { cn: OverlayCopy
     },
     en: {
       eyebrow: "Experience",
-      title: "From concept sketches to interactive portfolios, I keep the creative loop complete.",
+      title: "From concept sketches\nto interactive portfolios,\nI keep the creative\nloop complete.",
       body:
         "I connect inspiration, research, moodboards, generative imagery, and final interfaces so each project can be both understood and experienced.",
       meta: ["Concept Research", "Portfolio Curation", "Cross-media Design"],
@@ -218,7 +218,7 @@ const copy: Record<Exclude<PrimarySection, "projects" | null>, { cn: OverlayCopy
     },
     en: {
       eyebrow: "Services",
-      title: "I offer restrained, clear design collaboration built for long-term use.",
+      title: "I offer restrained,\nclear design collaboration\nbuilt for long-term use.",
       body:
         "Collaboration can include brand visuals, portfolio curation, digital art direction, spatial proposals, and portfolio website experiences.",
       meta: ["Brand System", "Portfolio Website", "AIGC Direction"],
@@ -740,6 +740,7 @@ const timelinePresets: Record<
         "about-scroll",
         "immersive-story-scroll",
         `is-${section}-story`,
+        `is-${language}-story`,
         isPaused ? "is-paused" : "",
         isManualScrolling ? "is-manual-scroll" : "",
         isPageEditing ? "is-page-editing" : "",
