@@ -6368,3 +6368,50 @@ button:focus-visible {
   background: rgba(96, 98, 98, 0.64) !important;
   backdrop-filter: blur(18px) saturate(0.9) !important;
 }
+
+/* About image-backed glass gray background: keep existing layout, reveal the supplied image through a shared blurred gray layer. */
+.info-overlay.is-about {
+  background-color: #545656 !important;
+  background-image: linear-gradient(rgba(84, 86, 86, 0.66), rgba(84, 86, 86, 0.66)), url("/assets/about/about-blur-gray-bg.jpg") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.info-overlay.is-about .immersive-story-scroll.about-scroll.is-about-story {
+  background-color: rgba(84, 86, 86, 0.58) !important;
+  background-image: linear-gradient(rgba(84, 86, 86, 0.58), rgba(84, 86, 86, 0.58)), url("/assets/about/about-blur-gray-bg.jpg") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  color: #ffffff !important;
+}
+
+.info-overlay.is-about .immersive-story-scroll.about-scroll.is-about-story::before {
+  background: rgba(84, 86, 86, 0.42) !important;
+  backdrop-filter: blur(22px) saturate(0.92) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(0.92) !important;
+}
+
+.immersive-story-scroll.is-about-story .about-axis-entry,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-about-intro-entry,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-about-direction-entry,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-about-method-entry,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-footer-services-entry,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-footer-contact-entry,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry {
+  background: rgba(84, 86, 86, 0.34) !important;
+  color: #ffffff !important;
+}
+
+.immersive-story-scroll.is-about-story .about-axis-entry.is-about-intro-entry,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-about-direction-entry,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-about-method-entry,
+.immersive-story-scroll.is-about-story .info-footer-panel,
+.immersive-story-scroll.is-about-story .info-signature-ending,
+.immersive-story-scroll.is-about-story .about-axis-entry.is-footer-contact-entry .info-footer-panel.info-footer-contact {
+  background: rgba(96, 98, 98, 0.38) !important;
+  backdrop-filter: blur(20px) saturate(0.9) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(0.9) !important;
+}
+
