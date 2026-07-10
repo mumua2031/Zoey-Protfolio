@@ -1,0 +1,44 @@
+{
+  "kind": "zoey-portfolio-visible-history-snapshot",
+  "version": "20260710-0438-user-layout",
+  "capturedAt": "2026-07-10T05:25:19+08:00",
+  "sourceUrl": "http://127.0.0.1:5188/?dev=1",
+  "note": "History marker for the user-edited Visual Design state. Chrome automation showed the live page with these five project tabs, but IndexedDB/localStorage export appeared empty. This file preserves the rollback anchor and visible project identity for this version.",
+  "projects": [
+    {
+      "label": "女书-日用",
+      "activeTabText": "女书-日用",
+      "projectId": "visual-project-9daf22f5",
+      "visibleTitle": "Nushu Package",
+      "visibleImageCount": 15
+    },
+    {
+      "label": "厚米-酒",
+      "activeTabText": "厚米-酒",
+      "projectId": "visual-project-811ba9dd",
+      "visibleTitle": "Rice Wine Package",
+      "visibleImageCount": 8
+    },
+    {
+      "label": "扬子江-食物",
+      "activeTabText": "扬子江-食物",
+      "projectId": "visual-project-4fbb444d",
+      "visibleTitle": "Yangtze Pastry",
+      "visibleImageCount": 24
+    },
+    {
+      "label": "标志-系统",
+      "activeTabText": "标志-系统",
+      "projectId": "visual-project-d06ccd44",
+      "visibleTitle": "标志 Logo 设计",
+      "visibleImageCount": 2
+    },
+    {
+      "label": "瓷韵-青花瓷",
+      "activeTabText": "瓷韵-青花瓷",
+      "projectId": "visual-project-135a2dc4",
+      "visibleTitle": "Blue Porcelain Visuals",
+      "visibleImageCount": 16
+    }
+  ]
+}

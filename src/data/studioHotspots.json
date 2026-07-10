@@ -1,0 +1,56 @@
+﻿[
+  {
+    "id": "fashion-mannequin",
+    "name": "产品设计",
+    "categoryId": "fashion",
+    "x": 31.8,
+    "y": 48.8,
+    "labelOffsetX": -86,
+    "labelOffsetY": -72
+  },
+  {
+    "id": "visual-imac",
+    "name": "品牌视觉",
+    "categoryId": "visual",
+    "x": 55.4,
+    "y": 55.5,
+    "labelOffsetX": -92,
+    "labelOffsetY": -72
+  },
+  {
+    "id": "aigc-vr",
+    "name": "数字内容",
+    "categoryId": "aigc",
+    "x": 50.0,
+    "y": 64.0,
+    "labelOffsetX": -58,
+    "labelOffsetY": 60
+  },
+  {
+    "id": "interior-wall",
+    "name": "空间设计",
+    "categoryId": "interior",
+    "x": 82.2,
+    "y": 40.8,
+    "labelOffsetX": -24,
+    "labelOffsetY": -78
+  },
+  {
+    "id": "painting-palette",
+    "name": "绘画书法",
+    "categoryId": "painting",
+    "x": 67.2,
+    "y": 57.2,
+    "labelOffsetX": -18,
+    "labelOffsetY": -68
+  },
+  {
+    "id": "other-brushes",
+    "name": "影像纪实",
+    "categoryId": "photography",
+    "x": 77.6,
+    "y": 49.0,
+    "labelOffsetX": 24,
+    "labelOffsetY": -58
+  }
+]

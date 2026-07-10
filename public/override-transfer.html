@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zoey Override Transfer</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: Inter, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        background: #080808;
+        color: #f7f7f7;
+      }
+
+      main {
+        width: min(720px, calc(100vw - 48px));
+        padding: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 22px;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        color: rgba(255, 255, 255, 0.72);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Zoey Override Transfer</h1>
+      <pre id="status">Preparing...</pre>
+    </main>
+
+    <script>
+      const STORAGE_KEY = "zoey-portfolio-artwork-overrides-v2";
+      const DB_NAME = "zoey-portfolio-overrides";
+      const DB_VERSION = 1;
+      const DB_STORE_NAME = "project-overrides";
+      const statusNode = document.getElementById("status");
+
+      const setStatus = (payload) => {
+        statusNode.textContent = typeof payload === "string" ? payload : JSON.stringify(payload, null, 2);
+      };
+
+      const openDb = () =>
+        new Promise((resolve, reject) => {
+          const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+          request.onupgradeneeded = () => {
+            const db = request.result;
+            if (!db.objectStoreNames.contains(DB_STORE_NAME)) {
+              db.createObjectStore(DB_STORE_NAME, { keyPath: "projectId" });
+            }
+          };
+
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+
+      const readAll = async () => {
+        const localRaw = localStorage.getItem(STORAGE_KEY);
+        const db = await openDb();
+
+        const indexedRecords = await new Promise((resolve, reject) => {
+          const transaction = db.transaction(DB_STORE_NAME, "readonly");
+          const store = transaction.objectStore(DB_STORE_NAME);
+          const request = store.getAll();
+
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => reject(request.error);
+          transaction.oncomplete = () => db.close();
+          transaction.onerror = () => {
+            db.close();
+            reject(transaction.error);
+          };
+        });
+
+        let localProjects = [];
+        try {
+          localProjects = localRaw ? Object.keys(JSON.parse(localRaw)) : [];
+        } catch {
+          localProjects = [];
+        }
+
+        return {
+          version: 1,
+          exportedAt: new Date().toISOString(),
+          origin: location.origin,
+          localRaw,
+          indexedRecords,
+          summary: {
+            localProjects,
+            indexedProjects: indexedRecords.map((record) => record.projectId),
+          },
+        };
+      };
+
+      const readLocalEntries = () => {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : {};
+        } catch {
+          return {};
+        }
+      };
+
+      const readIndexedRecords = async () => {
+        const db = await openDb();
+
+        return new Promise((resolve, reject) => {
+          const transaction = db.transaction(DB_STORE_NAME, "readonly");
+          const store = transaction.objectStore(DB_STORE_NAME);
+          const request = store.getAll();
+
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => reject(request.error);
+          transaction.oncomplete = () => db.close();
+          transaction.onerror = () => {
+            db.close();
+            reject(transaction.error);
+          };
+        });
+      };
+
+      const writeProjectRecord = async (projectId, entry, sourceKind) => {
+        const normalized =
+          sourceKind === "indexed"
+            ? { ...entry, projectId, updatedAt: Date.now() }
+            : { projectId, images: entry.images, copy: entry.copy, updatedAt: Date.now() };
+
+        const db = await openDb();
+        await new Promise((resolve, reject) => {
+          const transaction = db.transaction(DB_STORE_NAME, "readwrite");
+          const store = transaction.objectStore(DB_STORE_NAME);
+          store.put(normalized);
+
+          transaction.oncomplete = () => {
+            db.close();
+            resolve();
+          };
+          transaction.onerror = () => {
+            db.close();
+            reject(transaction.error);
+          };
+        });
+
+        try {
+          const current = readLocalEntries();
+          current[projectId] = {
+            images: normalized.images,
+            copy: normalized.copy,
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
+        } catch {
+          // IndexedDB is the reliable source for large image payloads.
+        }
+      };
+
+      const exportChunked = async () => {
+        const localEntries = readLocalEntries();
+        const indexedRecords = await readIndexedRecords();
+        const localProjects = Object.keys(localEntries);
+        const indexedProjects = indexedRecords.map((record) => record.projectId);
+
+        setStatus({
+          mode: "export-chunked",
+          origin: location.origin,
+          localProjects,
+          indexedProjects,
+        });
+
+        const target = window.parent && window.parent !== window ? window.parent : window.opener;
+        if (!target) {
+          return;
+        }
+
+        target.postMessage(
+          {
+            type: "zoey-overrides-start",
+            summary: { localProjects, indexedProjects },
+          },
+          "*",
+        );
+
+        for (const projectId of localProjects) {
+          target.postMessage(
+            {
+              type: "zoey-overrides-project",
+              sourceKind: "local",
+              projectId,
+              entry: localEntries[projectId],
+            },
+            "*",
+          );
+        }
+
+        for (const record of indexedRecords) {
+          target.postMessage(
+            {
+              type: "zoey-overrides-project",
+              sourceKind: "indexed",
+              projectId: record.projectId,
+              entry: record,
+            },
+            "*",
+          );
+        }
+
+        target.postMessage(
+          {
+            type: "zoey-overrides-done",
+            summary: { localProjects, indexedProjects },
+          },
+          "*",
+        );
+      };
+
+      const writeAll = async (payload) => {
+        if (payload.localRaw) {
+          try {
+            localStorage.setItem(STORAGE_KEY, payload.localRaw);
+          } catch {
+            // Large base64 images can exceed localStorage. IndexedDB remains the source of truth.
+          }
+        }
+
+        const db = await openDb();
+        await new Promise((resolve, reject) => {
+          const transaction = db.transaction(DB_STORE_NAME, "readwrite");
+          const store = transaction.objectStore(DB_STORE_NAME);
+
+          for (const record of payload.indexedRecords || []) {
+            store.put({ ...record, updatedAt: Date.now() });
+          }
+
+          transaction.oncomplete = () => {
+            db.close();
+            resolve();
+          };
+          transaction.onerror = () => {
+            db.close();
+            reject(transaction.error);
+          };
+        });
+      };
+
+      const run = async () => {
+        const params = new URLSearchParams(location.search);
+        const mode = params.get("mode");
+
+        if (mode === "export") {
+          if (params.get("chunked") === "1") {
+            await exportChunked();
+            return;
+          }
+
+          const payload = await readAll();
+          setStatus({
+            mode,
+            origin: payload.origin,
+            ...payload.summary,
+          });
+
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: "zoey-overrides-export", payload }, "*");
+          }
+          if (window.opener) {
+            window.opener.postMessage({ type: "zoey-overrides-export", payload }, "*");
+          }
+          return;
+        }
+
+        if (mode === "import-from") {
+          const source = params.get("source");
+          if (!source) {
+            throw new Error("Missing source origin.");
+          }
+
+          const imported = [];
+          const failed = [];
+          let expectedSummary = null;
+
+          setStatus(`Importing from ${source} ...`);
+
+          window.addEventListener(
+            "message",
+            async (event) => {
+              if (event.origin !== source) {
+                return;
+              }
+
+              if (event.data?.type === "zoey-overrides-start") {
+                expectedSummary = event.data.summary;
+                setStatus({
+                  mode,
+                  importedFrom: source,
+                  status: "started",
+                  expectedSummary,
+                  imported,
+                });
+                return;
+              }
+
+              if (event.data?.type === "zoey-overrides-project") {
+                try {
+                  await writeProjectRecord(event.data.projectId, event.data.entry, event.data.sourceKind);
+                  imported.push(`${event.data.sourceKind}:${event.data.projectId}`);
+                } catch (error) {
+                  failed.push({
+                    projectId: event.data.projectId,
+                    error: error instanceof Error ? error.message : String(error),
+                  });
+                }
+
+                setStatus({
+                  mode,
+                  importedFrom: source,
+                  status: "importing",
+                  expectedSummary,
+                  importedCount: imported.length,
+                  failed,
+                  latest: imported[imported.length - 1],
+                });
+                return;
+              }
+
+              if (event.data?.type === "zoey-overrides-export") {
+                await writeAll(event.data.payload);
+                imported.push(...event.data.payload.summary.indexedProjects);
+                setStatus({
+                  mode,
+                  importedFrom: source,
+                  importedTo: location.origin,
+                  ...event.data.payload.summary,
+                });
+                return;
+              }
+
+              if (event.data?.type !== "zoey-overrides-done") {
+                return;
+              }
+
+              setStatus({
+                mode,
+                importedFrom: source,
+                importedTo: location.origin,
+                status: "done",
+                expectedSummary: event.data.summary,
+                importedCount: imported.length,
+                imported,
+                failed,
+              });
+            },
+          );
+
+          const iframe = document.createElement("iframe");
+          iframe.hidden = true;
+          iframe.src = `${source}/override-transfer.html?mode=export&chunked=1`;
+          document.body.appendChild(iframe);
+          return;
+        }
+
+        setStatus("Use ?mode=export or ?mode=import-from&source=http://127.0.0.1:5174");
+      };
+
+      run().catch((error) => {
+        setStatus({
+          error: error instanceof Error ? error.message : String(error),
+        });
+      });
+    </script>
+  </body>
+</html>

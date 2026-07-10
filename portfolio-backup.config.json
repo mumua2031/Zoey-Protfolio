@@ -1,0 +1,15 @@
+{
+  "archiveRoot": "D:\\\u4f5c\u54c1\u96c6\u9879\u76ee\u5386\u53f2\u7248\u672c\u5f52\u6863",
+  "snapshot": {
+    "frequency": "manual-or-baseline",
+    "retain": 24
+  },
+  "incremental": {
+    "frequency": "PT2H",
+    "retain": 720
+  },
+  "daily": {
+    "frequency": "P1D",
+    "retain": 90
+  }
+}
