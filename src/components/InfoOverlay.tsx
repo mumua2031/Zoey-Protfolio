@@ -1,6 +1,7 @@
 import { ImagePlus, RotateCcw, Trash2, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import DomeGallery from "./DomeGallery";
 import Lanyard from "./Lanyard";
 import ScrollReveal from "./ScrollReveal";
@@ -34,6 +35,7 @@ type InfoTextOverrideEntry = {
 };
 
 type InfoTextOverrides = Record<string, InfoTextOverrideEntry>;
+type ZoomedInfoMedia = { src: string; alt: string };
 type LatestInfoTextOverrideStore = {
   version: number;
   updatedAt: string;
@@ -213,7 +215,7 @@ const copy: Record<Exclude<PrimarySection, "projects" | null>, { cn: OverlayCopy
       eyebrow: "Services",
       title: "提供完整、清晰、\n适合长期使用的\n设计协作方式",
       body:
-        "\u53ef\u5408\u4f5c\u65b9\u5411\u5305\u62ec\u54c1\u724c\u89c6\u89c9\u3001\u4f5c\u54c1\u96c6\u7b56\u5212\u3001\u6570\u5b57\u827a\u672f\u89c6\u89c9\u751f\u6210\u3001\u7a7a\u95f4\u89c6\u89c9\u63d0\u6848\u4e0e\u5c55\u793a\u7f51\u9875\u4f53\u9a8c\u3002",
+        "品牌、企业与商业项目提供从策略规划到视觉落地的一体化设计服务，涵盖品牌视觉、数字体验、营销内容、空间展示与创新视觉解决方案。",
       meta: ["Brand System", "Portfolio Website", "AIGC Direction"],
     },
     en: {
@@ -245,6 +247,7 @@ function NarrativeAutoScroll({
   const [isManualScrolling, setIsManualScrolling] = useState(false);
   const [isDeveloperMode, setIsDeveloperMode] = useState(false);
   const [isPageEditing, setIsPageEditing] = useState(false);
+  const [zoomedMedia, setZoomedMedia] = useState<ZoomedInfoMedia | null>(null);
   const [textOverrides, setTextOverrides] = useState<InfoTextOverrides>(readInitialInfoTextOverrides);
   const [hongKongTime, setHongKongTime] = useState(() => hongKongClockFormatter.format(new Date()));
 
@@ -280,6 +283,7 @@ function NarrativeAutoScroll({
     setIsManualScrolling(false);
     directionRef.current = 1;
     pauseUntilRef.current = 0;
+    setZoomedMedia(null);
     if (scrollRef.current) {
       scrollPositionRef.current = scrollRef.current.scrollTop;
     }
@@ -520,7 +524,7 @@ const timelinePresets: Record<
         {
           index: "02",
           title: "\u8de8\u5a92\u4ecb\u5b9e\u8df5",
-          body: "\u521b\u4f5c\u8fc7\u7a0b\u8fde\u63a5\u7248\u5f0f\u3001\u751f\u6210\u5f0f\u56fe\u50cf\u3001\u670d\u88c5\u53c2\u8003\u3001\u7a7a\u95f4\u60c5\u7eea\u4e0e\u7f51\u9875\u4ea4\u4e92\u4f53\u9a8c\u3002",
+          body: "\u89e3\u6784\u4f20\u7edf\u5b66\u79d1\u4e0e\u5a92\u4ecb\u7684\u8fb9\u754c\uff0c\u4ee5\u89c6\u89c9\u7684\u91cd\u5851\u3001\u5b9e\u4f53\u7684\u53d9\u4e8b\u4e0e\u6570\u5b57\u7684\u6d41\u52a8\u5173\u7cfb\u3002",
           media: "image",
           mediaSrc: "/assets/experience/cross-media-practice.jpg",
           mediaAlt: "\u8de8\u5a92\u4ecb\u5b9e\u8df5\u56fe\u7247",
@@ -662,6 +666,27 @@ const timelinePresets: Record<
     };
   });
 
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setZoomedMedia(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const openMediaZoom = (event: MouseEvent, src: string, alt: string) => {
+    if (isPageEditing) {
+      return;
+    }
+
+    event.stopPropagation();
+    setIsPaused(true);
+    setZoomedMedia({ src, alt });
+  };
   const updateTextOverride = (index: string, patch: { title?: string; body?: string }) => {
     const overrideKey = `${section}:${language}:${index}`;
     setTextOverrides((current) => ({
@@ -791,7 +816,13 @@ const timelinePresets: Record<
             isCustomVideo ? (
               <video src={mediaSrc} controls playsInline preload="metadata" />
             ) : (
-              <img src={mediaSrc} alt={override.mediaAlt ?? item.mediaAlt ?? item.title} loading="lazy" />
+              <img
+                src={mediaSrc}
+                alt={override.mediaAlt ?? item.mediaAlt ?? item.title}
+                loading="lazy"
+                className="info-zoomable-media"
+                onClick={(event) => openMediaZoom(event, mediaSrc ?? "", override.mediaAlt ?? item.mediaAlt ?? item.title)}
+              />
             )
           ) : null;
 
@@ -1044,7 +1075,15 @@ const timelinePresets: Record<
                 )
               ) : item.media === "signature" ? (
                 <div className="info-signature-ending">
-                  {customMedia ?? <img src="/assets/ambient/zoey-signature-transparent.png" alt="Zoey" loading="lazy" />}
+                  {customMedia ?? (
+                    <img
+                      src="/assets/ambient/zoey-signature-transparent.png"
+                      alt="Zoey"
+                      loading="lazy"
+                      className="info-zoomable-media"
+                      onClick={(event) => openMediaZoom(event, "/assets/ambient/zoey-signature-transparent.png", "Zoey")}
+                    />
+                  )}
                 </div>
               ) : item.media === "lanyard" ? (
                 customMedia ? (
@@ -1086,6 +1125,42 @@ const timelinePresets: Record<
           );
         })}
       </div>
+      {typeof document !== "undefined" && zoomedMedia ? createPortal(
+        <motion.div
+          className="info-media-lightbox"
+          role="button"
+          tabIndex={0}
+          aria-label={language === "en" ? "Close enlarged image" : "关闭放大图片"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={overlaySpring}
+          onClick={(event) => {
+            event.stopPropagation();
+            setZoomedMedia(null);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " " || event.key === "Escape") {
+              event.preventDefault();
+              event.stopPropagation();
+              setZoomedMedia(null);
+            }
+          }}
+        >
+          <motion.img
+            src={zoomedMedia.src}
+            alt={zoomedMedia.alt}
+            draggable={false}
+            initial={{ scale: 0.72, opacity: 0 }}
+            animate={{ scale: 2, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 170, damping: 24 }}
+            onClick={(event) => {
+              event.stopPropagation();
+              setZoomedMedia(null);
+            }}
+          />
+        </motion.div>,
+        document.body,
+      ) : null}
       {isDeveloperMode ? (
         <button
           type="button"

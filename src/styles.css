@@ -7736,3 +7736,41 @@ button:focus-visible {
     max-height: calc(100dvh - 76px);
   }
 }
+
+/* Info page image lightbox: click image to enlarge, click anywhere to return. */
+.info-zoomable-media {
+  cursor: zoom-in;
+}
+
+.info-media-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: rgba(18, 18, 18, 0.56);
+  backdrop-filter: blur(18px);
+  cursor: zoom-out;
+}
+
+.info-media-lightbox img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(46vw, 640px);
+  max-height: min(46vh, 460px);
+  object-fit: contain;
+  border-radius: 2px;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.32);
+  transform-origin: center;
+  user-select: none;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .info-media-lightbox img {
+    max-width: min(48vw, 320px);
+    max-height: min(48vh, 320px);
+  }
+}
