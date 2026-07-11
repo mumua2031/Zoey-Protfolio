@@ -423,7 +423,7 @@ const timelinePresets: Record<
           },
           {
             index: "01",
-            title: "01 Creative Direction",
+            title: "01 Creative\nDirection",
             body: "I do not want to define one fixed style, but to create a design language that can move across media, time, and scenes.",
             media: "image" as const,
             mediaSrc: "/assets/about/creative-direction.png",
@@ -431,7 +431,7 @@ const timelinePresets: Record<
           },
           {
             index: "02",
-            title: "02 Working Method",
+            title: "02 Working\nMethod",
             body: "Research, moodboards, generative imagery, layout, and interactive display are connected so each project can be read as a complete process.",
             media: "image" as const,
             mediaSrc: "/assets/about/working-method.png",
