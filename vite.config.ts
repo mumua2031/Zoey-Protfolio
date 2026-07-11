@@ -1,8 +1,9 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, extname, join, relative, sep } from "node:path";
+import { dirname, extname, isAbsolute, join, relative, sep } from "node:path";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
+import VitePluginImageCompress from "vite-plugin-image-compress";
 import {
   appendIncrementalArchive,
   archiveRollback,
@@ -446,6 +447,62 @@ const appendArchive = (payload: {
   return record;
 };
 
+const imageCompressQuality = 70;
+const compressedImageExtensions = new Set([".jpg", ".jpeg", ".png"]);
+
+const distImageCompressPlugin = (): Plugin => {
+  let distDir = "";
+
+  const collectImages = (dir: string, files: string[] = []) => {
+    if (!existsSync(dir)) return files;
+
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const fullPath = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        collectImages(fullPath, files);
+        continue;
+      }
+
+      if (compressedImageExtensions.has(extname(entry.name).toLowerCase())) {
+        files.push(fullPath);
+      }
+    }
+
+    return files;
+  };
+
+  return {
+    name: "zoey-dist-image-compress",
+    apply: "build",
+    enforce: "post",
+    configResolved(config) {
+      distDir = isAbsolute(config.build.outDir) ? config.build.outDir : join(config.root, config.build.outDir);
+    },
+    async closeBundle() {
+      const { default: sharp } = await import("sharp");
+      const imageFiles = collectImages(distDir);
+
+      for (const imagePath of imageFiles) {
+        const source = readFileSync(imagePath);
+        const extension = extname(imagePath).toLowerCase();
+        const originalMetadata = await sharp(source).metadata();
+        const pipeline = sharp(source, { animated: false });
+        const optimized = extension === ".png"
+          ? await pipeline.png({ quality: imageCompressQuality }).toBuffer()
+          : await pipeline.jpeg({ quality: imageCompressQuality }).toBuffer();
+
+        if (optimized.length >= source.length) continue;
+
+        const optimizedMetadata = await sharp(optimized).metadata();
+        if (optimizedMetadata.width !== originalMetadata.width || optimizedMetadata.height !== originalMetadata.height) {
+          continue;
+        }
+
+        writeFileSync(imagePath, optimized);
+      }
+    },
+  };
+};
 const portfolioPersistencePlugin = (): Plugin => ({
   name: "zoey-portfolio-local-persistence",
   configureServer(server) {
@@ -577,7 +634,18 @@ const portfolioPersistencePlugin = (): Plugin => ({
 
 export default defineConfig({
   base: "./",
-  plugins: [react(), portfolioPersistencePlugin()],
+  plugins: [
+    react(),
+    VitePluginImageCompress({
+      test: /\.(jpe?g|png)$/i,
+      includePublic: false,
+      jpeg: { quality: imageCompressQuality },
+      jpg: { quality: imageCompressQuality },
+      png: { quality: imageCompressQuality },
+    }),
+    portfolioPersistencePlugin(),
+    distImageCompressPlugin(),
+  ],
   assetsInclude: ["**/*.glb"],
   server: {
     host: "127.0.0.1",

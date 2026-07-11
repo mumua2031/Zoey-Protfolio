@@ -1,58 +1,58 @@
-﻿{
-    "version":  45,
-    "updatedAt":  "2026-07-10T15:59:12.5792603Z",
-    "overrides":  {
-                      "about:cn:01":  {
-                                          "mediaSrc":  "/assets/user-overrides/f3ab38ea8a2bb9874f82.png",
-                                          "mediaAlt":  "f3ab38ea8a2bb9874f82",
-                                          "mediaHidden":  false,
-                                          "copyOffset":  {
-                                                             "x":  3,
-                                                             "y":  -291
-                                                         },
-                                          "mediaOffset":  {
-                                                              "x":  -3,
-                                                              "y":  -54
-                                                          }
-                                      },
-                      "about:cn:02":  {
-                                          "mediaSrc":  "/assets/user-overrides/3ddd1919e175b76fba67.png",
-                                          "mediaAlt":  "3ddd1919e175b76fba67",
-                                          "mediaHidden":  false,
-                                          "copyOffset":  {
-                                                             "x":  -11,
-                                                             "y":  -280
-                                                         },
-                                          "mediaOffset":  {
-                                                              "x":  30,
-                                                              "y":  -79
-                                                          }
-                                      },
-                      "about:cn:03":  {
-                                          "mediaHidden":  true
-                                      },
-                      "about:cn:F1":  {
-                                          "mediaOffset":  {
-                                                              "x":  152,
-                                                              "y":  -20
-                                                          }
-                                      },
-                      "about:cn:END":  {
-                                           "mediaSrc":  "/assets/ambient/zoey-signature-transparent.png",
-                                           "mediaAlt":  "zoey落款",
-                                           "mediaHidden":  false
-                                       },
-                      "experience:cn:00":  {
-                                               "title":  "从概念草图到可交互作品，\n保持完整的创作闭环"
-                                           },
-                      "services:cn:03":  {
-                                             "body":  "网站可以成为沉浸式浏览系统，在叙事、清晰度与动效之间保持平衡。"
-                                         },
-                      "services:cn:01":  {
-                                             "body":  "品牌视觉、版式系统与作品集页面可以被整理成安静、耐看的设计语言。"
-                                         },
-                      "services:cn:00":  {
-                                             "title":  "提供完整、清晰、\n适合长期使用的\n设计协作方式"
-                                         }
-                  }
+{
+  "version": 46,
+  "updatedAt": "2026-07-11T03:34:53.094Z",
+  "overrides": {
+    "about:cn:01": {
+      "mediaSrc": "/assets/user-overrides/f3ab38ea8a2bb9874f82.png",
+      "mediaAlt": "f3ab38ea8a2bb9874f82",
+      "mediaHidden": false,
+      "copyOffset": {
+        "x": 3,
+        "y": -291
+      },
+      "mediaOffset": {
+        "x": -3,
+        "y": -54
+      }
+    },
+    "about:cn:02": {
+      "mediaSrc": "/assets/user-overrides/3ddd1919e175b76fba67.png",
+      "mediaAlt": "3ddd1919e175b76fba67",
+      "mediaHidden": false,
+      "copyOffset": {
+        "x": -11,
+        "y": -280
+      },
+      "mediaOffset": {
+        "x": 30,
+        "y": -79
+      }
+    },
+    "about:cn:03": {
+      "mediaHidden": true
+    },
+    "about:cn:F1": {
+      "mediaOffset": {
+        "x": 152,
+        "y": -20
+      }
+    },
+    "about:cn:END": {
+      "mediaSrc": "/assets/ambient/zoey-signature-transparent.png",
+      "mediaAlt": "zoey落款",
+      "mediaHidden": false
+    },
+    "experience:cn:00": {
+      "title": "从概念草图到可交互作品，\n保持完整的创作闭环"
+    },
+    "services:cn:03": {
+      "body": "打造富有氛围感的沉浸式作品观看系统，让内容叙事、信息层级与灵动动效相辅相成，形成完整饱满的浏览体验。"
+    },
+    "services:cn:01": {
+      "body": "品牌视觉、版式系统与作品集页面可以被整理成安静、耐看的设计语言。"
+    },
+    "services:cn:00": {
+      "title": "提供完整、清晰、\n适合长期使用的\n设计协作方式"
+    }
+  }
 }
