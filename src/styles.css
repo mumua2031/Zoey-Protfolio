@@ -8763,8 +8763,9 @@ button:focus-visible {
 
   .mobile-info-back-button {
     position: fixed;
+    top: auto !important;
     left: max(14px, env(safe-area-inset-left));
-    bottom: max(18px, env(safe-area-inset-bottom));
+    bottom: max(18px, calc(env(safe-area-inset-bottom) + 18px)) !important;
     z-index: 145;
     display: inline-grid;
     width: 42px;
@@ -8780,10 +8781,40 @@ button:focus-visible {
     box-shadow: none;
     pointer-events: auto;
     touch-action: manipulation;
+    transform: none !important;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   .mobile-info-back-button svg {
     display: block;
+  }
+
+  .info-overlay.is-open,
+  .info-overlay.is-open *,
+  .immersive-story-scroll,
+  .immersive-story-scroll * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .info-overlay.is-open .immersive-story-scroll,
+  .info-overlay.is-open .about-axis,
+  .info-overlay.is-open .about-axis-entry,
+  .info-overlay.is-open .about-reveal,
+  .info-overlay.is-open .about-title-reveal,
+  .info-overlay.is-open .about-static-body,
+  .info-overlay.is-open .about-meta-row,
+  .info-overlay.is-open .info-footer-panel {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .info-overlay.is-open input,
+  .info-overlay.is-open textarea,
+  .info-overlay.is-open [contenteditable="true"] {
+    user-select: text;
+    -webkit-user-select: text;
   }
 }
 

@@ -708,6 +708,7 @@ const timelinePresets: Record<
     }
 
     mobilePointerStartRef.current = { x: event.clientX, y: event.clientY };
+    window.getSelection()?.removeAllRanges();
     setIsPaused((current) => !current);
   };
 
@@ -861,17 +862,6 @@ const timelinePresets: Record<
         }
       }}
     >
-      <button
-        type="button"
-        className="mobile-info-back-button"
-        onClick={(event) => {
-          event.stopPropagation();
-          closeOverlay();
-        }}
-        aria-label={language === "en" ? "Back" : "返回"}
-      >
-        <ArrowLeft size={22} strokeWidth={1.8} />
-      </button>
       <div className="about-axis">
         {resolvedTimelineItems.map((item, index) => {
           const overrideKey = `${section}:${language}:${item.index}`;
@@ -1300,6 +1290,22 @@ export function InfoOverlay() {
       >
         <X size={18} strokeWidth={1.6} />
       </button>
+      {isOpen ? (
+        <button
+          type="button"
+          className="mobile-info-back-button"
+          onPointerDown={(event) => {
+            event.stopPropagation();
+          }}
+          onClick={(event) => {
+            event.stopPropagation();
+            closeOverlay();
+          }}
+          aria-label={language === "en" ? "Back" : "返回"}
+        >
+          <ArrowLeft size={22} strokeWidth={1.8} />
+        </button>
+      ) : null}
 
       {content ? (
         <motion.div
