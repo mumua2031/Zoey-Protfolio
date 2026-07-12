@@ -449,6 +449,7 @@ const appendArchive = (payload: {
 
 const imageCompressQuality = 70;
 const compressedImageExtensions = new Set([".jpg", ".jpeg", ".png"]);
+const shouldCompressImages = process.env.ZOEY_COMPRESS_IMAGES === "1";
 
 const distImageCompressPlugin = (): Plugin => {
   let distDir = "";
@@ -636,15 +637,19 @@ export default defineConfig({
   base: "./",
   plugins: [
     react(),
-    VitePluginImageCompress({
-      test: /\.(jpe?g|png)$/i,
-      includePublic: false,
-      jpeg: { quality: imageCompressQuality },
-      jpg: { quality: imageCompressQuality },
-      png: { quality: imageCompressQuality },
-    }),
+    ...(shouldCompressImages
+      ? [
+          VitePluginImageCompress({
+            test: /\.(jpe?g|png)$/i,
+            includePublic: false,
+            jpeg: { quality: imageCompressQuality },
+            jpg: { quality: imageCompressQuality },
+            png: { quality: imageCompressQuality },
+          }),
+        ]
+      : []),
     portfolioPersistencePlugin(),
-    distImageCompressPlugin(),
+    ...(shouldCompressImages ? [distImageCompressPlugin()] : []),
   ],
   assetsInclude: ["**/*.glb"],
   server: {

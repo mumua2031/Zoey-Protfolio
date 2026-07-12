@@ -1,7 +1,7 @@
-import { ImagePlus, RotateCcw, Trash2, X } from "lucide-react";
+import { ArrowLeft, ImagePlus, RotateCcw, Trash2, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { createPortal } from "react-dom";
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import DomeGallery from "./DomeGallery";
 import Lanyard from "./Lanyard";
 import ScrollReveal from "./ScrollReveal";
@@ -11,6 +11,7 @@ import { usePortfolioStore, type PrimarySection } from "../store/usePortfolioSto
 
 const overlaySpring = { type: "spring" as const, stiffness: 280, damping: 32 };
 const infoTextStorageKey = "zoey-info-page-text-overrides-v1";
+const isMobileInfoViewport = () => typeof window !== "undefined" && window.matchMedia("(max-width: 992px)").matches;
 
 type OverlayCopy = {
   eyebrow: string;
@@ -241,6 +242,7 @@ function NarrativeAutoScroll({
   const frameRef = useRef<number | null>(null);
   const pauseUntilRef = useRef(0);
   const manualResumeTimerRef = useRef<number | null>(null);
+  const mobilePointerStartRef = useRef<{ x: number; y: number } | null>(null);
   const scrollPositionRef = useRef(0);
   const directionRef = useRef<1 | -1>(1);
   const [isPaused, setIsPaused] = useState(false);
@@ -250,6 +252,7 @@ function NarrativeAutoScroll({
   const [zoomedMedia, setZoomedMedia] = useState<ZoomedInfoMedia | null>(null);
   const [textOverrides, setTextOverrides] = useState<InfoTextOverrides>(readInitialInfoTextOverrides);
   const [hongKongTime, setHongKongTime] = useState(() => hongKongClockFormatter.format(new Date()));
+  const closeOverlay = usePortfolioStore((state) => state.closeOverlay);
 
   useEffect(() => {
     setIsDeveloperMode(isDeveloperUrl());
@@ -687,6 +690,50 @@ const timelinePresets: Record<
     setIsPaused(true);
     setZoomedMedia({ src, alt });
   };
+
+  const handleStoryPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    mobilePointerStartRef.current = null;
+
+    if (!isMobileInfoViewport() || isPageEditing || zoomedMedia) {
+      return;
+    }
+
+    const target = event.target instanceof Element ? event.target : null;
+    if (
+      target?.closest(
+        "button, a, input, textarea, select, [contenteditable='true'], .mobile-info-back-button, .info-edit-toggle, .info-media-lightbox",
+      )
+    ) {
+      return;
+    }
+
+    mobilePointerStartRef.current = { x: event.clientX, y: event.clientY };
+    setIsPaused((current) => !current);
+  };
+
+  const handleStoryPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (!isMobileInfoViewport() || isPageEditing || !mobilePointerStartRef.current) {
+      return;
+    }
+
+    const deltaX = Math.abs(event.clientX - mobilePointerStartRef.current.x);
+    const deltaY = Math.abs(event.clientY - mobilePointerStartRef.current.y);
+    if (deltaX < 8 && deltaY < 8) {
+      return;
+    }
+
+    mobilePointerStartRef.current = null;
+    setIsPaused(false);
+    setIsManualScrolling(true);
+
+    if (manualResumeTimerRef.current) {
+      window.clearTimeout(manualResumeTimerRef.current);
+    }
+    manualResumeTimerRef.current = window.setTimeout(() => {
+      setIsManualScrolling(false);
+    }, 900);
+  };
+
   const updateTextOverride = (index: string, patch: { title?: string; body?: string }) => {
     const overrideKey = `${section}:${language}:${index}`;
     setTextOverrides((current) => ({
@@ -770,7 +817,19 @@ const timelinePresets: Record<
         isManualScrolling ? "is-manual-scroll" : "",
         isPageEditing ? "is-page-editing" : "",
       ].filter(Boolean).join(" ")}
-      onClick={() => setIsPaused((current) => !current)}
+      onPointerDownCapture={handleStoryPointerDown}
+      onPointerMoveCapture={handleStoryPointerMove}
+      onPointerUpCapture={() => {
+        mobilePointerStartRef.current = null;
+      }}
+      onPointerCancelCapture={() => {
+        mobilePointerStartRef.current = null;
+      }}
+      onClick={() => {
+        if (!isMobileInfoViewport()) {
+          setIsPaused((current) => !current);
+        }
+      }}
       onScroll={(event) => {
         scrollPositionRef.current = event.currentTarget.scrollTop;
       }}
@@ -779,8 +838,10 @@ const timelinePresets: Record<
         const scroller = event.currentTarget;
         directionRef.current = event.deltaY >= 0 ? 1 : -1;
         pauseUntilRef.current = performance.now() + 900;
+        if (isMobileInfoViewport()) {
+          setIsPaused(false);
+        }
         setIsManualScrolling(true);
-
         if (manualResumeTimerRef.current) {
           window.clearTimeout(manualResumeTimerRef.current);
         }
@@ -800,6 +861,17 @@ const timelinePresets: Record<
         }
       }}
     >
+      <button
+        type="button"
+        className="mobile-info-back-button"
+        onClick={(event) => {
+          event.stopPropagation();
+          closeOverlay();
+        }}
+        aria-label={language === "en" ? "Back" : "返回"}
+      >
+        <ArrowLeft size={22} strokeWidth={1.8} />
+      </button>
       <div className="about-axis">
         {resolvedTimelineItems.map((item, index) => {
           const overrideKey = `${section}:${language}:${item.index}`;

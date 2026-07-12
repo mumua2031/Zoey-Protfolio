@@ -1,6 +1,6 @@
-﻿import { BriefcaseBusiness, Handshake, History, MonitorUp, UserRound } from "lucide-react";
+import { BriefcaseBusiness, Handshake, History, MonitorUp, UserRound } from "lucide-react";
 import { motion } from "framer-motion";
-import type { ComponentType } from "react";
+import { useState, type ComponentType } from "react";
 import { categories, type ProjectCategoryId } from "../../data/portfolio";
 import { SITE_COPY } from "../../data/siteCopy";
 import { usePortfolioPrefetch } from "../../hooks/usePortfolioPrefetch";
@@ -30,12 +30,45 @@ export function GlassNavigation() {
   const openProject = usePortfolioStore((state) => state.openProject);
   const toggleLanguage = usePortfolioStore((state) => state.toggleLanguage);
   const isProjectStripVisible = activePrimary === "projects" || isTerminalOpen;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileProjectsOpen, setIsMobileProjectsOpen] = useState(false);
 
   const openSection = (section: PrimarySection) => {
     if (!section) {
       return;
     }
     openPrimary(section);
+    setIsMobileMenuOpen(false);
+    setIsMobileProjectsOpen(false);
+  };
+
+  const openMobileProject = (categoryId: ProjectCategoryId) => {
+    openProject(categoryId);
+    setIsMobileMenuOpen(false);
+    setIsMobileProjectsOpen(false);
+  };
+
+  const toggleMobileLanguage = () => {
+    toggleLanguage();
+    setIsMobileMenuOpen(false);
+    setIsMobileProjectsOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen((current) => {
+      if (current) {
+        setIsMobileProjectsOpen(false);
+      }
+      return !current;
+    });
+  };
+
+  const handleMobilePrimary = (section: PrimarySection) => {
+    if (section === "projects") {
+      setIsMobileProjectsOpen((current) => !current);
+      return;
+    }
+    openSection(section);
   };
 
   return (
@@ -48,6 +81,60 @@ export function GlassNavigation() {
       <div className="brand-lockup" aria-label={`${SITE_COPY.brand.nameEn} personal portfolio`}>
         <strong>{language === "en" ? SITE_COPY.brand.nameEn : SITE_COPY.brand.name}</strong>
         <span>{language === "en" ? SITE_COPY.brand.subEn : SITE_COPY.brand.sub}</span>
+      </div>
+
+      <div className="mobile-nav-shell" aria-label={language === "en" ? "Mobile navigation" : "移动端导航"}>
+        <button
+          type="button"
+          className="mobile-brand-pill"
+          onClick={() => openSection("about")}
+          aria-label={language === "en" ? "Open About" : "打开关于我"}
+        >
+          <UserRound size={17} strokeWidth={1.8} />
+          <span>{"\u90b9\u7267\u5e0c / Zoey"}</span>
+        </button>
+        <button
+          type="button"
+          className={isMobileMenuOpen ? "mobile-menu-toggle is-open" : "mobile-menu-toggle"}
+          onClick={toggleMobileMenu}
+          aria-label={language === "en" ? "Toggle menu" : "打开菜单"}
+          aria-expanded={isMobileMenuOpen}
+        >
+          <span />
+          <span />
+        </button>
+      </div>
+
+      <div className={isMobileMenuOpen ? "mobile-nav-menu is-open" : "mobile-nav-menu"}>
+        {primaryItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div key={item.id ?? "home"} className="mobile-nav-group">
+              <button
+                type="button"
+                className={item.id === "projects" && isMobileProjectsOpen ? "mobile-projects-toggle is-expanded" : ""}
+                onClick={() => handleMobilePrimary(item.id)}
+                aria-expanded={item.id === "projects" ? isMobileProjectsOpen : undefined}
+              >
+                <Icon size={15} strokeWidth={1.8} />
+                <span>{language === "en" ? item.labelEn : item.label}</span>
+              </button>
+              {item.id === "projects" && isMobileProjectsOpen ? (
+                <div className="mobile-project-list" aria-label={language === "en" ? "Project categories" : "项目分类"}>
+                  {categories.map((category) => (
+                    <button key={category.id} type="button" onClick={() => openMobileProject(category.id as ProjectCategoryId)}>
+                      <MonitorUp size={14} strokeWidth={1.8} />
+                      <span>{language === "en" ? category.labelEn : category.label}</span>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
+        <button type="button" onClick={toggleMobileLanguage}>
+          <span>CN/EN</span>
+        </button>
       </div>
 
       <nav className="nav-cluster" aria-label={language === "en" ? "Primary navigation" : "主导航"}>

@@ -58,6 +58,7 @@ export function PortfolioContainer() {
                   <PortfolioScreen
                     key={category.id}
                     category={category}
+                    isOpen={isTerminalOpen}
                     onBack={closeTerminal}
                   />
                 ) : null}

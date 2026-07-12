@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { GlassNavigation } from "./components/navigation/GlassNavigation";
 import { PortfolioContainer } from "./components/terminal/PortfolioContainer";
@@ -117,6 +117,15 @@ export default function App() {
   const activePrimary = usePortfolioStore((state) => state.activePrimary);
   const activeCategoryId = usePortfolioStore((state) => state.activeCategoryId);
   const isTerminalOpen = usePortfolioStore((state) => state.isTerminalOpen);
+
+  useEffect(() => {
+    const isModalOpen = isTerminalOpen || (activePrimary !== null && activePrimary !== "projects");
+    document.body.classList.toggle("zoey-mobile-modal-open", isModalOpen);
+
+    return () => {
+      document.body.classList.remove("zoey-mobile-modal-open");
+    };
+  }, [activePrimary, isTerminalOpen]);
 
   useEffect(() => {
     const category = categoryMap.get(activeCategoryId);

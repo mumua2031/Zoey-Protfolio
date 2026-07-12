@@ -1,4 +1,4 @@
-﻿import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { categories, type ProjectCategoryId } from "../data/portfolio";
 import rawHotspots from "../data/studioHotspots.json";
@@ -58,6 +58,8 @@ export function PanoramaStudio() {
   const isHomeCopyVisible = usePortfolioStore((state) => state.isHomeCopyVisible);
   const areHotspotsVisible = usePortfolioStore((state) => state.areHotspotsVisible);
   const activeCategoryId = usePortfolioStore((state) => state.activeCategoryId);
+  const activePrimary = usePortfolioStore((state) => state.activePrimary);
+  const isTerminalOpen = usePortfolioStore((state) => state.isTerminalOpen);
   const language = usePortfolioStore((state) => state.language);
   const openProject = usePortfolioStore((state) => state.openProject);
   const dismissHomeCopy = usePortfolioStore((state) => state.dismissHomeCopy);
@@ -153,13 +155,25 @@ export function PanoramaStudio() {
     }
     clickTimerRef.current = window.setTimeout(() => {
       clickTimerRef.current = null;
+      if (window.matchMedia("(max-width: 992px)").matches) {
+        if (isHomeCopyVisible) {
+          dismissHomeCopy();
+          return;
+        }
+        if (areHotspotsVisible) {
+          showHomeCopy();
+          return;
+        }
+        toggleHotspots();
+        return;
+      }
       if (isHomeCopyVisible) {
         dismissHomeCopy();
         return;
       }
       toggleHotspots();
     }, 230);
-  }, [dismissHomeCopy, hasStarted, isHomeCopyVisible, toggleHotspots]);
+  }, [areHotspotsVisible, dismissHomeCopy, hasStarted, isHomeCopyVisible, showHomeCopy, toggleHotspots]);
 
   const handleSceneDoubleClick = useCallback(() => {
     if (!hasStarted) {
@@ -174,11 +188,11 @@ export function PanoramaStudio() {
 
   const handlePointerDown = useCallback(
     (event: React.PointerEvent<HTMLElement>) => {
-      if (!hasStarted) {
+      if (!hasStarted || activePrimary || isTerminalOpen) {
         return;
       }
       const target = event.target as HTMLElement;
-      if (target.closest(".studio-hotspot")) {
+      if (target.closest(".studio-hotspot, .intro-viewfinder")) {
         return;
       }
       if (longPressTimerRef.current) {
@@ -194,7 +208,7 @@ export function PanoramaStudio() {
         resetExperience();
       }, 900);
     },
-    [hasStarted, resetExperience],
+    [activePrimary, hasStarted, isTerminalOpen, resetExperience],
   );
 
   const clearLongPress = useCallback(() => {

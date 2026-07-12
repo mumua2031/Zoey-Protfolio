@@ -78,6 +78,7 @@ const projectEnglishCopy: Record<string, { subtitle: string; keywords: string[] 
 
 type PortfolioScreenProps = {
   category: PortfolioCategory;
+  isOpen: boolean;
   onBack: () => void;
 };
 
@@ -96,7 +97,7 @@ const isDeveloperUrl = () => {
   return params.get("dev") === "1" || params.get("edit") === "1";
 };
 
-export function PortfolioScreen({ category, onBack }: PortfolioScreenProps) {
+export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenProps) {
   const screenRef = useRef<HTMLElement | null>(null);
   const frameRef = useRef<number | null>(null);
   const pauseUntilRef = useRef(0);
@@ -225,16 +226,24 @@ export function PortfolioScreen({ category, onBack }: PortfolioScreenProps) {
   }, []);
 
   useEffect(() => {
+    const now = performance.now();
     if (screenRef.current) {
       screenRef.current.scrollTop = 0;
       scrollPositionRef.current = 0;
       directionRef.current = 1;
-      toolbarVisibleUntilRef.current = performance.now() + 2000;
+      pauseUntilRef.current = now + 1200;
+      toolbarVisibleUntilRef.current = now + 2000;
       setIsToolbarVisible(true);
     }
+    if (manualResumeTimerRef.current) {
+      window.clearTimeout(manualResumeTimerRef.current);
+      manualResumeTimerRef.current = null;
+    }
+    setIsAutoPaused(false);
+    setIsManualScrolling(false);
     setIsEditorOpen(false);
     setIsLayoutEditing(false);
-  }, [category.id, activeProjectId]);
+  }, [category.id, activeProjectId, isOpen]);
 
   useEffect(() => {
     if (activeProject) {

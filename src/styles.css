@@ -7774,3 +7774,1127 @@ button:focus-visible {
     max-height: min(48vh, 320px);
   }
 }
+
+/* Mobile-only navigation, hotspot, and full-screen modal patch. Desktop remains controlled by the original rules above. */
+.mobile-nav-shell,
+.mobile-nav-menu {
+  display: none;
+}
+
+@media screen and (max-width: 992px) {
+  .global-nav {
+    inset: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) auto max(14px, env(safe-area-inset-left));
+    display: block;
+    pointer-events: none;
+    z-index: 80;
+  }
+
+  .global-nav > .brand-lockup,
+  .global-nav > .nav-cluster {
+    display: none !important;
+  }
+
+  .mobile-nav-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .mobile-brand-pill,
+  .mobile-menu-toggle {
+    pointer-events: auto;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.86);
+    color: #111;
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-brand-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: auto;
+    min-width: 0;
+    min-height: 46px;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .mobile-menu-toggle {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .mobile-menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 999px;
+    background: #111;
+    transition: transform 260ms var(--curve), opacity 260ms var(--curve);
+  }
+
+  .mobile-menu-toggle.is-open span:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .mobile-menu-toggle.is-open span:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  .mobile-nav-menu {
+    position: fixed;
+    top: max(74px, calc(env(safe-area-inset-top) + 66px));
+    left: max(14px, env(safe-area-inset-left));
+    right: max(14px, env(safe-area-inset-right));
+    z-index: 79;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    max-height: calc(100dvh - 92px);
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.54);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 24px 72px rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(22px);
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 240ms var(--curve), transform 240ms var(--curve);
+    overflow-y: auto;
+  }
+
+  .mobile-nav-menu.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .mobile-nav-menu button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 0;
+    min-height: 42px;
+    padding: 0 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.62);
+    color: #111;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .hotspot-card {
+    transform-origin: 50% 50%;
+  }
+
+  .studio-hotspot {
+    min-width: 86px;
+    min-height: 34px;
+    padding: 5px 8px;
+    transform: scale(0.8);
+    transform-origin: center;
+  }
+
+  .studio-hotspot span {
+    font-size: 11px;
+    line-height: 1.1;
+  }
+
+  .studio-hotspot small {
+    margin-top: 2px;
+    font-size: 8px;
+    line-height: 1;
+  }
+
+  .hotspot-anchor::before {
+    width: calc(var(--line-length) * 0.82);
+    opacity: 0.64;
+  }
+
+  .hotspot-pin {
+    width: 5px;
+    height: 5px;
+    left: -2.5px;
+    top: -2.5px;
+  }
+
+  .info-overlay.is-open {
+    display: block;
+    padding: 0 !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    place-items: stretch;
+  }
+
+  .overlay-close {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top)) !important;
+    right: max(16px, env(safe-area-inset-right)) !important;
+    z-index: 140;
+  }
+
+  .overlay-content,
+  .overlay-content.is-timeline,
+  .overlay-content.is-about {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+    overflow: visible !important;
+  }
+
+  .immersive-story-scroll,
+  .immersive-story-scroll.about-scroll,
+  .about-scroll {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .immersive-story-scroll::before {
+    height: 100dvh !important;
+    margin-bottom: -100dvh !important;
+  }
+
+  .immersive-story-scroll .about-image-slot img,
+  .immersive-story-scroll .about-image-slot video,
+  .about-image-slot.has-custom-media img,
+  .about-image-slot.has-custom-media video,
+  .info-signature-ending img,
+  .experience-dome-panel img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+  }
+
+  .terminal-layer[aria-hidden="false"] {
+    inset: 0 !important;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .terminal-layer[aria-hidden="false"] .laptop-shell {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    aspect-ratio: auto;
+    display: block;
+    filter: none;
+  }
+
+  .terminal-layer[aria-hidden="false"] .laptop-lid,
+  .terminal-layer[aria-hidden="false"] .screen-bezel,
+  .terminal-layer[aria-hidden="false"] .screen-glass {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .terminal-layer[aria-hidden="false"] .laptop-base,
+  .terminal-layer[aria-hidden="false"] .laptop-logo {
+    display: none;
+  }
+
+  .terminal-layer[aria-hidden="false"] .portfolio-screen {
+    position: relative;
+    inset: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: max(72px, calc(env(safe-area-inset-top) + 62px)) 16px max(24px, env(safe-area-inset-bottom));
+  }
+
+  .terminal-layer[aria-hidden="false"] .screen-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+  }
+
+  .terminal-layer[aria-hidden="false"] .artwork-frame img,
+  .terminal-layer[aria-hidden="false"] .artwork-frame video,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork img,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork video {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+}
+
+@media screen and (max-width: 992px) and (orientation: landscape) {
+  .global-nav {
+    inset: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) auto max(12px, env(safe-area-inset-left));
+  }
+
+  .mobile-brand-pill {
+    min-height: 38px;
+    padding-inline: 12px;
+    font-size: 12px;
+  }
+
+  .mobile-menu-toggle {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+  }
+
+  .mobile-nav-menu {
+    top: max(54px, calc(env(safe-area-inset-top) + 48px));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-height: calc(100dvh - 62px);
+    padding: 8px;
+    border-radius: 18px;
+  }
+
+  .mobile-nav-menu button {
+    min-height: 34px;
+    font-size: 10px;
+  }
+
+  .studio-hotspot {
+    min-width: 70px;
+    min-height: 28px;
+    padding: 4px 6px;
+    transform: scale(0.64) !important;
+  }
+
+  .studio-hotspot span {
+    font-size: 9px;
+  }
+
+  .studio-hotspot small {
+    display: none;
+  }
+
+  .hotspot-card {
+    margin-top: -6px;
+  }
+
+  .hotspot-anchor::before {
+    width: calc(var(--line-length) * 0.68);
+    opacity: 0.5;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .hotspot-layer {
+    z-index: 6;
+  }
+
+  .hotspot-layer[aria-hidden="false"],
+  .hotspot-layer[aria-hidden="false"] .hotspot-anchor,
+  .hotspot-layer[aria-hidden="false"] .hotspot-card,
+  .hotspot-layer[aria-hidden="false"] .studio-hotspot {
+    pointer-events: auto;
+  }
+
+  .panorama-image,
+  .panorama-shade {
+    pointer-events: none;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .hotspot-layer,
+  .hotspot-anchor,
+  .hotspot-card,
+  .studio-hotspot {
+    pointer-events: auto !important;
+  }
+
+  .terminal-layer.is-mounted {
+    inset: 0 !important;
+    display: block !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 0 !important;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .terminal-layer.is-mounted .laptop-shell {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    aspect-ratio: auto !important;
+    display: block !important;
+    filter: none !important;
+  }
+
+  .terminal-layer.is-mounted .laptop-lid,
+  .terminal-layer.is-mounted .screen-bezel,
+  .terminal-layer.is-mounted .screen-glass {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  .terminal-layer.is-mounted .laptop-base,
+  .terminal-layer.is-mounted .laptop-logo {
+    display: none !important;
+  }
+
+  .terminal-layer.is-mounted .portfolio-screen {
+    position: relative !important;
+    inset: auto !important;
+    width: 100vw !important;
+    min-height: 100dvh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: max(72px, calc(env(safe-area-inset-top) + 62px)) 16px max(24px, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* Mobile modal comfort patch: landscape images fit in one view, text is compact, and the room stays locked behind modals. */
+@media screen and (max-width: 992px) {
+  body.zoey-mobile-modal-open {
+    overflow: hidden !important;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
+  body.zoey-mobile-modal-open .info-overlay,
+  body.zoey-mobile-modal-open .terminal-layer.is-mounted {
+    overscroll-behavior: contain;
+  }
+
+  body.zoey-mobile-modal-open .panorama-layer,
+  body.zoey-mobile-modal-open .panorama-stage {
+    pointer-events: none;
+  }
+
+  .terminal-layer.is-mounted,
+  .terminal-layer.is-mounted .portfolio-screen,
+  .info-overlay.is-open,
+  .immersive-story-scroll,
+  .immersive-story-scroll.about-scroll,
+  .about-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .terminal-layer.is-mounted .portfolio-screen {
+    padding-bottom: max(60px, calc(env(safe-area-inset-bottom) + 60px)) !important;
+  }
+
+  .terminal-layer.is-mounted .artwork-flow::after,
+  .immersive-story-scroll .about-axis::after {
+    content: "";
+    display: block;
+    min-height: max(60px, env(safe-area-inset-bottom));
+    pointer-events: none;
+  }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+  .terminal-layer.is-mounted .portfolio-screen,
+  .info-overlay.is-open,
+  .immersive-story-scroll,
+  .immersive-story-scroll.about-scroll,
+  .about-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .terminal-layer.is-mounted .screen-hero p,
+  .terminal-layer.is-mounted .screen-project-copy > div:not(.keyword-chips),
+  .terminal-layer.is-mounted .keyword-chips span,
+  .immersive-story-scroll .about-reveal-paragraph,
+  .immersive-story-scroll .about-static-body,
+  .immersive-story-scroll .info-footer-services article p,
+  .immersive-story-scroll .info-footer-contact-links article p,
+  .immersive-story-scroll .info-footer-contact-meta p {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero p,
+  .terminal-layer.is-mounted .screen-hero h1,
+  .immersive-story-scroll .about-reveal-paragraph,
+  .immersive-story-scroll .about-static-body,
+  .immersive-story-scroll .info-footer-services article,
+  .immersive-story-scroll .info-footer-contact-links article {
+    margin-bottom: 8px !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero,
+  .terminal-layer.is-mounted .artwork-flow,
+  .immersive-story-scroll .about-axis-entry,
+  .immersive-story-scroll .about-axis-entry:nth-child(even),
+  .immersive-story-scroll .about-axis-entry.is-dome-entry {
+    gap: 10px !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame:nth-child(n),
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame.has-direct-layout,
+  .immersive-story-scroll .about-image-slot,
+  .immersive-story-scroll .about-image-slot.has-custom-media,
+  .immersive-story-scroll .experience-dome-panel,
+  .immersive-story-scroll .info-signature-ending {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: 70vh !important;
+    aspect-ratio: auto !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame img,
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame video,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame img,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame video,
+  .terminal-layer.is-mounted .artwork-frame.has-direct-layout img,
+  .terminal-layer.is-mounted .artwork-frame.has-direct-layout video,
+  .immersive-story-scroll .about-image-slot img,
+  .immersive-story-scroll .about-image-slot video,
+  .about-image-slot.has-custom-media img,
+  .about-image-slot.has-custom-media video,
+  .immersive-story-scroll .experience-dome-panel img,
+  .immersive-story-scroll .experience-dome-panel video,
+  .immersive-story-scroll .info-signature-ending img,
+  .immersive-story-scroll .info-signature-ending video {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 70vh !important;
+    object-fit: contain !important;
+  }
+
+  .terminal-layer.is-mounted .artwork-flow,
+  .immersive-story-scroll .about-axis {
+    padding-bottom: max(60px, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+  .immersive-story-scroll.about-scroll,
+  .immersive-story-scroll {
+    padding-bottom: max(60px, env(safe-area-inset-bottom)) !important;
+    scroll-padding-bottom: max(60px, env(safe-area-inset-bottom)) !important;
+    box-sizing: border-box;
+  }
+
+  .immersive-story-scroll.is-about-story .about-axis-entry.is-about-intro-entry .about-reveal-paragraph,
+  .immersive-story-scroll.is-about-story .about-axis-entry.is-about-direction-entry .about-reveal-paragraph,
+  .immersive-story-scroll.is-about-story .about-axis-entry.is-about-method-entry .about-reveal-paragraph,
+  .immersive-story-scroll.is-experience-story .about-axis-entry .about-reveal-paragraph,
+  .immersive-story-scroll.is-services-story .about-axis-entry .about-reveal-paragraph,
+  .immersive-story-scroll .about-reveal-paragraph.about-static-body,
+  .immersive-story-scroll .about-static-body,
+  .immersive-story-scroll .info-footer-services article p,
+  .immersive-story-scroll .info-footer-contact-links article p,
+  .immersive-story-scroll .info-footer-contact-meta p,
+  .terminal-layer.is-mounted .screen-project-copy > div:not(.keyword-chips),
+  .terminal-layer.is-mounted .screen-project-copy > div:not(.keyword-chips) span {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .immersive-story-scroll.is-about-story .about-axis-entry.is-about-intro-entry .about-static-body {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+  }
+}
+/* Mobile-only refinement: keep project categories nested, make mobile modals naturally scroll, and show images uncropped. */
+@media screen and (max-width: 992px) {
+  .mobile-nav-group {
+    display: contents;
+  }
+
+  .mobile-projects-toggle::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-1px);
+    transition: transform 220ms var(--curve);
+  }
+
+  .mobile-projects-toggle.is-expanded::after {
+    transform: rotate(225deg) translateY(-1px);
+  }
+
+  .mobile-project-list {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 8px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.46);
+  }
+
+  body.zoey-mobile-modal-open {
+    touch-action: auto !important;
+  }
+
+  body.zoey-mobile-modal-open .terminal-layer.is-mounted,
+  body.zoey-mobile-modal-open .portfolio-screen,
+  body.zoey-mobile-modal-open .info-overlay.is-open,
+  body.zoey-mobile-modal-open .immersive-story-scroll {
+    touch-action: pan-y !important;
+  }
+
+  .terminal-layer.is-mounted {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .terminal-layer.is-mounted .portfolio-screen {
+    height: 100dvh !important;
+    min-height: 0 !important;
+    max-height: 100dvh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .terminal-layer.is-mounted .screen-toolbar {
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 6px 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
+
+  .terminal-layer.is-mounted .screen-toolbar > .back-button:first-child {
+    position: sticky !important;
+    left: 0 !important;
+    z-index: 20 !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+    border-color: transparent !important;
+    background: rgba(0, 0, 0, 0.16) !important;
+    color: transparent !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+  }
+
+  .terminal-layer.is-mounted .screen-toolbar > .back-button:first-child::before {
+    content: "<";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .terminal-layer.is-mounted .screen-project-tabs {
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .terminal-layer.is-mounted .screen-toolbar-actions {
+    justify-content: flex-end !important;
+    min-width: 0 !important;
+  }
+
+  .terminal-layer.is-mounted .screen-toolbar-actions > span {
+    display: none !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame:nth-child(n),
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame.has-direct-layout {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame img,
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame video,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame img,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame video,
+  .terminal-layer.is-mounted .artwork-frame.has-direct-layout img,
+  .terminal-layer.is-mounted .artwork-frame.has-direct-layout video {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 76dvh !important;
+    object-fit: contain !important;
+    opacity: 1;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-axis-media,
+  .immersive-story-scroll.is-services-story .about-axis-media,
+  .immersive-story-scroll.is-experience-story .about-image-slot,
+  .immersive-story-scroll.is-services-story .about-image-slot,
+  .immersive-story-scroll.is-experience-story .about-image-slot.has-custom-media,
+  .immersive-story-scroll.is-services-story .about-image-slot.has-custom-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel,
+  .immersive-story-scroll.is-services-story .experience-dome-panel {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 220px !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-image-slot img,
+  .immersive-story-scroll.is-experience-story .about-image-slot video,
+  .immersive-story-scroll.is-services-story .about-image-slot img,
+  .immersive-story-scroll.is-services-story .about-image-slot video,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel img,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel video,
+  .immersive-story-scroll.is-services-story .experience-dome-panel img,
+  .immersive-story-scroll.is-services-story .experience-dome-panel video {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 76dvh !important;
+    object-fit: contain !important;
+  }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+  .mobile-project-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .terminal-layer.is-mounted .portfolio-screen {
+    padding-top: max(54px, calc(env(safe-area-inset-top) + 44px)) !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame img,
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame video,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame img,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame video,
+  .terminal-layer.is-mounted .artwork-frame.has-direct-layout img,
+  .terminal-layer.is-mounted .artwork-frame.has-direct-layout video,
+  .immersive-story-scroll.is-experience-story .about-image-slot img,
+  .immersive-story-scroll.is-experience-story .about-image-slot video,
+  .immersive-story-scroll.is-services-story .about-image-slot img,
+  .immersive-story-scroll.is-services-story .about-image-slot video,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel img,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel video,
+  .immersive-story-scroll.is-services-story .experience-dome-panel img,
+  .immersive-story-scroll.is-services-story .experience-dome-panel video {
+    max-height: 70dvh !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-axis-media,
+  .immersive-story-scroll.is-services-story .about-axis-media,
+  .immersive-story-scroll.is-experience-story .about-image-slot,
+  .immersive-story-scroll.is-services-story .about-image-slot,
+  .immersive-story-scroll.is-experience-story .about-image-slot.has-custom-media,
+  .immersive-story-scroll.is-services-story .about-image-slot.has-custom-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel,
+  .immersive-story-scroll.is-services-story .experience-dome-panel {
+    min-height: 0 !important;
+  }
+}
+/* Mobile-only final media fit override for zoomable info images. */
+@media screen and (max-width: 992px) {
+  .immersive-story-scroll.is-experience-story .about-image-slot > img.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .about-image-slot > video.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-image-slot > img.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-image-slot > video.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel > img.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel > video.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .experience-dome-panel > img.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .experience-dome-panel > video.info-zoomable-media {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: min(76dvh, 680px) !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+  .immersive-story-scroll.is-experience-story .about-image-slot > img.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .about-image-slot > video.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-image-slot > img.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-image-slot > video.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel > img.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel > video.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .experience-dome-panel > img.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .experience-dome-panel > video.info-zoomable-media {
+    max-height: 70dvh !important;
+  }
+}
+/* Mobile-only hard override for services AIGC media slot. */
+@media screen and (max-width: 992px) {
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-axis-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media > img.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media > video.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media img,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media video {
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: min(76dvh, 680px) !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media > img.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media > video.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media img,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media video {
+    max-height: 70dvh !important;
+  }
+}
+/* Mobile-only spacing and overlay collision refinements. */
+@media screen and (max-width: 992px) {
+  body.zoey-mobile-modal-open .overlay-close {
+    right: max(76px, calc(env(safe-area-inset-right) + 76px)) !important;
+  }
+
+  .home-copy-layer {
+    max-width: calc(100vw - 28px) !important;
+  }
+
+  .home-description {
+    max-width: min(58vw, 430px) !important;
+    font-size: clamp(12px, 2.9vw, 18px) !important;
+    line-height: 1.42 !important;
+  }
+
+  .home-description p {
+    margin-bottom: 6px !important;
+  }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+  .home-description {
+    max-width: min(46vw, 390px) !important;
+    font-size: clamp(11px, 2.15vw, 16px) !important;
+    line-height: 1.35 !important;
+  }
+
+  .home-art-note {
+    font-size: clamp(10px, 1.8vw, 13px) !important;
+    line-height: 1.34 !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-axis-entry,
+  .immersive-story-scroll.is-experience-story .about-axis-entry:nth-child(even),
+  .immersive-story-scroll.is-experience-story .about-axis-entry.is-dome-entry {
+    gap: 6px !important;
+    min-height: auto !important;
+    padding-top: max(48px, calc(env(safe-area-inset-top) + 44px)) !important;
+    padding-bottom: max(34px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-axis-index {
+    margin-bottom: 2px !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-axis-media,
+  .immersive-story-scroll.is-experience-story .about-image-slot,
+  .immersive-story-scroll.is-experience-story .about-image-slot.has-custom-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel {
+    min-height: 0 !important;
+    max-height: 52dvh !important;
+    margin-bottom: 0 !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-image-slot > img.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .about-image-slot > video.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel > img.info-zoomable-media,
+  .immersive-story-scroll.is-experience-story .experience-dome-panel > video.info-zoomable-media {
+    max-height: 52dvh !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-title-reveal,
+  .immersive-story-scroll.is-experience-story .about-title-reveal.is-hero {
+    margin-bottom: 4px !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-title-reveal .scroll-reveal-text.about-title-reveal-text,
+  .immersive-story-scroll.is-experience-story .about-title-reveal.is-hero .scroll-reveal-text.about-title-reveal-text {
+    font-size: clamp(24px, 6vw, 38px) !important;
+    line-height: 1 !important;
+  }
+
+  .immersive-story-scroll.is-experience-story .about-reveal-paragraph,
+  .immersive-story-scroll.is-experience-story .about-static-body {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    margin-bottom: 4px !important;
+  }
+}
+/* Mobile landscape home copy bounds for tablet-width phones. */
+@media screen and (max-width: 992px) and (orientation: landscape) {
+  .home-copy-layer {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 0 20px max(28px, calc(env(safe-area-inset-bottom) + 20px)) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .home-slogan,
+  .home-description,
+  .home-art-note {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .home-slogan {
+    order: 2 !important;
+    width: min(58vw, 470px) !important;
+    max-width: calc(100vw - 40px) !important;
+    font-size: clamp(38px, 8vw, 64px) !important;
+    line-height: 0.94 !important;
+  }
+
+  .home-description {
+    order: 1 !important;
+    align-self: flex-end !important;
+    width: min(45vw, 360px) !important;
+    max-width: calc(100vw - 40px) !important;
+    font-size: clamp(11px, 2vw, 15px) !important;
+    line-height: 1.34 !important;
+    text-align: right !important;
+  }
+
+  .home-art-note {
+    order: 3 !important;
+    align-self: flex-end !important;
+    width: min(42vw, 320px) !important;
+    max-width: calc(100vw - 40px) !important;
+    font-size: clamp(10px, 1.8vw, 13px) !important;
+    line-height: 1.32 !important;
+    text-align: right !important;
+  }
+
+  .home-description p,
+  .home-art-note p {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    margin-bottom: 4px !important;
+  }
+}
+/* Mobile-only info back button and services AIGC portrait fit. */
+.mobile-info-back-button {
+  display: none;
+}
+
+@media screen and (max-width: 992px) {
+  .immersive-story-scroll::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .mobile-info-back-button {
+    position: fixed;
+    left: max(14px, env(safe-area-inset-left));
+    bottom: max(18px, env(safe-area-inset-bottom));
+    z-index: 145;
+    display: inline-grid;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 0;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    box-shadow: none;
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  .mobile-info-back-button svg {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3),
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-axis-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) {
+    gap: 12px !important;
+    padding-top: max(56px, calc(env(safe-area-inset-top) + 48px)) !important;
+    padding-bottom: max(54px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media > img.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media > video.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media img,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media video {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 34dvh !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+/* Mobile-only portrait fix: keep the services AIGC workflow image fully visible. */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto minmax(0, 44dvh) !important;
+    align-content: center !important;
+    gap: 10px !important;
+    min-height: 100dvh !important;
+    padding: max(58px, calc(env(safe-area-inset-top) + 50px)) 14px max(70px, calc(env(safe-area-inset-bottom) + 58px)) !important;
+    overflow: hidden !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-axis-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    transform: none !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-title-reveal,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-title-reveal.is-hero {
+    margin-bottom: 6px !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-title-reveal .scroll-reveal-text.about-title-reveal-text {
+    font-size: clamp(26px, 8vw, 34px) !important;
+    line-height: 1.04 !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-reveal-paragraph,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-static-body {
+    font-size: 13px !important;
+    line-height: 1.42 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-axis-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: 44dvh !important;
+    max-height: 44dvh !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+  }
+
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media > img.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media > video.info-zoomable-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media img,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media video {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 44dvh !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+/* Mobile-only portrait alignment: do not vertically center the services AIGC image out of view. */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-axis-media,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot,
+  .immersive-story-scroll.is-services-story .about-axis-entry:nth-child(3) .about-image-slot.has-custom-media {
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding-top: 0 !important;
+  }
+}
+/* Mobile-only: use the bottom-left back button as the only close control for info overlays. */
+@media screen and (max-width: 992px) {
+  .info-overlay.is-open .overlay-close {
+    display: none !important;
+    pointer-events: none !important;
+  }
+}
