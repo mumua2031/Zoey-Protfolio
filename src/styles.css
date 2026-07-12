@@ -8929,3 +8929,138 @@ button:focus-visible {
     pointer-events: none !important;
   }
 }
+
+/* English About mobile portrait footer: keep service, contact, and signature panels readable. */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-signature-entry {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    justify-items: stretch !important;
+    align-items: start !important;
+    gap: 16px !important;
+    min-height: 100dvh !important;
+    padding: max(78px, calc(env(safe-area-inset-top) + 66px)) 16px max(96px, calc(env(safe-area-inset-bottom) + 84px)) !important;
+    overflow: hidden !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .about-axis-copy,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .about-axis-copy,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-signature-entry .about-axis-copy,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .about-axis-media,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .about-axis-media,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-signature-entry .about-axis-media {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    justify-self: stretch !important;
+    place-items: stretch !important;
+    transform: none !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-panel,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-panel,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-signature-entry .info-signature-ending {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 22px 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services > h3,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-row > h3 {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: clamp(34px, 13vw, 50px) !important;
+    line-height: 1 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services > div,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-row,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-links,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-links article,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-meta,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-time {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: 8px !important;
+    justify-items: start !important;
+    text-align: left !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article {
+    padding: 14px 0 !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article strong,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article b,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article p,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-links article span,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-links article p,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-meta > div > span,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-meta > div > p,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-time span {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    font-size: 14px !important;
+    line-height: 1.42 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    writing-mode: horizontal-tb !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-services-entry .info-footer-services article b,
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-contact-links article span {
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-footer-contact-entry .info-footer-time strong {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    font-size: clamp(34px, 16vw, 54px) !important;
+    line-height: 0.98 !important;
+    writing-mode: horizontal-tb !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-signature-entry .info-signature-ending {
+    display: grid !important;
+    place-items: center !important;
+    min-height: 46dvh !important;
+  }
+
+  .immersive-story-scroll.is-about-story.is-en-story .about-axis-entry.is-signature-entry .info-signature-ending img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 240px !important;
+    height: auto !important;
+    max-height: 36dvh !important;
+    object-fit: contain !important;
+  }
+}
