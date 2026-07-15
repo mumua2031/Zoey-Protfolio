@@ -9065,69 +9065,60 @@ button:focus-visible {
   }
 }
 
-/* Zoey ending: fill the inner story frame while preserving its screen gutters. */
-.immersive-story-scroll.is-about-story {
-  --about-story-frame-height: calc(100dvh - 16px);
-}
+/* Zoey ending: mirror the previous contact card, then fill only that card. */
+@media (min-width: 901px) {
+  .immersive-story-scroll.is-about-story::after {
+    display: flex;
+    width: max-content;
+    margin-top: -34px;
+  }
 
-/* Keep the sticky hint visible without adding an extra row below the final panel. */
-.immersive-story-scroll.is-about-story::after {
-  display: flex;
-  width: max-content;
-  margin-top: -34px;
-}
+  .immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry {
+    width: 100% !important;
+    min-height: calc(100vh - 16px) !important;
+    height: auto !important;
+    padding: clamp(72px, 7vw, 90px) !important;
+    align-items: stretch !important;
+    overflow: hidden !important;
+  }
 
-.immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry {
-  width: 100% !important;
-  min-height: var(--about-story-frame-height) !important;
-  height: var(--about-story-frame-height) !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
+  .immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry .about-axis-media {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: var(--about-signature-card-height, 500px) !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
 
-.immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry .about-axis-media {
-  position: relative !important;
-  inset: auto !important;
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
+  .immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry .info-signature-ending {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
 
-.immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry .info-signature-ending {
-  position: relative !important;
-  inset: auto !important;
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-width: none !important;
-  max-height: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border: 0 !important;
-}
-
-.immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry .info-signature-ending img {
-  position: absolute !important;
-  top: -36.5% !important;
-  right: 0 !important;
-  bottom: auto !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 136.5% !important;
-  max-width: none !important;
-  max-height: none !important;
-  object-fit: fill !important;
-  object-position: center !important;
-  transform: none !important;
-}
-
-@media (max-width: 900px) {
-  .immersive-story-scroll.is-about-story {
-    --about-story-frame-height: calc(100dvh - 12px);
+  .immersive-story-scroll.is-about-story .about-axis-entry.is-signature-entry .info-signature-ending img {
+    position: absolute !important;
+    top: -36.5% !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 136.5% !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: fill !important;
+    object-position: center !important;
+    transform: none !important;
   }
 }

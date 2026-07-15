@@ -291,6 +291,43 @@ function NarrativeAutoScroll({
       scrollPositionRef.current = scrollRef.current.scrollTop;
     }
   }, [language, section]);
+
+  useEffect(() => {
+    if (section !== "about") {
+      return;
+    }
+
+    const scroller = scrollRef.current;
+    const contactPanel = scroller?.querySelector<HTMLElement>(
+      ".about-axis-entry.is-footer-contact-entry .info-footer-panel",
+    );
+    const signatureEntry = scroller?.querySelector<HTMLElement>(
+      ".about-axis-entry.is-signature-entry",
+    );
+
+    if (!contactPanel || !signatureEntry) {
+      return;
+    }
+
+    const syncSignatureCardHeight = () => {
+      signatureEntry.style.setProperty(
+        "--about-signature-card-height",
+        `${contactPanel.getBoundingClientRect().height}px`,
+      );
+    };
+
+    syncSignatureCardHeight();
+    const resizeObserver = new ResizeObserver(syncSignatureCardHeight);
+    resizeObserver.observe(contactPanel, { box: "border-box" });
+    const settledLayoutTimer = window.setTimeout(syncSignatureCardHeight, 750);
+
+    return () => {
+      window.clearTimeout(settledLayoutTimer);
+      resizeObserver.disconnect();
+      signatureEntry.style.removeProperty("--about-signature-card-height");
+    };
+  }, [language, section, textOverrides]);
+
 useEffect(() => {
     const updateHongKongTime = () => setHongKongTime(hongKongClockFormatter.format(new Date()));
     updateHongKongTime();
