@@ -92,6 +92,8 @@ const isDeveloperUrl = () => {
   return params.get("dev") === "1" || params.get("edit") === "1";
 };
 
+const productionOrigin = "https://zoey-protfolio.vercel.app";
+
 export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenProps) {
   const screenRef = useRef<HTMLElement | null>(null);
   const frameRef = useRef<number | null>(null);
@@ -567,6 +569,15 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
     );
   };
 
+  const importOnlineChanges = () => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const source = encodeURIComponent(productionOrigin);
+    window.open(`/override-transfer.html?mode=import-from&source=${source}`, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <motion.article
       ref={screenRef}
@@ -686,6 +697,9 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
                     : language === "en"
                       ? "Publish Online"
                       : "同步上线"}
+                </button>
+                <button type="button" onClick={importOnlineChanges}>
+                  {language === "en" ? "Import Online Edits" : "导入线上编辑到本地"}
                 </button>
                 {publishMessage ? <p className="developer-menu-status">{publishMessage}</p> : null}
               </div>

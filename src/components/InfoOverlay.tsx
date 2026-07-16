@@ -57,6 +57,8 @@ const isDeveloperUrl = () => {
   return params.get("dev") === "1" || params.get("edit") === "1";
 };
 
+const productionOrigin = "https://zoey-protfolio.vercel.app";
+
 const readInitialInfoTextOverrides = (): InfoTextOverrides => sourceInfoTextOverrides;
 
 const readFileAsDataUrl = (file: File) =>
@@ -860,6 +862,15 @@ const timelinePresets: Record<
     );
   };
 
+  const importOnlineChanges = () => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const source = encodeURIComponent(productionOrigin);
+    window.open(`/override-transfer.html?mode=import-from&source=${source}`, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div
       ref={scrollRef}
@@ -1312,6 +1323,16 @@ const timelinePresets: Record<
               : language === "en"
                 ? "Publish Online"
                 : "同步上线"}
+          </button>
+          <button
+            type="button"
+            className="info-edit-toggle"
+            onClick={(event) => {
+              event.stopPropagation();
+              importOnlineChanges();
+            }}
+          >
+            {language === "en" ? "Import Online Edits" : "导入线上编辑到本地"}
           </button>
           {publishMessage ? <p className="info-edit-publish-status">{publishMessage}</p> : null}
         </div>

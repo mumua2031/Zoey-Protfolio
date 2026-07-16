@@ -46,6 +46,7 @@
 
     <script>
       const STORAGE_KEY = "zoey-portfolio-artwork-overrides-v2";
+      const INFO_STORAGE_KEY = "zoey-info-page-text-overrides-v1";
       const DB_NAME = "zoey-portfolio-overrides";
       const DB_VERSION = 1;
       const DB_STORE_NAME = "project-overrides";
@@ -72,6 +73,7 @@
 
       const readAll = async () => {
         const localRaw = localStorage.getItem(STORAGE_KEY);
+        const infoRaw = localStorage.getItem(INFO_STORAGE_KEY);
         const db = await openDb();
 
         const indexedRecords = await new Promise((resolve, reject) => {
@@ -100,10 +102,13 @@
           exportedAt: new Date().toISOString(),
           origin: location.origin,
           localRaw,
+          infoRaw,
+          infoOverrides: readInfoOverrides(),
           indexedRecords,
           summary: {
             localProjects,
             indexedProjects: indexedRecords.map((record) => record.projectId),
+            infoEntries: Object.keys(readInfoOverrides()),
           },
         };
       };
@@ -111,6 +116,15 @@
       const readLocalEntries = () => {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : {};
+        } catch {
+          return {};
+        }
+      };
+
+      const readInfoOverrides = () => {
+        try {
+          const raw = localStorage.getItem(INFO_STORAGE_KEY);
           return raw ? JSON.parse(raw) : {};
         } catch {
           return {};
@@ -167,19 +181,66 @@
         } catch {
           // IndexedDB is the reliable source for large image payloads.
         }
+
+        await syncProjectToBackend(projectId, {
+          images: normalized.images,
+          copy: normalized.copy,
+        });
+      };
+
+      const syncProjectToBackend = async (projectId, entry) => {
+        try {
+          const response = await fetch("/api/portfolio/sync-project", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "transfer-import",
+              projectId,
+              project: entry,
+            }),
+          });
+          if (!response.ok) {
+            throw new Error(await response.text());
+          }
+          return true;
+        } catch (error) {
+          throw new Error(`Backend project sync failed for ${projectId}: ${error instanceof Error ? error.message : String(error)}`);
+        }
+      };
+
+      const writeInfoOverrides = async (overrides) => {
+        const normalized = overrides && typeof overrides === "object" ? overrides : {};
+        localStorage.setItem(INFO_STORAGE_KEY, JSON.stringify(normalized));
+
+        try {
+          const response = await fetch("/api/info-page/overrides/sync", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ overrides: normalized }),
+          });
+          if (!response.ok) {
+            throw new Error(await response.text());
+          }
+          return true;
+        } catch (error) {
+          throw new Error(`Backend info sync failed: ${error instanceof Error ? error.message : String(error)}`);
+        }
       };
 
       const exportChunked = async () => {
         const localEntries = readLocalEntries();
+        const infoOverrides = readInfoOverrides();
         const indexedRecords = await readIndexedRecords();
         const localProjects = Object.keys(localEntries);
         const indexedProjects = indexedRecords.map((record) => record.projectId);
+        const infoEntries = Object.keys(infoOverrides);
 
         setStatus({
           mode: "export-chunked",
           origin: location.origin,
           localProjects,
           indexedProjects,
+          infoEntries,
         });
 
         const target = window.parent && window.parent !== window ? window.parent : window.opener;
@@ -190,7 +251,7 @@
         target.postMessage(
           {
             type: "zoey-overrides-start",
-            summary: { localProjects, indexedProjects },
+            summary: { localProjects, indexedProjects, infoEntries },
           },
           "*",
         );
@@ -221,8 +282,16 @@
 
         target.postMessage(
           {
+            type: "zoey-overrides-info",
+            overrides: infoOverrides,
+          },
+          "*",
+        );
+
+        target.postMessage(
+          {
             type: "zoey-overrides-done",
-            summary: { localProjects, indexedProjects },
+            summary: { localProjects, indexedProjects, infoEntries },
           },
           "*",
         );
@@ -235,6 +304,18 @@
           } catch {
             // Large base64 images can exceed localStorage. IndexedDB remains the source of truth.
           }
+        }
+
+        if (payload.infoRaw) {
+          try {
+            localStorage.setItem(INFO_STORAGE_KEY, payload.infoRaw);
+          } catch {
+            // Keep going; backend sync below is the source of truth.
+          }
+        }
+
+        if (payload.infoOverrides) {
+          await writeInfoOverrides(payload.infoOverrides);
         }
 
         const db = await openDb();
@@ -291,6 +372,7 @@
 
           const imported = [];
           const failed = [];
+          let importedInfoCount = 0;
           let expectedSummary = null;
 
           setStatus(`Importing from ${source} ...`);
@@ -331,8 +413,32 @@
                   status: "importing",
                   expectedSummary,
                   importedCount: imported.length,
+                  importedInfoCount,
                   failed,
                   latest: imported[imported.length - 1],
+                });
+                return;
+              }
+
+              if (event.data?.type === "zoey-overrides-info") {
+                try {
+                  await writeInfoOverrides(event.data.overrides || {});
+                  importedInfoCount = Object.keys(event.data.overrides || {}).length;
+                } catch (error) {
+                  failed.push({
+                    info: true,
+                    error: error instanceof Error ? error.message : String(error),
+                  });
+                }
+
+                setStatus({
+                  mode,
+                  importedFrom: source,
+                  status: "importing-info",
+                  expectedSummary,
+                  importedCount: imported.length,
+                  importedInfoCount,
+                  failed,
                 });
                 return;
               }
@@ -340,6 +446,7 @@
               if (event.data?.type === "zoey-overrides-export") {
                 await writeAll(event.data.payload);
                 imported.push(...event.data.payload.summary.indexedProjects);
+                importedInfoCount = event.data.payload.summary.infoEntries?.length || 0;
                 setStatus({
                   mode,
                   importedFrom: source,
@@ -358,8 +465,10 @@
                 importedFrom: source,
                 importedTo: location.origin,
                 status: "done",
+                note: "已同步到本地 127.0.0.1 项目文件。回到 ?dev=1 页面刷新即可查看。",
                 expectedSummary: event.data.summary,
                 importedCount: imported.length,
+                importedInfoCount,
                 imported,
                 failed,
               });
