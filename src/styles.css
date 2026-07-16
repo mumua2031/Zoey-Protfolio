@@ -581,6 +581,20 @@ button:focus-visible {
   background: rgba(255, 255, 255, 0.18);
 }
 
+.developer-menu button:disabled,
+.info-edit-toggle:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.developer-menu-status,
+.info-edit-publish-status {
+  margin: 2px 4px 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
 .layout-edit-hint {
   position: sticky;
   top: 50px;
@@ -2423,6 +2437,37 @@ button:focus-visible {
   background: rgba(0, 0, 0, 0.78);
   color: #fff;
   border-color: rgba(0, 0, 0, 0.24);
+}
+
+.info-edit-entry {
+  position: fixed;
+  right: clamp(16px, 3vw, 34px);
+  bottom: clamp(16px, 3vw, 34px);
+  z-index: 16;
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+  max-width: min(320px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.info-edit-entry .info-edit-toggle {
+  position: static;
+  float: none;
+}
+
+.info-edit-entry .info-edit-toggle,
+.info-edit-entry .info-edit-publish-status {
+  pointer-events: auto;
+}
+
+.info-edit-publish-status {
+  max-width: 280px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(10, 10, 10, 0.64);
+  backdrop-filter: blur(16px);
 }
 
 .info-free-box {

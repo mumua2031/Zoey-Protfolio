@@ -8,6 +8,7 @@ import ScrollReveal from "./ScrollReveal";
 import latestInfoTextOverrides from "../data/infoTextOverrides.latest.json";
 import { SITE_COPY } from "../data/siteCopy";
 import { usePortfolioStore, type PrimarySection } from "../store/usePortfolioStore";
+import { publishEditorChanges } from "../utils/publishChanges";
 
 const overlaySpring = { type: "spring" as const, stiffness: 280, damping: 32 };
 const infoTextStorageKey = "zoey-info-page-text-overrides-v1";
@@ -243,6 +244,8 @@ function NarrativeAutoScroll({
   const [isManualScrolling, setIsManualScrolling] = useState(false);
   const [isDeveloperMode, setIsDeveloperMode] = useState(false);
   const [isPageEditing, setIsPageEditing] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishMessage, setPublishMessage] = useState("");
   const [zoomedMedia, setZoomedMedia] = useState<ZoomedInfoMedia | null>(null);
   const [textOverrides, setTextOverrides] = useState<InfoTextOverrides>(readInitialInfoTextOverrides);
   const [hongKongTime, setHongKongTime] = useState(() => hongKongClockFormatter.format(new Date()));
@@ -837,6 +840,26 @@ const timelinePresets: Record<
     });
   };
 
+  const publishChanges = async () => {
+    setIsPublishing(true);
+    setPublishMessage(language === "en" ? "Publishing..." : "正在同步上线…");
+    const result = await publishEditorChanges();
+    setIsPublishing(false);
+    setPublishMessage(
+      result.ok
+        ? result.skipped
+          ? language === "en"
+            ? "No local editor changes to publish."
+            : "没有检测到需要同步上线的编辑改动。"
+          : language === "en"
+            ? `Pushed. Commit ${result.commit ?? ""}`
+            : `已推送上线，提交 ${result.commit ?? ""}`
+        : language === "en"
+          ? `Publish failed: ${result.error}`
+          : `同步失败：${result.error}`,
+    );
+  };
+
   return (
     <div
       ref={scrollRef}
@@ -1255,23 +1278,43 @@ const timelinePresets: Record<
         document.body,
       ) : null}
       {isDeveloperMode ? (
-        <button
-          type="button"
-          className={isPageEditing ? "info-edit-toggle is-active" : "info-edit-toggle"}
-          onClick={(event) => {
-            event.stopPropagation();
-            setIsPageEditing((current) => !current);
-            setIsPaused(true);
-          }}
-        >
-          {isPageEditing
-            ? language === "en"
-              ? "Finish Page Edit"
-              : "\u5b8c\u6210\u9875\u9762\u7f16\u8f91"
-            : language === "en"
-              ? "Page Edit"
-              : "\u9875\u9762\u7f16\u8f91"}
-        </button>
+        <div className="info-edit-entry">
+          <button
+            type="button"
+            className={isPageEditing ? "info-edit-toggle is-active" : "info-edit-toggle"}
+            onClick={(event) => {
+              event.stopPropagation();
+              setIsPageEditing((current) => !current);
+              setIsPaused(true);
+            }}
+          >
+            {isPageEditing
+              ? language === "en"
+                ? "Finish Page Edit"
+                : "\u5b8c\u6210\u9875\u9762\u7f16\u8f91"
+              : language === "en"
+                ? "Page Edit"
+                : "\u9875\u9762\u7f16\u8f91"}
+          </button>
+          <button
+            type="button"
+            className="info-edit-toggle"
+            onClick={(event) => {
+              event.stopPropagation();
+              void publishChanges();
+            }}
+            disabled={isPublishing}
+          >
+            {isPublishing
+              ? language === "en"
+                ? "Publishing..."
+                : "同步中…"
+              : language === "en"
+                ? "Publish Online"
+                : "同步上线"}
+          </button>
+          {publishMessage ? <p className="info-edit-publish-status">{publishMessage}</p> : null}
+        </div>
       ) : null}
     </div>
   );

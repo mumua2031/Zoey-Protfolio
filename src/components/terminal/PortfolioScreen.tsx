@@ -12,6 +12,7 @@ import {
   type EditablePortfolioImage,
   type EditableProjectCopy,
 } from "../../utils/portfolioOverrides";
+import { publishEditorChanges } from "../../utils/publishChanges";
 import { LazyArtwork, type LayoutPreset } from "./LazyArtwork";
 import { PortfolioEditor } from "./PortfolioEditor";
 
@@ -109,6 +110,8 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
   const [isLayoutEditing, setIsLayoutEditing] = useState(false);
   const [isDeveloperMode, setIsDeveloperMode] = useState(false);
   const [isDeveloperMenuOpen, setIsDeveloperMenuOpen] = useState(false);
+  const [publishMessage, setPublishMessage] = useState("");
+  const [isPublishing, setIsPublishing] = useState(false);
   const [activeProjectId, setActiveProjectId] = useState(category.projects[0]?.id ?? "");
   const [projectCopyMap, setProjectCopyMap] = useState<Record<string, EditableProjectCopy>>({});
   const visibleProjects = useMemo(
@@ -544,6 +547,26 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
     }
   };
 
+  const publishChanges = async () => {
+    setIsPublishing(true);
+    setPublishMessage(language === "en" ? "Publishing..." : "正在同步上线…");
+    const result = await publishEditorChanges();
+    setIsPublishing(false);
+    setPublishMessage(
+      result.ok
+        ? result.skipped
+          ? language === "en"
+            ? "No local editor changes to publish."
+            : "没有检测到需要同步上线的编辑改动。"
+          : language === "en"
+            ? `Pushed. Commit ${result.commit ?? ""}`
+            : `已推送上线，提交 ${result.commit ?? ""}`
+        : language === "en"
+          ? `Publish failed: ${result.error}`
+          : `同步失败：${result.error}`,
+    );
+  };
+
   return (
     <motion.article
       ref={screenRef}
@@ -655,6 +678,16 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
                       ? "Edit Layout"
                       : "排版拖改"}
                 </button>
+                <button type="button" onClick={publishChanges} disabled={isPublishing}>
+                  {isPublishing
+                    ? language === "en"
+                      ? "Publishing..."
+                      : "同步中…"
+                    : language === "en"
+                      ? "Publish Online"
+                      : "同步上线"}
+                </button>
+                {publishMessage ? <p className="developer-menu-status">{publishMessage}</p> : null}
               </div>
             </div>
           ) : null}

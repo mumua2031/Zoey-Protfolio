@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
+import { execFile } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, sep } from "node:path";
+import { promisify } from "node:util";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import VitePluginImageCompress from "vite-plugin-image-compress";
@@ -72,6 +74,7 @@ type LatestInfoTextOverrides = {
 };
 
 const projectRoot = process.cwd();
+const execFileAsync = promisify(execFile);
 const publicDir = join(projectRoot, "public");
 const latestSrcPath = join(projectRoot, "src", "data", "portfolioOverrides.latest.json");
 const latestPublicPath = join(publicDir, "data", "portfolioOverrides.latest.json");
@@ -82,6 +85,13 @@ const archiveIndexPath = join(archiveRoot, "index.json");
 const userAssetDir = join(publicDir, "assets", "user-overrides");
 const maxProjectImages = 240;
 const maxPayloadBytes = 260 * 1024 * 1024;
+const publishTrackedPaths = [
+  "src/data/portfolioOverrides.latest.json",
+  "public/data/portfolioOverrides.latest.json",
+  "src/data/infoTextOverrides.latest.json",
+  "public/data/infoTextOverrides.latest.json",
+  "public/assets/user-overrides",
+];
 const allowedAssetExtensions = new Set([
   ".avif",
   ".gif",
@@ -447,6 +457,78 @@ const appendArchive = (payload: {
   return record;
 };
 
+const runPublishCommand = async (command: string, args: string[]) => {
+  const { stdout, stderr } = await execFileAsync(command, args, {
+    cwd: projectRoot,
+    windowsHide: true,
+    maxBuffer: 1024 * 1024 * 12,
+  });
+
+  return `${stdout}${stderr}`.trim();
+};
+
+const publishEditorChanges = async (action = "editor-publish") => {
+  const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+  const gitCommand = process.platform === "win32" ? "git.exe" : "git";
+  const existingPublishPaths = publishTrackedPaths.filter((path) => existsSync(join(projectRoot, path)));
+
+  await runPublishCommand(npmCommand, ["run", "build"]);
+
+  const changedStatus = await runPublishCommand(gitCommand, [
+    "status",
+    "--short",
+    "--",
+    ...existingPublishPaths,
+  ]);
+  const changedFiles = changedStatus
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (!changedFiles.length) {
+    return {
+      ok: true,
+      skipped: true,
+      message: "没有检测到需要同步上线的编辑改动。",
+      changedFiles: [],
+    };
+  }
+
+  await runPublishCommand(gitCommand, ["add", "--", ...existingPublishPaths]);
+
+  const stagedFiles = await runPublishCommand(gitCommand, [
+    "diff",
+    "--cached",
+    "--name-only",
+    "--",
+    ...existingPublishPaths,
+  ]);
+
+  if (!stagedFiles.trim()) {
+    return {
+      ok: true,
+      skipped: true,
+      message: "编辑改动已经与仓库一致，无需重新发布。",
+      changedFiles,
+    };
+  }
+
+  const stamp = nowStamp();
+  const commitMessage = `Publish portfolio editor changes ${stamp}`;
+  await runPublishCommand(gitCommand, ["commit", "-m", commitMessage]);
+  const commit = await runPublishCommand(gitCommand, ["rev-parse", "--short", "HEAD"]);
+  const branch = (await runPublishCommand(gitCommand, ["branch", "--show-current"])) || "master";
+  await runPublishCommand(gitCommand, ["push", "origin", `${branch}:main`]);
+
+  return {
+    ok: true,
+    action,
+    commit,
+    message: "已提交并推送，Vercel 会自动部署到线上网址。",
+    changedFiles,
+  };
+};
+
 const imageCompressQuality = 70;
 const compressedImageExtensions = new Set([".jpg", ".jpeg", ".png"]);
 const shouldCompressImages = process.env.ZOEY_COMPRESS_IMAGES === "1";
@@ -608,6 +690,13 @@ const portfolioPersistencePlugin = (): Plugin => ({
                 ? createDailyArchive({ action: body.action ?? "daily-merge", latest })
                 : appendIncrementalArchive({ action: body.action ?? "two-hour-incremental", latest });
           jsonResponse(res, 200, { ok: true, archive });
+          return;
+        }
+
+        if (req.method === "POST" && url.startsWith("/api/portfolio/publish")) {
+          const body = JSON.parse((await readRequestBody(req)) || "{}") as { action?: string };
+          const result = await publishEditorChanges(body.action ?? "editor-publish");
+          jsonResponse(res, 200, result);
           return;
         }
 
