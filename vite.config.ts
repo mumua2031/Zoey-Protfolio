@@ -468,11 +468,14 @@ const runPublishCommand = async (command: string, args: string[]) => {
 };
 
 const publishEditorChanges = async (action = "editor-publish") => {
-  const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
   const gitCommand = process.platform === "win32" ? "git.exe" : "git";
   const existingPublishPaths = publishTrackedPaths.filter((path) => existsSync(join(projectRoot, path)));
 
-  await runPublishCommand(npmCommand, ["run", "build"]);
+  if (process.platform === "win32") {
+    await runPublishCommand("cmd.exe", ["/d", "/s", "/c", "npm run build"]);
+  } else {
+    await runPublishCommand("npm", ["run", "build"]);
+  }
 
   const changedStatus = await runPublishCommand(gitCommand, [
     "status",
