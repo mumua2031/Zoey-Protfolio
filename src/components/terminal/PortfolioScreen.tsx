@@ -87,12 +87,6 @@ const isDeveloperUrl = () => {
     return false;
   }
 
-  const host = window.location.hostname;
-  const isLocalHost = host === "localhost" || host === "127.0.0.1" || host === "::1";
-  if (!isLocalHost) {
-    return false;
-  }
-
   const params = new URLSearchParams(window.location.search);
   return params.get("dev") === "1" || params.get("edit") === "1";
 };
