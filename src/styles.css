@@ -1183,6 +1183,54 @@ button:focus-visible {
   background: transparent;
 }
 
+.portfolio-screen.is-project-aigc-xiuyijing .screen-hero {
+  grid-template-columns: minmax(300px, 0.92fr) minmax(520px, 1.08fr);
+  gap: clamp(24px, 4vw, 64px);
+}
+
+.portfolio-screen.is-project-aigc-xiuyijing .screen-project-copy {
+  max-width: 42rem;
+}
+
+.portfolio-screen.is-project-aigc-xiuyijing .screen-hero h1,
+.portfolio-screen.is-project-aigc-xiuyijing .screen-project-copy.is-latin-title h1 {
+  max-width: 11.5em;
+  font-size: calc(clamp(36px, 3.8vw, 62px) * var(--project-title-scale, 1));
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+
+.portfolio-screen.is-project-aigc-xiuyijing .screen-project-copy > div:not(.keyword-chips) {
+  max-width: 38rem;
+}
+
+.portfolio-screen.is-project-aigc-xiuyijing .screen-hero-artwork .artwork-frame img,
+.portfolio-screen.is-project-aigc-xiuyijing .screen-hero-artwork .artwork-frame video {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
+.portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow {
+  gap: clamp(14px, 1.2vw, 22px);
+}
+
+.portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+.portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout {
+  grid-column: 1 / -1;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+}
+
+.portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame img,
+.portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame video {
+  object-fit: contain;
+}
+
 .portfolio-screen.is-layout-editing .artwork-frame {
   display: grid;
   place-items: center;

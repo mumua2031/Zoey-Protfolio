@@ -484,18 +484,18 @@ const xiuyijingProject: PortfolioProject = {
   title: "绣艺境｜非遗汉绣纹样基因库",
   subtitle: "数字文化平台 / 网页系统 / 非遗数据库",
   intro:
-    "全流程自导完成的汉绣纹样数字基因库，覆盖网页视觉、交互体验、前后端搭建、HE 编码体系、资料收集、图样整理、数据库建档与版权说明。平台收录汉绣纹样数字档案，并从题材、寓意、色彩、年代、载体、工艺与来源等维度建立可浏览、可检索、可解析的数字文化展示系统。项目网址：https://xiuyijing.vercel.app/",
+    "从概念策划到上线落地全流程统筹完成的汉绣纹样数字基因库，覆盖网页视觉、交互体验、前后端搭建、HE 编码体系、资料收集、图样整理、数据库建档与版权说明。平台收录汉绣纹样数字档案，并从题材、寓意、色彩、年代、载体、工艺与来源等维度建立可浏览、可检索、可解析的数字文化展示系统。项目网址：https://xiuyijing.vercel.app/",
   introEn:
-    "A self-directed digital archive for Han embroidery patterns, covering web interface design, interaction, frontend and backend implementation, HE coding, source research, pattern organization, database structuring, and rights documentation. Project URL: https://xiuyijing.vercel.app/",
+    "A fully coordinated digital archive for Han embroidery patterns, covering web interface design, interaction, frontend and backend implementation, HE coding, source research, pattern organization, database structuring, and rights documentation. Project URL: https://xiuyijing.vercel.app/",
   keywords: ["数字文化平台", "非遗数据库", "网页系统", "HE 编码", "资料整理"],
   images: [
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/01-home-hero.png",
       alt: "绣艺境非遗汉绣纹样基因库首页",
-      caption: "首页完整长截图 / 非遗汉绣纹样基因库",
+      caption: "首页横屏截图 / 非遗汉绣纹样基因库",
       gridSpan: 12,
       fit: "contain",
-      layoutRatio: 0.37,
+      layoutRatio: 1.78,
     },
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/09-home-particle-scatter.gif",
@@ -514,10 +514,10 @@ const xiuyijingProject: PortfolioProject = {
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/02-pattern-library.png",
       alt: "绣艺境纹样基因库列表",
-      caption: "纹样基因库完整长截图 / 117 条纹样档案浏览",
+      caption: "纹样基因库横屏截图 / 纹样加载完成后截取",
       gridSpan: 12,
       fit: "contain",
-      layoutRatio: 0.32,
+      layoutRatio: 1.78,
     },
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/10-pattern-library-scroll.gif",
@@ -536,10 +536,10 @@ const xiuyijingProject: PortfolioProject = {
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/03-pattern-detail.png",
       alt: "绣艺境单件汉绣纹样详情档案",
-      caption: "单件档案完整长截图 / 编码、寓意、工艺、来源与版权状态",
+      caption: "单件档案横屏截图 / 编码、寓意、工艺、来源与版权状态",
       gridSpan: 12,
       fit: "contain",
-      layoutRatio: 0.58,
+      layoutRatio: 1.78,
     },
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/11-pattern-detail-scroll.gif",
@@ -551,10 +551,10 @@ const xiuyijingProject: PortfolioProject = {
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/04-gene-analysis.png",
       alt: "绣艺境基因解析页面",
-      caption: "基因解析完整长截图 / 纹样卡片与文化结构拆解",
+      caption: "基因解析横屏截图 / 纹样卡片与文化结构拆解",
       gridSpan: 12,
       fit: "contain",
-      layoutRatio: 0.38,
+      layoutRatio: 1.78,
     },
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/08-gene-analysis.gif",
@@ -566,10 +566,10 @@ const xiuyijingProject: PortfolioProject = {
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/05-about-method.png",
       alt: "绣艺境项目说明与 HE 编码体系",
-      caption: "项目说明完整长截图 / HE 编码体系与数据整理流程",
+      caption: "项目说明横屏截图 / HE 编码体系与数据整理流程",
       gridSpan: 12,
       fit: "contain",
-      layoutRatio: 0.27,
+      layoutRatio: 1.78,
     },
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/12-about-scroll.gif",

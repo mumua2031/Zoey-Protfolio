@@ -556,6 +556,7 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
       key={category.id}
       className={[
         "portfolio-screen",
+        `is-project-${activeProject.id}`,
         isManualScrolling ? "is-manual-scroll" : "",
         isLayoutEditing ? "is-layout-editing" : "",
         isBrandTypographyProject && !isLayoutEditing ? "is-brand-typography-study" : "",
