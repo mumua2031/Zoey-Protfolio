@@ -479,7 +479,7 @@ const compactProjects = (projects: Array<PortfolioProject | undefined>) =>
 
 const xiuyijingProject: PortfolioProject = {
   id: "aigc-xiuyijing",
-  name: "绣艺境",
+  name: "绣艺境-汉绣",
   nameEn: "Xiuyijing",
   title: "绣艺境｜非遗汉绣纹样基因库",
   subtitle: "数字文化平台 / 网页系统 / 非遗数据库",
@@ -576,14 +576,6 @@ const xiuyijingProject: PortfolioProject = {
       alt: "绣艺境关于页与 HE 编码体系完整滚动动效",
       caption: "关于页完整滚动 / 项目定位、编码体系与数据流程",
       gridSpan: 12,
-      layoutRatio: 1.78,
-    },
-    {
-      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/13-project-url.png",
-      alt: "绣艺境项目网址 https://xiuyijing.vercel.app/",
-      caption: "项目网址 / https://xiuyijing.vercel.app/",
-      gridSpan: 12,
-      fit: "contain",
       layoutRatio: 1.78,
     },
   ],
