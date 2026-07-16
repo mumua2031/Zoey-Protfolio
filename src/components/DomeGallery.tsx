@@ -34,7 +34,7 @@ type DomeItem = {
 const DEFAULT_IMAGES: DomeGalleryImage[] = [
   { src: "/assets/about/zoey-profile.jpg", alt: "Zoey profile" },
   { src: "/assets/visual-design.svg", alt: "Visual Design" },
-  { src: "/assets/aigc-design.svg", alt: "AIGC Design" },
+  { src: "/assets/aigc-design.svg", alt: "Digital Content" },
   { src: "/assets/fashion-design.svg", alt: "Fashion Design" },
   { src: "/assets/interior-design.svg", alt: "Interior Design" },
   { src: "/assets/painting-work.svg", alt: "Painting" },

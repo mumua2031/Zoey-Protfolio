@@ -78,14 +78,14 @@ const infoFooterServices = {
   cn: [
     ["(01)", "\u54c1\u724c\u89c6\u89c9", "\u5efa\u7acb\u6807\u5fd7\u3001\u8272\u5f69\u3001\u5b57\u4f53\u4e0e\u7248\u5f0f\u7cfb\u7edf\uff0c\u8ba9\u4f5c\u54c1\u548c\u54c1\u724c\u5728\u4e0d\u540c\u89e6\u70b9\u4fdd\u6301\u6e05\u6670\u8bc6\u522b\u3002"],
     ["(02)", "网站系统", "搭建全流程沉浸式浏览体验，以故事化动线串联全品类创作，细腻交互动效，同时预留轻量化模块化结构，降低长期迭代维护成本。"],
-    ["(03)", "AIGC\u5f71\u50cf", "\u534f\u52a9\u5b8c\u6210\u89c6\u89c9\u6982\u5ff5\u3001\u56fe\u50cf\u751f\u6210\u3001\u98ce\u683c\u6d4b\u8bd5\u4e0e\u5185\u5bb9\u8fed\u4ee3\uff0c\u63d0\u5347\u63d0\u6848\u6548\u7387\u3002"],
+    ["(03)", "\u6570\u5b57\u5185\u5bb9", "\u6574\u5408\u7f51\u9875\u5185\u5bb9\u3001\u89c6\u89c9\u8d44\u4ea7\u3001\u56fe\u50cf\u751f\u6210\u3001\u6570\u636e\u5e93\u6574\u7406\u4e0e\u5185\u5bb9\u8fed\u4ee3\uff0c\u5f62\u6210\u53ef\u5c55\u793a\u3001\u53ef\u7ef4\u62a4\u7684\u6570\u5b57\u9879\u76ee\u3002"],
     ["(04)", "\u7a7a\u95f4\u53d9\u4e8b", "\u4ee5\u573a\u666f\u3001\u52a8\u7ebf\u3001\u6750\u8d28\u4e0e\u5c55\u793a\u5173\u7cfb\u7ec4\u7ec7\u7a7a\u95f4\u89c6\u89c9\uff0c\u4f7f\u6982\u5ff5\u66f4\u5bb9\u6613\u88ab\u7406\u89e3\u3002"],
     ["(05)", "\u670d\u88c5\u642d\u914d", "\u56f4\u7ed5\u5ed3\u5f62\u3001\u6750\u8d28\u3001\u8272\u5f69\u4e0e\u573a\u666f\u5efa\u7acb\u9020\u578b\u65b9\u5411\uff0c\u5f62\u6210\u5b8c\u6574\u89c6\u89c9\u8868\u8fbe\u3002"],
   ],
   en: [
     ["(01)", "Brand Identity", "Logo, color, typography, and layout systems for consistent recognition across touchpoints."],
     ["(02)", "Portfolio Website", "Immersive portfolio systems balancing narrative, clarity, motion, and future maintenance."],
-    ["(03)", "AIGC Imagery", "Concept visuals, generated images, style tests, and iterative content workflows."],
+    ["(03)", "Digital Content", "Web content, visual assets, generated imagery, database organization, and iterative content workflows."],
     ["(04)", "Spatial Storytelling", "Scenes, circulation, materials, and display logic shaped into readable spatial narratives."],
     ["(05)", "Fashion Styling", "Silhouette, material, color, and scene direction organized as complete visual expression."],
   ],
@@ -95,14 +95,14 @@ const infoFooterServicesDisplay = {
   cn: [
     ["(01)", "\u54c1\u724c\u89c6\u89c9", "\u5efa\u7acb\u6807\u5fd7\u3001\u8272\u5f69\u3001\u5b57\u4f53\u4e0e\u7248\u5f0f\u7cfb\u7edf\uff0c\u8ba9\u4f5c\u54c1\u548c\u54c1\u724c\u5728\u4e0d\u540c\u89e6\u70b9\u4fdd\u6301\u6e05\u6670\u8bc6\u522b\u3002"],
     ["(02)", "网站系统", "搭建全流程沉浸式浏览体验，以故事化动线串联全品类创作，细腻交互动效，同时预留轻量化模块化结构，降低长期迭代维护成本。"],
-    ["(03)", "AIGC\u5f71\u50cf", "\u534f\u52a9\u5b8c\u6210\u89c6\u89c9\u6982\u5ff5\u3001\u56fe\u50cf\u751f\u6210\u3001\u98ce\u683c\u6d4b\u8bd5\u4e0e\u5185\u5bb9\u8fed\u4ee3\uff0c\u63d0\u5347\u63d0\u6848\u6548\u7387\u3002"],
+    ["(03)", "\u6570\u5b57\u5185\u5bb9", "\u6574\u5408\u7f51\u9875\u5185\u5bb9\u3001\u89c6\u89c9\u8d44\u4ea7\u3001\u56fe\u50cf\u751f\u6210\u3001\u6570\u636e\u5e93\u6574\u7406\u4e0e\u5185\u5bb9\u8fed\u4ee3\uff0c\u5f62\u6210\u53ef\u5c55\u793a\u3001\u53ef\u7ef4\u62a4\u7684\u6570\u5b57\u9879\u76ee\u3002"],
     ["(04)", "\u7a7a\u95f4\u53d9\u4e8b", "\u4ee5\u573a\u666f\u3001\u52a8\u7ebf\u3001\u6750\u8d28\u4e0e\u5c55\u793a\u5173\u7cfb\u7ec4\u7ec7\u7a7a\u95f4\u89c6\u89c9\uff0c\u4f7f\u6982\u5ff5\u66f4\u5bb9\u6613\u88ab\u7406\u89e3\u3002"],
     ["(05)", "\u670d\u88c5\u642d\u914d", "\u56f4\u7ed5\u5ed3\u5f62\u3001\u6750\u8d28\u3001\u8272\u5f69\u4e0e\u573a\u666f\u5efa\u7acb\u9020\u578b\u65b9\u5411\uff0c\u5f62\u6210\u5b8c\u6574\u89c6\u89c9\u8868\u8fbe\u3002"],
   ],
   en: [
     ["(01)", "Brand Identity", "Logo, color, typography, and layout systems for consistent recognition across touchpoints."],
     ["(02)", "Portfolio Website", "Immersive portfolio systems balancing narrative, clarity, motion, and future maintenance."],
-    ["(03)", "AIGC Imagery", "Concept visuals, generated images, style tests, and iterative content workflows."],
+    ["(03)", "Digital Content", "Web content, visual assets, generated imagery, database organization, and iterative content workflows."],
     ["(04)", "Spatial Storytelling", "Scenes, circulation, materials, and display logic shaped into readable spatial narratives."],
     ["(05)", "Fashion Styling", "Silhouette, material, color, and scene direction organized as complete visual expression."],
   ],
@@ -155,7 +155,7 @@ const hongKongClockFormatter = new Intl.DateTimeFormat("zh-CN", {
 const experienceDomeImages = [
   { src: "/assets/about/zoey-profile.jpg", alt: "Zoey profile" },
   { src: "/assets/visual-design.svg", alt: "Visual Design" },
-  { src: "/assets/aigc-design.svg", alt: "AIGC Design" },
+  { src: "/assets/aigc-design.svg", alt: "Digital Content" },
   { src: "/assets/fashion-design.svg", alt: "Fashion Design" },
   { src: "/assets/interior-design.svg", alt: "Interior Design" },
   { src: "/assets/painting-work.svg", alt: "Painting" },
@@ -171,7 +171,7 @@ const aboutChineseCopy: OverlayCopy = {
   eyebrow: "About Zoey",
   title: "\u4ece\u89c6\u89c9\u5230\u7a7a\u95f4\uff0c\u4ece\u5c40\u90e8\u5230\u6574\u4f53\uff0c\u6784\u5efa\u8bbe\u8ba1\u7684\u591a\u91cd\u53ef\u80fd\u3002",
   body:
-    "\u90b9\u7267\u5e0c / Zoey\n\u590d\u5408\u578b\u8bbe\u8ba1\u5e08 \u00b7 \u6570\u5b57\u5185\u5bb9\u521b\u4f5c\u8005 \u00b7 \u8bbe\u8ba1\u5b66\u7855\u58eb\u7814\u7a76\u751f\n\n\u81ea\u5e7c\u7684\u827a\u672f\u4e0e\u7ed8\u753b\u8bad\u7ec3\uff0c\u57f9\u517b\u4e86\u6211\u5bf9\u8272\u5f69\u3001\u6784\u56fe\u3001\u5f62\u6001\u4e0e\u7ec6\u8282\u7684\u654f\u9510\u611f\u77e5\uff0c\u4e5f\u6210\u4e3a\u6211\u63a2\u7d22\u4e0d\u540c\u8bbe\u8ba1\u9886\u57df\u7684\u8d77\u70b9\u3002\n\n\u6211\u62e5\u6709\u89c6\u89c9\u3001\u670d\u88c5\u4e0e\u73af\u5883\u8bbe\u8ba1\u7684\u590d\u5408\u80cc\u666f\u3002\u591a\u4e13\u4e1a\u8bad\u7ec3\u5171\u540c\u5851\u9020\u4e86\u6211\u5bf9\u5c3a\u5ea6\u3001\u7ed3\u6784\u3001\u6750\u8d28\u4e0e\u53d9\u4e8b\u7684\u7406\u89e3\uff0c\u5e76\u6c89\u6dc0\u4e3a\u4e00\u5957\u8fde\u8d2f\u7684\u8bbe\u8ba1\u65b9\u6cd5\u3002\n\n\u6211\u7684\u5b9e\u8df5\u8986\u76d6\u54c1\u724c\u89c6\u89c9\u3001UI\u4e0e\u7f51\u9875\u3001AIGC\u5f71\u50cf\u3001\u7a7a\u95f4\u53d9\u4e8b\u3001\u670d\u88c5\u8bbe\u8ba1\u4e0e\u642d\u914d\u53ca\u591a\u6e20\u9053\u5185\u5bb9\u4f20\u64ad\uff0c\u80fd\u591f\u8d2f\u901a\u4ece\u7814\u7a76\u7b56\u5212\u3001\u89c6\u89c9\u7cfb\u7edf\u6784\u5efa\u5230\u5185\u5bb9\u5236\u4f5c\u3001\u7f51\u9875\u642d\u5efa\u4e0e\u53d1\u5e03\u7684\u5b8c\u6574\u6d41\u7a0b\uff0c\u5f62\u6210\u7edf\u4e00\u3001\u6e05\u6670\u4e14\u5177\u5546\u4e1a\u4f20\u64ad\u529b\u7684\u8bbe\u8ba1\u8868\u8fbe\u3002",
+    "\u90b9\u7267\u5e0c / Zoey\n\u590d\u5408\u578b\u8bbe\u8ba1\u5e08 \u00b7 \u6570\u5b57\u5185\u5bb9\u521b\u4f5c\u8005 \u00b7 \u8bbe\u8ba1\u5b66\u7855\u58eb\u7814\u7a76\u751f\n\n\u81ea\u5e7c\u7684\u827a\u672f\u4e0e\u7ed8\u753b\u8bad\u7ec3\uff0c\u57f9\u517b\u4e86\u6211\u5bf9\u8272\u5f69\u3001\u6784\u56fe\u3001\u5f62\u6001\u4e0e\u7ec6\u8282\u7684\u654f\u9510\u611f\u77e5\uff0c\u4e5f\u6210\u4e3a\u6211\u63a2\u7d22\u4e0d\u540c\u8bbe\u8ba1\u9886\u57df\u7684\u8d77\u70b9\u3002\n\n\u6211\u62e5\u6709\u89c6\u89c9\u3001\u670d\u88c5\u4e0e\u73af\u5883\u8bbe\u8ba1\u7684\u590d\u5408\u80cc\u666f\u3002\u591a\u4e13\u4e1a\u8bad\u7ec3\u5171\u540c\u5851\u9020\u4e86\u6211\u5bf9\u5c3a\u5ea6\u3001\u7ed3\u6784\u3001\u6750\u8d28\u4e0e\u53d9\u4e8b\u7684\u7406\u89e3\uff0c\u5e76\u6c89\u6dc0\u4e3a\u4e00\u5957\u8fde\u8d2f\u7684\u8bbe\u8ba1\u65b9\u6cd5\u3002\n\n\u6211\u7684\u5b9e\u8df5\u8986\u76d6\u54c1\u724c\u89c6\u89c9\u3001UI\u4e0e\u7f51\u9875\u3001\u6570\u5b57\u5185\u5bb9\u3001\u7a7a\u95f4\u53d9\u4e8b\u3001\u670d\u88c5\u8bbe\u8ba1\u4e0e\u642d\u914d\u53ca\u591a\u6e20\u9053\u5185\u5bb9\u4f20\u64ad\uff0c\u80fd\u591f\u8d2f\u901a\u4ece\u7814\u7a76\u7b56\u5212\u3001\u89c6\u89c9\u7cfb\u7edf\u6784\u5efa\u5230\u5185\u5bb9\u5236\u4f5c\u3001\u7f51\u9875\u642d\u5efa\u4e0e\u53d1\u5e03\u7684\u5b8c\u6574\u6d41\u7a0b\uff0c\u5f62\u6210\u7edf\u4e00\u3001\u6e05\u6670\u4e14\u5177\u5546\u4e1a\u4f20\u64ad\u529b\u7684\u8bbe\u8ba1\u8868\u8fbe\u3002",
   meta: ["Integrated Visual Design", "Digital Experience & Content", "Spatial & Fashion Design"],
 };
 
@@ -186,13 +186,13 @@ const copy: Record<Exclude<PrimarySection, "projects" | null>, { cn: OverlayCopy
       eyebrow: "About Zoey",
       title: "\u6211\u628a\u521b\u610f\u3001\u89c6\u89c9\u4e0e\u6545\u4e8b\u653e\u5728\u540c\u4e00\u4e2a\u5b89\u9759\u7684\u7cfb\u7edf\u91cc\u3002",
       body: `${SITE_COPY.brand.name}锛屼笓娉ㄨ瑙夎璁°€佹暟瀛楄壓鏈€佹湇瑁呬笌绌洪棿鏂瑰悜銆?{SITE_COPY.hero.description}`,
-      meta: ["Visual Direction", "AIGC Workflow", "Spatial Storytelling"],
+      meta: ["Visual Direction", "Digital Content", "Spatial Storytelling"],
     },
     en: {
       eyebrow: "About Zoey",
       title: "I place creativity,\nvisual language,\nand storytelling\ninto one quiet system.",
       body: `${SITE_COPY.brand.nameEn} focuses on visual design, digital art, fashion, and spatial direction. ${SITE_COPY.hero.descriptionEn}`,
-      meta: ["Visual Direction", "AIGC Workflow", "Spatial Storytelling"],
+      meta: ["Visual Direction", "Digital Content", "Spatial Storytelling"],
     },
   },
   experience: {
@@ -217,14 +217,14 @@ const copy: Record<Exclude<PrimarySection, "projects" | null>, { cn: OverlayCopy
       title: "提供完整、清晰、\n适合长期使用的\n设计协作方式",
       body:
         "品牌、企业与商业项目提供从策略规划到视觉落地的一体化设计服务，涵盖品牌视觉、数字体验、营销内容、空间展示与创新视觉解决方案。",
-      meta: ["Brand System", "Portfolio Website", "AIGC Direction"],
+      meta: ["Brand System", "Portfolio Website", "Digital Content"],
     },
     en: {
       eyebrow: "Services",
       title: "I offer restrained,\nclear design collaboration\nbuilt for long-term use.",
       body:
         "Collaboration can include brand visuals, portfolio curation, digital art direction, spatial proposals, and portfolio website experiences.",
-      meta: ["Brand System", "Portfolio Website", "AIGC Direction"],
+      meta: ["Brand System", "Portfolio Website", "Digital Content"],
     },
   },
 };
@@ -597,11 +597,11 @@ const timelinePresets: Record<
         },
         {
           index: "02",
-          title: "AIGC Workflow",
-          body: "Generative image direction can support moodboards, concept testing, visual proposals, and rapid iteration.",
+          title: "Digital Content",
+          body: "Digital content direction can connect web systems, visual assets, database structure, and iterative presentation workflows.",
           media: "image",
           mediaSrc: "/assets/services/aigc-workflow.png",
-          mediaAlt: "AIGC workflow image",
+          mediaAlt: "Digital content workflow image",
         },
         {
           index: "03",
@@ -629,11 +629,11 @@ const timelinePresets: Record<
         },
         {
           index: "02",
-          title: "AIGC \u5de5\u4f5c\u6d41",
-          body: "\u751f\u6210\u5f0f\u56fe\u50cf\u65b9\u5411\u53ef\u4ee5\u670d\u52a1\u4e8e\u98ce\u683c\u677f\u3001\u6982\u5ff5\u6d4b\u8bd5\u3001\u89c6\u89c9\u63d0\u6848\u4e0e\u5feb\u901f\u8fed\u4ee3\u3002",
+          title: "\u6570\u5b57\u5185\u5bb9",
+          body: "\u6570\u5b57\u5185\u5bb9\u65b9\u5411\u53ef\u4ee5\u4e32\u8054\u7f51\u9875\u7cfb\u7edf\u3001\u89c6\u89c9\u8d44\u4ea7\u3001\u6570\u636e\u5e93\u7ed3\u6784\u4e0e\u6301\u7eed\u8fed\u4ee3\u7684\u5c55\u793a\u6d41\u7a0b\u3002",
           media: "image",
           mediaSrc: "/assets/services/aigc-workflow.png",
-          mediaAlt: "AIGC \u5de5\u4f5c\u6d41\u56fe\u7247",
+          mediaAlt: "\u6570\u5b57\u5185\u5bb9\u5de5\u4f5c\u6d41\u56fe\u7247",
         },
         {
           index: "03",

@@ -477,6 +477,118 @@ const baseProject = (categoryId: ProjectCategoryId, projectId: string) =>
 const compactProjects = (projects: Array<PortfolioProject | undefined>) =>
   projects.filter((project): project is PortfolioProject => Boolean(project));
 
+const xiuyijingProject: PortfolioProject = {
+  id: "aigc-xiuyijing",
+  name: "绣艺境",
+  nameEn: "Xiuyijing",
+  title: "绣艺境｜非遗汉绣纹样基因库",
+  subtitle: "数字文化平台 / 网页系统 / 非遗数据库",
+  intro:
+    "全流程自导完成的汉绣纹样数字基因库，覆盖网页视觉、交互体验、前后端搭建、HE 编码体系、资料收集、图样整理、数据库建档与版权说明。平台收录汉绣纹样数字档案，并从题材、寓意、色彩、年代、载体、工艺与来源等维度建立可浏览、可检索、可解析的数字文化展示系统。项目网址：https://xiuyijing.vercel.app/",
+  introEn:
+    "A self-directed digital archive for Han embroidery patterns, covering web interface design, interaction, frontend and backend implementation, HE coding, source research, pattern organization, database structuring, and rights documentation. Project URL: https://xiuyijing.vercel.app/",
+  keywords: ["数字文化平台", "非遗数据库", "网页系统", "HE 编码", "资料整理"],
+  images: [
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/01-home-hero.png",
+      alt: "绣艺境非遗汉绣纹样基因库首页",
+      caption: "首页完整长截图 / 非遗汉绣纹样基因库",
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 0.37,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/09-home-particle-scatter.gif",
+      alt: "绣艺境首页粒子烟雾散开动效",
+      caption: "首页粒子动效 / 抽丝烟雾散开",
+      gridSpan: 12,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/06-home-scroll.gif",
+      alt: "绣艺境首页滚动浏览动效",
+      caption: "首页完整滚动 / 项目叙事与模块浏览",
+      gridSpan: 12,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/02-pattern-library.png",
+      alt: "绣艺境纹样基因库列表",
+      caption: "纹样基因库完整长截图 / 117 条纹样档案浏览",
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 0.32,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/10-pattern-library-scroll.gif",
+      alt: "绣艺境纹样基因库完整滚动动效",
+      caption: "纹样基因库完整滚动 / 分类与档案浏览",
+      gridSpan: 12,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/07-library-to-detail.gif",
+      alt: "绣艺境从纹样库进入单件档案的交互流程",
+      caption: "筛选检索 / 从纹样库进入单件档案",
+      gridSpan: 12,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/03-pattern-detail.png",
+      alt: "绣艺境单件汉绣纹样详情档案",
+      caption: "单件档案完整长截图 / 编码、寓意、工艺、来源与版权状态",
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 0.58,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/11-pattern-detail-scroll.gif",
+      alt: "绣艺境单件纹样详情页完整滚动动效",
+      caption: "单件档案完整滚动 / 档案字段与相似纹样",
+      gridSpan: 12,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/04-gene-analysis.png",
+      alt: "绣艺境基因解析页面",
+      caption: "基因解析完整长截图 / 纹样卡片与文化结构拆解",
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 0.38,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/08-gene-analysis.gif",
+      alt: "绣艺境基因解析动态展示",
+      caption: "基因解析完整滚动动效 / 纹样可视化展示",
+      gridSpan: 12,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/05-about-method.png",
+      alt: "绣艺境项目说明与 HE 编码体系",
+      caption: "项目说明完整长截图 / HE 编码体系与数据整理流程",
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 0.27,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/12-about-scroll.gif",
+      alt: "绣艺境关于页与 HE 编码体系完整滚动动效",
+      caption: "关于页完整滚动 / 项目定位、编码体系与数据流程",
+      gridSpan: 12,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/13-project-url.png",
+      alt: "绣艺境项目网址 https://xiuyijing.vercel.app/",
+      caption: "项目网址 / https://xiuyijing.vercel.app/",
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 1.78,
+    },
+  ],
+};
+
 const fixedCategoryRules: Record<
   ProjectCategoryId,
   Omit<PortfolioCategory, "id">
@@ -504,7 +616,7 @@ const fixedCategoryRules: Record<
     backendCategoryId: "Digital-Design",
     backendCategoryLabel: "数字创作",
     backendCategoryLabelEn: "Digital\u2011Design",
-    projects: importedBySlug("project-ba08216f"),
+    projects: [xiuyijingProject, ...importedBySlug("project-ba08216f")],
   },
   fashion: {
     label: "产品设计",
