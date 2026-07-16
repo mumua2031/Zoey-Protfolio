@@ -72,9 +72,7 @@ function IntroViewfinder() {
       return;
     }
     setIsShuttering(true);
-    window.setTimeout(() => {
-      startExperience();
-    }, 360);
+    startExperience();
   };
 
   return (

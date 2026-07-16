@@ -15,14 +15,43 @@ export function usePortfolioPrefetch() {
     }
 
     prefetched.current.add(categoryId);
-    category.projects
-      .flatMap((project) => project.images)
-      .slice(0, 3)
-      .forEach((image) => {
+    const preload = () => {
+      category.projects
+        .flatMap((project) => project.images)
+        .filter((image) => image.type !== "video")
+        .slice(0, 8)
+        .forEach((image) => {
+          const preview = new Image();
+          preview.decoding = "async";
+          preview.loading = "eager";
+          preview.src = image.src;
+          void preview.decode?.().catch(() => undefined);
+        });
+    };
+
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(preload, { timeout: 900 });
+    } else {
+      globalThis.setTimeout(preload, 0);
+    }
+  }, []);
+}
+
+export function prefetchPortfolioCategory(categoryId: ProjectCategoryId) {
+  const category = categoryMap.get(categoryId);
+  if (!category) {
+    return;
+  }
+
+  category.projects
+    .flatMap((project) => project.images)
+    .filter((image) => image.type !== "video")
+    .slice(0, 8)
+    .forEach((image) => {
         const preview = new Image();
         preview.decoding = "async";
         preview.loading = "eager";
         preview.src = image.src;
+        void preview.decode?.().catch(() => undefined);
       });
-  }, []);
 }

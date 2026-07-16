@@ -58,7 +58,7 @@ export function LazyArtwork({
           observer.disconnect();
         }
       },
-      { rootMargin: "220px 0px" },
+      { rootMargin: "900px 0px" },
     );
 
     observer.observe(frame);
@@ -209,6 +209,7 @@ export function LazyArtwork({
           alt={image.alt}
           loading={priority ? "eager" : "lazy"}
           decoding="async"
+          fetchPriority={priority ? "high" : "auto"}
           onLoad={() => setIsLoaded(true)}
         />
       ) : null}

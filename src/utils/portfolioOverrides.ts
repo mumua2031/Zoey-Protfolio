@@ -56,8 +56,12 @@ const LEGACY_STORAGE_KEY = "zoey-portfolio-artwork-overrides-v1";
 const DB_NAME = "zoey-portfolio-overrides";
 const DB_VERSION = 1;
 const DB_STORE_NAME = "project-overrides";
+const LATEST_OVERRIDE_CACHE_MS = 30_000;
 const latestOverrideCacheBust = () => `t=${Date.now()}`;
 const stableStringify = (value: unknown) => JSON.stringify(value);
+let latestBackendStoreValue: LatestPortfolioOverrideStore | null = null;
+let latestBackendStoreFetchedAt = 0;
+let latestBackendStoreRequest: Promise<LatestPortfolioOverrideStore | null> | null = null;
 
 const canUseStorage = () => typeof window !== "undefined" && Boolean(window.localStorage);
 const canUseIndexedDb = () => typeof window !== "undefined" && Boolean(window.indexedDB);
@@ -175,7 +179,7 @@ const normalizeEntry = (
   return Array.isArray(entry) ? { images: entry } : entry;
 };
 
-const readLatestBackendStore = async (): Promise<LatestPortfolioOverrideStore | null> => {
+const fetchLatestBackendStore = async (): Promise<LatestPortfolioOverrideStore | null> => {
   if (typeof window === "undefined") {
     return null;
   }
@@ -201,6 +205,29 @@ const readLatestBackendStore = async (): Promise<LatestPortfolioOverrideStore | 
   }
 
   return null;
+};
+
+const readLatestBackendStore = async (): Promise<LatestPortfolioOverrideStore | null> => {
+  const now = Date.now();
+  if (latestBackendStoreValue && now - latestBackendStoreFetchedAt < LATEST_OVERRIDE_CACHE_MS) {
+    return latestBackendStoreValue;
+  }
+
+  if (latestBackendStoreRequest) {
+    return latestBackendStoreRequest;
+  }
+
+  latestBackendStoreRequest = fetchLatestBackendStore()
+    .then((store) => {
+      latestBackendStoreValue = store;
+      latestBackendStoreFetchedAt = Date.now();
+      return store;
+    })
+    .finally(() => {
+      latestBackendStoreRequest = null;
+    });
+
+  return latestBackendStoreRequest;
 };
 
 export const syncProjectOverrideToBackend = async (
@@ -278,6 +305,8 @@ export const syncBrowserOverridesToBackend = async () => {
       "browser-cache-import",
     );
     if (synced) {
+      latestBackendStoreValue = null;
+      latestBackendStoreFetchedAt = 0;
       await writeProjectToIndexedDb(projectId, synced.images, synced.copy);
       try {
         saveProjectOverride(projectId, synced.images, synced.copy);
@@ -471,6 +500,8 @@ export const saveProjectOverrideAsync = async (
 
   const synced = await syncProjectOverrideToBackend(projectId, images, copy);
   if (synced) {
+    latestBackendStoreValue = null;
+    latestBackendStoreFetchedAt = 0;
     await writeProjectToIndexedDb(projectId, synced.images, synced.copy);
     try {
       saveProjectOverride(projectId, synced.images, synced.copy);

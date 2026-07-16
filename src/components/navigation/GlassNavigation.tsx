@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useState, type ComponentType } from "react";
 import { categories, type ProjectCategoryId } from "../../data/portfolio";
 import { SITE_COPY } from "../../data/siteCopy";
-import { usePortfolioPrefetch } from "../../hooks/usePortfolioPrefetch";
+import { prefetchPortfolioCategory, usePortfolioPrefetch } from "../../hooks/usePortfolioPrefetch";
 import { usePortfolioStore, type PrimarySection } from "../../store/usePortfolioStore";
 
 const spring = { type: "spring" as const, stiffness: 300, damping: 30 };
@@ -37,12 +37,16 @@ export function GlassNavigation() {
     if (!section) {
       return;
     }
+    if (section === "projects") {
+      prefetchPortfolioCategory(activeCategoryId);
+    }
     openPrimary(section);
     setIsMobileMenuOpen(false);
     setIsMobileProjectsOpen(false);
   };
 
   const openMobileProject = (categoryId: ProjectCategoryId) => {
+    prefetchPortfolioCategory(categoryId);
     openProject(categoryId);
     setIsMobileMenuOpen(false);
     setIsMobileProjectsOpen(false);
@@ -194,7 +198,10 @@ export function GlassNavigation() {
               }
               onMouseEnter={() => prefetch(category.id)}
               onFocus={() => prefetch(category.id)}
-              onClick={() => openProject(category.id as ProjectCategoryId)}
+              onClick={() => {
+                prefetchPortfolioCategory(category.id);
+                openProject(category.id as ProjectCategoryId);
+              }}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={spring}

@@ -53,7 +53,7 @@ export function PortfolioContainer() {
           <span className="laptop-logo" aria-hidden="true">Zoey</span>
           <div className="screen-bezel">
             <div className="screen-glass">
-              <AnimatePresence mode="wait">
+              <AnimatePresence initial={false}>
                 {category ? (
                   <PortfolioScreen
                     key={category.id}

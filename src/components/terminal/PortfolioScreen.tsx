@@ -132,6 +132,25 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
 
   useEffect(() => {
     let isCurrent = true;
+    const immediateCopyMap: Record<string, EditableProjectCopy> = {};
+    for (const project of category.projects) {
+      immediateCopyMap[project.id] = getProjectOverride(project).copy;
+    }
+    setProjectCopyMap(immediateCopyMap);
+
+    const firstProject = category.projects[0];
+    if (firstProject) {
+      const immediateOverride = getProjectOverride(firstProject);
+      setEditableImages(immediateOverride.images);
+      setEditableCopy(immediateOverride.copy);
+      editableImagesRef.current = immediateOverride.images;
+      editableCopyRef.current = immediateOverride.copy;
+    } else {
+      setEditableImages(null);
+      setEditableCopy(null);
+      editableImagesRef.current = [];
+      editableCopyRef.current = null;
+    }
 
     // 一次性从 IndexedDB 加载所有项目的覆盖数据，避免两次渲染导致闪屏
     void Promise.all(
@@ -149,7 +168,6 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
       setProjectCopyMap(copyMap);
 
       // 首个项目的图片和文案数据
-      const firstProject = category.projects[0];
       if (firstProject) {
         const firstOverride = entries.find(([id]) => id === firstProject.id)?.[1];
         if (firstOverride) {
@@ -247,6 +265,11 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
   useEffect(() => {
     if (activeProject) {
       let isCurrent = true;
+      const immediateOverride = getProjectOverride(activeProject);
+      setEditableImages(immediateOverride.images);
+      setEditableCopy(immediateOverride.copy);
+      editableImagesRef.current = immediateOverride.images;
+      editableCopyRef.current = immediateOverride.copy;
 
       // 只从 IndexedDB 异步加载一次，避免 localStorage 快照 → IndexedDB 覆盖两次渲染导致的闪屏
       void getProjectOverrideAsync(activeProject).then((persistentOverride) => {
