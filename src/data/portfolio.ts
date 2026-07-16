@@ -487,7 +487,7 @@ const xiuyijingProject: PortfolioProject = {
     "从概念策划到上线落地全流程统筹完成的汉绣纹样数字基因库，覆盖网页视觉、交互体验、前后端搭建、HE 编码体系、资料收集、图样整理、数据库建档与版权说明。平台收录汉绣纹样数字档案，并从题材、寓意、色彩、年代、载体、工艺与来源等维度建立可浏览、可检索、可解析的数字文化展示系统。项目网址：https://xiuyijing.vercel.app/",
   introEn:
     "A fully coordinated digital archive for Han embroidery patterns, covering web interface design, interaction, frontend and backend implementation, HE coding, source research, pattern organization, database structuring, and rights documentation. Project URL: https://xiuyijing.vercel.app/",
-  keywords: ["数字文化平台", "非遗数据库", "网页系统", "HE 编码", "资料整理"],
+  keywords: ["数字文化平台", "非遗数据库", "网页系统", "资料整理"],
   images: [
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/01-home-hero.png",
@@ -517,7 +517,7 @@ const xiuyijingProject: PortfolioProject = {
       caption: "纹样基因库横屏截图 / 纹样加载完成后截取",
       gridSpan: 12,
       fit: "contain",
-      layoutRatio: 1.78,
+      layoutRatio: 2.18,
     },
     {
       src: "/assets/portfolio-import-v2/aigc/project-xiuyijing/10-pattern-library-scroll.gif",

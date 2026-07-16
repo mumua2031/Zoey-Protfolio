@@ -1237,7 +1237,7 @@ button:focus-visible {
 .portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout {
   grid-column: 1 / -1;
   min-height: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: var(--artwork-ratio, 1.78);
 }
 
 .portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame img,
