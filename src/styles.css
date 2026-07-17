@@ -364,7 +364,7 @@ button:focus-visible {
   width: min(clamp(620px, 82vw, 1240px), calc(100vw - 24px));
   aspect-ratio: 16 / 10.2;
   display: grid;
-  grid-template-rows: 1fr 12%;
+  grid-template-rows: 1fr 9%;
   perspective: 1600px;
   filter: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.34));
   transform: translateZ(0);
@@ -372,8 +372,8 @@ button:focus-visible {
 
 .laptop-lid {
   position: relative;
-  border-radius: 11px 11px 5px 5px;
-  padding: clamp(20px, 2vw, 30px) clamp(18px, 1.8vw, 28px) clamp(16px, 1.4vw, 22px);
+  border-radius: 10px 10px 4px 4px;
+  padding: clamp(15px, 1.45vw, 22px) clamp(12px, 1.15vw, 18px) clamp(10px, 0.9vw, 14px);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 30%),
     linear-gradient(180deg, #141820, #050608);
@@ -387,7 +387,7 @@ button:focus-visible {
 .laptop-logo {
   position: absolute;
   left: 50%;
-  top: 8px;
+  top: clamp(5px, 0.42vw, 7px);
   z-index: 2;
   color: rgba(255, 255, 255, 0.72);
   font-family: Georgia, "Times New Roman", serif;
@@ -403,11 +403,11 @@ button:focus-visible {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 10px;
 }
 
 .screen-bezel {
-  padding: clamp(8px, 0.75vw, 12px);
+  padding: clamp(5px, 0.46vw, 7px);
   background: #020202;
 }
 
@@ -423,17 +423,17 @@ button:focus-visible {
 .laptop-base {
   position: relative;
   align-self: start;
-  width: 104%;
+  width: 100%;
   height: 100%;
   margin-inline: auto;
-  border-radius: 0 0 38px 38px;
+  border-radius: 0 0 26px 26px;
   background:
     radial-gradient(ellipse at 50% 18%, rgba(255, 255, 255, 0.75), transparent 18%),
     linear-gradient(180deg, #d4d8d7 0%, #8f9698 44%, #2b3032 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.82),
     0 18px 42px rgba(0, 0, 0, 0.34);
-  transform: rotateX(58deg) translateY(-18%) translateZ(0);
+  transform: rotateX(52deg) translateY(-10%) translateZ(0);
   transform-origin: top center;
 }
 
@@ -450,6 +450,138 @@ button:focus-visible {
   font-size: 8px;
   letter-spacing: 0.02em;
   transform: translateX(-50%);
+}
+
+.terminal-layer.is-opening-intro .laptop-shell {
+  transform-origin: 50% 78%;
+  animation: zoey-laptop-shell-arrive 1.55s cubic-bezier(0.18, 0.86, 0.28, 1) both;
+}
+
+.terminal-layer.is-opening-intro .laptop-lid {
+  transform-origin: 50% 100%;
+  animation: zoey-laptop-lid-open 1.55s cubic-bezier(0.18, 0.86, 0.28, 1) both;
+  backface-visibility: hidden;
+}
+
+.terminal-layer.is-opening-intro .laptop-base {
+  animation: zoey-laptop-base-settle 1.55s cubic-bezier(0.18, 0.86, 0.28, 1) both;
+}
+
+.terminal-layer.is-opening-intro .laptop-logo {
+  animation: zoey-laptop-logo-reveal 1.55s ease both;
+}
+
+.terminal-layer.is-opening-intro .portfolio-screen {
+  pointer-events: none;
+  animation: zoey-screen-content-reveal 1.55s ease both;
+}
+
+.terminal-layer.is-opening-intro .screen-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    linear-gradient(105deg, transparent 18%, rgba(255, 255, 255, 0.16) 45%, transparent 68%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18), transparent 46%);
+  mix-blend-mode: screen;
+  animation: zoey-screen-wake 1.55s ease both;
+}
+
+@keyframes zoey-laptop-shell-arrive {
+  0% {
+    transform: translate3d(0, 18px, 0) scale(0.94) rotateX(7deg);
+    filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.24));
+  }
+  62% {
+    transform: translate3d(0, -4px, 0) scale(1.01) rotateX(0deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotateX(0deg);
+    filter: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.34));
+  }
+}
+
+@keyframes zoey-laptop-lid-open {
+  0% {
+    transform: rotateX(-76deg) translateY(9%) scaleY(0.94);
+    opacity: 0.9;
+  }
+  45% {
+    transform: rotateX(8deg) translateY(-1.5%) scaleY(1);
+    opacity: 1;
+  }
+  68% {
+    transform: rotateX(-2deg) translateY(0) scaleY(1);
+  }
+  100% {
+    transform: rotateX(0deg) translateY(0) scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoey-laptop-base-settle {
+  0% {
+    transform: rotateX(62deg) translateY(-18%) translateZ(0) scaleX(0.92);
+    opacity: 0.72;
+  }
+  55% {
+    transform: rotateX(50deg) translateY(-8%) translateZ(0) scaleX(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(52deg) translateY(-10%) translateZ(0) scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoey-laptop-logo-reveal {
+  0%,
+  36% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoey-screen-content-reveal {
+  0%,
+  58% {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoey-screen-wake {
+  0%,
+  46% {
+    opacity: 0;
+    transform: translateX(-18%) scaleX(0.7);
+  }
+  70% {
+    opacity: 0.86;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(18%) scaleX(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-layer.is-opening-intro .laptop-shell,
+  .terminal-layer.is-opening-intro .laptop-lid,
+  .terminal-layer.is-opening-intro .laptop-base,
+  .terminal-layer.is-opening-intro .laptop-logo,
+  .terminal-layer.is-opening-intro .portfolio-screen,
+  .terminal-layer.is-opening-intro .screen-glass::after {
+    animation: none;
+  }
 }
 
 /* Keep the complete laptop silhouette inside the browser viewport.
@@ -1261,6 +1393,45 @@ button:focus-visible {
 
 .portfolio-screen.is-project-aigc-ai-comic-workflow:not(.is-layout-editing) .artwork-flow {
   gap: clamp(18px, 1.6vw, 28px);
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow .screen-hero {
+  grid-template-columns: minmax(190px, 28%) minmax(0, 1fr);
+  gap: clamp(22px, 3.1vw, 48px);
+  align-items: center;
+  min-height: min(390px, calc(100dvh - 285px));
+  padding-top: clamp(14px, 2.6vh, 28px);
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow .screen-project-copy {
+  max-width: 29rem;
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow .screen-hero h1,
+.portfolio-screen.is-project-aigc-ai-comic-workflow .screen-project-copy.is-latin-title h1 {
+  max-width: 7.4em;
+  margin-bottom: 16px;
+  font-size: calc(clamp(30px, 3.65vw, 56px) * var(--project-title-scale, 1));
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow .screen-project-copy > div:not(.keyword-chips) {
+  max-width: 26rem;
+  font-size: calc(clamp(11px, 0.94vw, 14px) * var(--project-body-scale, 1));
+  line-height: 1.6;
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow .keyword-chips {
+  margin-top: 18px;
+  gap: 6px;
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow .screen-hero-artwork .artwork-frame img,
+.portfolio-screen.is-project-aigc-ai-comic-workflow .screen-hero-artwork .artwork-frame video {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
 }
 
 .portfolio-screen.is-project-aigc-ai-comic-workflow:not(.is-layout-editing) .artwork-flow > .artwork-frame,

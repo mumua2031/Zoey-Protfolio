@@ -12,22 +12,41 @@ export function PortfolioContainer() {
   const closeTerminal = usePortfolioStore((state) => state.closeTerminal);
   const requestSceneFocus = usePortfolioStore((state) => state.requestSceneFocus);
   const [isMountedVisible, setIsMountedVisible] = useState(false);
+  const [isOpeningIntro, setIsOpeningIntro] = useState(false);
 
   useEffect(() => {
     if (isTerminalOpen) {
       setIsMountedVisible(true);
+      setIsOpeningIntro(true);
       requestSceneFocus();
     }
   }, [isTerminalOpen, requestSceneFocus]);
+
+  useEffect(() => {
+    if (!isTerminalOpen) {
+      setIsOpeningIntro(false);
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const introTimer = window.setTimeout(
+      () => setIsOpeningIntro(false),
+      prefersReducedMotion ? 0 : 1700,
+    );
+
+    return () => window.clearTimeout(introTimer);
+  }, [isTerminalOpen]);
 
   const category = categoryMap.get(activeCategoryId) ?? categoryMap.get("visual");
 
   return (
     <motion.div
       className={
-        isMountedVisible || isTerminalOpen
-          ? "terminal-layer is-mounted"
-          : "terminal-layer"
+        [
+          "terminal-layer",
+          isMountedVisible || isTerminalOpen ? "is-mounted" : "",
+          isTerminalOpen && isOpeningIntro ? "is-opening-intro" : "",
+        ].filter(Boolean).join(" ")
       }
       aria-hidden={!isTerminalOpen}
       onMouseDown={(event) => {
@@ -59,6 +78,7 @@ export function PortfolioContainer() {
                     key={category.id}
                     category={category}
                     isOpen={isTerminalOpen}
+                    isIntroPlaying={isOpeningIntro}
                     onBack={closeTerminal}
                   />
                 ) : null}
