@@ -581,6 +581,98 @@ const xiuyijingProject: PortfolioProject = {
   ],
 };
 
+const aiComicWorkflowProject: PortfolioProject = {
+  id: "aigc-ai-comic-workflow",
+  name: "AI漫剧-AIGC工作流",
+  nameEn: "AI Animated Series · AIGC Workflow",
+  title: "AI漫剧-AIGC工作流",
+  subtitle: "原创 IP / AIGC 动漫短剧 / 内容运营",
+  intro:
+    "从受众调研、原创剧本与分镜设定，到图像与视频生成、配音、剪辑及发布复盘，完整主导 AIGC 动漫内容生产与运营决策，沉淀可持续迭代的系列化工作流。",
+  introEn:
+    "A full AIGC animation workflow led from audience research, original scripting and storyboarding through image and video generation, voice, editing, publishing, and performance review.",
+  keywords: ["内容运营", "AIGC工作流", "原创IP", "数据驱动", "系列化生产"],
+  images: [
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/01-poster-cover.png",
+      alt: "AI漫剧《全员NPC，我在顶级杀猪盘里刷防诈系统》宣发海报",
+      caption: "项目首图 / AI漫剧宣发海报",
+      gridStart: 1,
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/02-workflow.png",
+      alt: "AIGC动漫项目完整工作流",
+      caption: "第二幕 / 从调研定位到发布复盘的AIGC制作流程",
+      gridStart: 1,
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/03-research.png",
+      alt: "AI漫剧受众与内容调研图",
+      caption: "第三幕 / 受众、内容偏好与传播路径调研",
+      gridStart: 1,
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/04-project-positioning.png",
+      alt: "AI漫剧项目定位与内容设定",
+      caption: "第四幕 / 项目定位、内容设定与制作思路",
+      gridStart: 1,
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/05-role-division.png",
+      alt: "AI漫剧主导运营决策人的能力与分工说明",
+      caption: "第五幕 / 主导运营决策、团队分工与项目指标",
+      gridStart: 1,
+      gridSpan: 12,
+      fit: "contain",
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/06-animation.gif",
+      alt: "AI漫剧动态片段一",
+      caption: "第六幕 / AIGC动画片段一",
+      gridStart: 1,
+      gridSpan: 6,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/07-animation.gif",
+      alt: "AI漫剧动态片段二",
+      caption: "第六幕 / AIGC动画片段二",
+      gridStart: 7,
+      gridSpan: 6,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/08-animation.gif",
+      alt: "AI漫剧动态片段三",
+      caption: "第七幕 / AIGC动画片段三",
+      gridStart: 1,
+      gridSpan: 6,
+      layoutRatio: 1.78,
+    },
+    {
+      src: "/assets/portfolio-import-v2/aigc/project-ai-comic-workflow/09-animation.gif",
+      alt: "AI漫剧动态片段四",
+      caption: "第七幕 / AIGC动画片段四",
+      gridStart: 7,
+      gridSpan: 6,
+      layoutRatio: 1.78,
+    },
+  ],
+};
+
 const fixedCategoryRules: Record<
   ProjectCategoryId,
   Omit<PortfolioCategory, "id">
@@ -608,7 +700,7 @@ const fixedCategoryRules: Record<
     backendCategoryId: "Digital-Design",
     backendCategoryLabel: "数字创作",
     backendCategoryLabelEn: "Digital\u2011Design",
-    projects: [xiuyijingProject, ...importedBySlug("project-ba08216f")],
+    projects: [aiComicWorkflowProject, xiuyijingProject, ...importedBySlug("project-ba08216f")],
   },
   fashion: {
     label: "产品设计",

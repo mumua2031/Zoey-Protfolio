@@ -452,6 +452,20 @@ button:focus-visible {
   transform: translateX(-50%);
 }
 
+/* Keep the complete laptop silhouette inside the browser viewport.
+   The screen and base scale together, rather than letting width alone
+   push the base below the visible terminal area. */
+@media (min-width: 993px) {
+  .laptop-shell {
+    width: min(
+      calc((100dvh - 172px) * 1.5686),
+      calc(100vw - 48px),
+      1080px
+    );
+    max-height: calc(100dvh - 172px);
+  }
+}
+
 .portfolio-screen {
   position: absolute;
   inset: 0;
@@ -1242,6 +1256,22 @@ button:focus-visible {
 
 .portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame img,
 .portfolio-screen.is-project-aigc-xiuyijing:not(.is-layout-editing) .artwork-flow > .artwork-frame video {
+  object-fit: contain;
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow:not(.is-layout-editing) .artwork-flow {
+  gap: clamp(18px, 1.6vw, 28px);
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+.portfolio-screen.is-project-aigc-ai-comic-workflow:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.portfolio-screen.is-project-aigc-ai-comic-workflow:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout {
+  min-height: 0;
+  aspect-ratio: var(--artwork-ratio, 1.78);
+}
+
+.portfolio-screen.is-project-aigc-ai-comic-workflow:not(.is-layout-editing) .artwork-flow > .artwork-frame img,
+.portfolio-screen.is-project-aigc-ai-comic-workflow:not(.is-layout-editing) .artwork-flow > .artwork-frame video {
   object-fit: contain;
 }
 
