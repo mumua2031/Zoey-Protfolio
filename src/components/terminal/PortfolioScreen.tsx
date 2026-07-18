@@ -80,7 +80,6 @@ const projectEnglishCopy: Record<string, { subtitle: string; keywords: string[] 
 type PortfolioScreenProps = {
   category: PortfolioCategory;
   isOpen: boolean;
-  isIntroPlaying?: boolean;
   onBack: () => void;
 };
 
@@ -95,7 +94,7 @@ const isDeveloperUrl = () => {
 
 const productionOrigin = "https://zoey-protfolio.vercel.app";
 
-export function PortfolioScreen({ category, isOpen, isIntroPlaying = false, onBack }: PortfolioScreenProps) {
+export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenProps) {
   const screenRef = useRef<HTMLElement | null>(null);
   const frameRef = useRef<number | null>(null);
   const pauseUntilRef = useRef(0);
@@ -249,7 +248,7 @@ export function PortfolioScreen({ category, isOpen, isIntroPlaying = false, onBa
       screenRef.current.scrollTop = 0;
       scrollPositionRef.current = 0;
       directionRef.current = 1;
-      pauseUntilRef.current = now + (isIntroPlaying ? 2100 : 1200);
+      pauseUntilRef.current = now + 1200;
       toolbarVisibleUntilRef.current = now + 2000;
       setIsToolbarVisible(true);
     }
@@ -262,12 +261,6 @@ export function PortfolioScreen({ category, isOpen, isIntroPlaying = false, onBa
     setIsEditorOpen(false);
     setIsLayoutEditing(false);
   }, [category.id, activeProjectId, isOpen]);
-
-  useEffect(() => {
-    if (isIntroPlaying) {
-      pauseUntilRef.current = performance.now() + 1600;
-    }
-  }, [isIntroPlaying]);
 
   useEffect(() => {
     if (activeProject) {
@@ -316,7 +309,7 @@ export function PortfolioScreen({ category, isOpen, isIntroPlaying = false, onBa
 
     const step = (time: number) => {
       const screen = screenRef.current;
-      if (screen && !isIntroPlaying && !isAutoPaused && !isLayoutEditing && time > pauseUntilRef.current) {
+      if (screen && isOpen && !isAutoPaused && !isLayoutEditing && time > pauseUntilRef.current) {
         const maxScroll = screen.scrollHeight - screen.clientHeight;
         if (maxScroll > 0) {
           const delta = ((time - lastTime) / 1000) * speed * directionRef.current;
@@ -353,7 +346,7 @@ export function PortfolioScreen({ category, isOpen, isIntroPlaying = false, onBa
         window.cancelAnimationFrame(frameRef.current);
       }
     };
-  }, [isIntroPlaying, isAutoPaused, isLayoutEditing, category.id, activeProjectId]);
+  }, [isOpen, isAutoPaused, isLayoutEditing, category.id, activeProjectId]);
 
   useEffect(() => {
     return () => {
