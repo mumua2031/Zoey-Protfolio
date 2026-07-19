@@ -1569,14 +1569,14 @@
         "name": "民宿设计",
         "nameEn": "Architectural interior design",
         "title": "Interior Design",
-        "subtitle": "白色空间 / Soft Minimal",
-        "intro": "强调光、尺度与动线，构建可漫游、可停留、可被作品重新定义的工作室空间。",
-        "introEn": "White-space interiors led by light, proportion, circulation, and calm materiality.",
+        "subtitle": "民宿空间 / Homestay Space",
+        "intro": "强调光、尺度与动线，构建可漫游、可停留、可被居住体验重新定义的民宿空间。",
+        "introEn": "Homestay interiors led by light, proportion, circulation, and calm materiality.",
         "keywords": [
           "空间比例",
           "自然光",
           "动线",
-          "白色材质"
+          "在地材质"
         ],
         "hidden": false,
         "typography": {

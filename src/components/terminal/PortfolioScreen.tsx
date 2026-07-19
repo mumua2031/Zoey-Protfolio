@@ -52,7 +52,7 @@ const projectEnglishCopy: Record<string, { subtitle: string; keywords: string[] 
     keywords: ["Lookbook", "Collection", "Material Archive", "Visual Manual"],
   },
   "interior-studio": {
-    subtitle: "White Space / Soft Minimal",
+    subtitle: "Homestay Space / Soft Minimal",
     keywords: ["Proportion", "Natural Light", "Circulation", "White Material"],
   },
   "interior-gallery": {

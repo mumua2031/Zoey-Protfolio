@@ -360,14 +360,14 @@ const baseCategories: PortfolioCategory[] = [
     projects: [
       {
         id: "interior-studio",
-        name: "白色工作室",
+        name: "民宿设计",
         nameEn: "Studio",
         title: "Interior\u2011Product",
-        subtitle: "白色空间 / Soft Minimal",
-        intro: "强调光、尺度与动线，构建可漫游、可停留、可被作品重新定义的工作室空间。",
+        subtitle: "民宿空间 / Homestay Space",
+        intro: "强调光、尺度与动线，构建可漫游、可停留、可被居住体验重新定义的民宿空间。",
         introEn:
-          "White-space interiors led by light, proportion, circulation, and calm materiality.",
-        keywords: ["空间比例", "自然光", "动线", "白色材质"],
+          "Homestay interiors led by light, proportion, circulation, and calm materiality.",
+        keywords: ["空间比例", "自然光", "动线", "在地材质"],
         images: [
           { src: "/assets/interior-design.svg", alt: "极简室内空间图", caption: "Spatial Layout" },
           { src: sharedStudio, alt: "北欧纯白工作室", caption: "Reference Studio" },
