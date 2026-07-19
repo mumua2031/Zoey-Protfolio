@@ -1314,6 +1314,148 @@ button:focus-visible {
   object-fit: contain;
 }
 
+/* Desktop project detail fit: keep copy and hero media inside the laptop screen. */
+@media (min-width: 993px) {
+  .portfolio-screen {
+    gap: clamp(10px, 1.15vw, 18px);
+    padding: clamp(18px, 1.65vw, 28px);
+    padding-bottom: max(clamp(24px, 4.5vh, 52px), env(safe-area-inset-bottom));
+  }
+
+  .screen-toolbar {
+    min-height: 34px;
+  }
+
+  .screen-project-tab,
+  .back-button {
+    min-height: 32px;
+    padding-inline: clamp(10px, 0.9vw, 14px);
+  }
+
+  .screen-hero {
+    grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+    gap: clamp(18px, 2.4vw, 34px);
+    min-height: min(370px, calc(100dvh - 285px));
+    padding: clamp(12px, 2.15vh, 24px) 0 0;
+  }
+
+  .screen-project-copy,
+  .screen-project-copy.is-latin-title,
+  .screen-hero-artwork {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .screen-hero h1 {
+    max-width: 100%;
+    margin-bottom: 14px;
+    font-size: calc(clamp(36px, 4.15vw, 62px) * var(--project-title-scale, 1));
+    line-height: 1;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    text-wrap: balance;
+  }
+
+  .screen-project-copy.is-latin-title h1 {
+    font-size: calc(clamp(34px, 3.9vw, 58px) * var(--project-title-scale, 1));
+    line-height: 1;
+  }
+
+  .screen-project-copy > div:not(.keyword-chips) {
+    max-width: 100%;
+    gap: 8px;
+    font-size: calc(clamp(12px, 1vw, 14px) * var(--project-body-scale, 1));
+    line-height: 1.62;
+  }
+
+  .screen-hero p {
+    margin-bottom: 10px;
+  }
+
+  .keyword-chips {
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .keyword-chips span {
+    min-height: 26px;
+    padding-inline: 9px;
+    font-size: 10px;
+  }
+
+  .screen-hero-artwork .artwork-frame,
+  .portfolio-screen:not(.is-layout-editing) .screen-hero-artwork .artwork-frame,
+  .portfolio-screen:not(.is-layout-editing) .screen-hero-artwork .artwork-frame:nth-child(n),
+  .portfolio-screen:not(.is-layout-editing) .screen-hero-artwork .artwork-frame.has-direct-layout {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    place-items: center;
+  }
+
+  .screen-hero-artwork .artwork-frame img,
+  .screen-hero-artwork .artwork-frame video,
+  .portfolio-screen:not(.is-layout-editing) .screen-hero-artwork .artwork-frame img,
+  .portfolio-screen:not(.is-layout-editing) .screen-hero-artwork .artwork-frame video,
+  .portfolio-screen:not(.is-layout-editing) .screen-hero-artwork .artwork-frame:nth-child(n) img,
+  .portfolio-screen:not(.is-layout-editing) .screen-hero-artwork .artwork-frame:nth-child(n) video {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: min(330px, calc(100dvh - 310px));
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+
+  .portfolio-screen:not(.is-layout-editing) .artwork-flow {
+    gap: clamp(12px, 1.15vw, 20px);
+  }
+
+  .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n) {
+    min-height: min(330px, calc(100dvh - 260px));
+  }
+
+  .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame img,
+  .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame video {
+    max-height: min(560px, calc(100dvh - 180px));
+  }
+
+  .portfolio-screen.is-project-aigc-xiuyijing .screen-hero {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(18px, 2.4vw, 34px);
+  }
+
+  .portfolio-screen.is-project-aigc-xiuyijing .screen-hero h1,
+  .portfolio-screen.is-project-aigc-xiuyijing .screen-project-copy.is-latin-title h1 {
+    max-width: 100%;
+    font-size: calc(clamp(34px, 3.45vw, 52px) * var(--project-title-scale, 1));
+    line-height: 1.04;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .portfolio-screen.is-project-aigc-ai-comic-workflow .screen-hero {
+    grid-template-columns: minmax(0, 0.76fr) minmax(0, 1.24fr);
+    gap: clamp(18px, 2.25vw, 32px);
+    min-height: min(330px, calc(100dvh - 300px));
+    padding-top: clamp(10px, 1.8vh, 20px);
+  }
+
+  .portfolio-screen.is-project-aigc-ai-comic-workflow .screen-hero h1,
+  .portfolio-screen.is-project-aigc-ai-comic-workflow .screen-project-copy.is-latin-title h1 {
+    max-width: 100%;
+    font-size: calc(clamp(28px, 3vw, 44px) * var(--project-title-scale, 1));
+    line-height: 1.02;
+    overflow-wrap: anywhere;
+  }
+
+  .portfolio-screen.is-project-aigc-ai-comic-workflow .screen-project-copy > div:not(.keyword-chips) {
+    font-size: calc(clamp(11px, 0.9vw, 13px) * var(--project-body-scale, 1));
+    line-height: 1.55;
+  }
+}
+
 .portfolio-screen.is-layout-editing .artwork-frame {
   display: grid;
   place-items: center;
@@ -9084,6 +9226,160 @@ button:focus-visible {
     padding-top: 0 !important;
   }
 }
+
+/* Mobile project detail patch: readable single-column flow, independent of the laptop shell. */
+@media screen and (max-width: 992px) {
+  body.zoey-mobile-modal-open .app-shell::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero,
+  .terminal-layer[aria-hidden="false"] .screen-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+    min-height: auto !important;
+    padding: 16px 0 6px !important;
+  }
+
+  .terminal-layer.is-mounted .screen-project-copy,
+  .terminal-layer.is-mounted .screen-project-copy.is-latin-title,
+  .terminal-layer.is-mounted .screen-project-copy > div:not(.keyword-chips),
+  .terminal-layer.is-mounted .screen-hero-artwork,
+  .terminal-layer[aria-hidden="false"] .screen-project-copy,
+  .terminal-layer[aria-hidden="false"] .screen-project-copy.is-latin-title,
+  .terminal-layer[aria-hidden="false"] .screen-project-copy > div:not(.keyword-chips),
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero p,
+  .terminal-layer[aria-hidden="false"] .screen-hero p {
+    margin-bottom: 8px !important;
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero h1,
+  .terminal-layer.is-mounted .screen-project-copy.is-latin-title h1,
+  .terminal-layer[aria-hidden="false"] .screen-hero h1,
+  .terminal-layer[aria-hidden="false"] .screen-project-copy.is-latin-title h1 {
+    max-width: 100% !important;
+    margin-bottom: 12px !important;
+    font-size: 40px !important;
+    line-height: 1.04 !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    text-wrap: balance !important;
+  }
+
+  .terminal-layer.is-mounted .screen-project-copy > div:not(.keyword-chips),
+  .terminal-layer[aria-hidden="false"] .screen-project-copy > div:not(.keyword-chips) {
+    gap: 8px !important;
+    font-size: 14px !important;
+    line-height: 1.62 !important;
+  }
+
+  .terminal-layer.is-mounted .keyword-chips,
+  .terminal-layer[aria-hidden="false"] .keyword-chips {
+    gap: 7px !important;
+    margin-top: 14px !important;
+  }
+
+  .terminal-layer.is-mounted .keyword-chips span,
+  .terminal-layer[aria-hidden="false"] .keyword-chips span {
+    min-height: 30px !important;
+    padding-inline: 10px !important;
+    font-size: 11px !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork .artwork-frame {
+    overflow: visible !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame img,
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame video,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork .artwork-frame img,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork .artwork-frame video {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 58dvh !important;
+    object-fit: contain !important;
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  .terminal-layer.is-mounted .portfolio-screen,
+  .terminal-layer[aria-hidden="false"] .portfolio-screen {
+    padding: max(70px, calc(env(safe-area-inset-top) + 62px)) 14px max(68px, calc(env(safe-area-inset-bottom) + 60px)) !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero h1,
+  .terminal-layer.is-mounted .screen-project-copy.is-latin-title h1,
+  .terminal-layer[aria-hidden="false"] .screen-hero h1,
+  .terminal-layer[aria-hidden="false"] .screen-project-copy.is-latin-title h1 {
+    font-size: 34px !important;
+  }
+
+  .terminal-layer.is-mounted .screen-project-copy > div:not(.keyword-chips),
+  .terminal-layer[aria-hidden="false"] .screen-project-copy > div:not(.keyword-chips) {
+    font-size: 13px !important;
+    line-height: 1.58 !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame img,
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame video,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame img,
+  .terminal-layer.is-mounted .artwork-flow > .artwork-frame video,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork .artwork-frame img,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork .artwork-frame video,
+  .terminal-layer[aria-hidden="false"] .artwork-flow > .artwork-frame img,
+  .terminal-layer[aria-hidden="false"] .artwork-flow > .artwork-frame video {
+    max-height: 64dvh !important;
+  }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+  .terminal-layer.is-mounted .portfolio-screen,
+  .terminal-layer[aria-hidden="false"] .portfolio-screen {
+    padding: max(46px, calc(env(safe-area-inset-top) + 38px)) 14px max(46px, calc(env(safe-area-inset-bottom) + 38px)) !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero,
+  .terminal-layer[aria-hidden="false"] .screen-hero {
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr) !important;
+    gap: 14px !important;
+    align-items: center !important;
+    padding-top: 8px !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero h1,
+  .terminal-layer.is-mounted .screen-project-copy.is-latin-title h1,
+  .terminal-layer[aria-hidden="false"] .screen-hero h1,
+  .terminal-layer[aria-hidden="false"] .screen-project-copy.is-latin-title h1 {
+    font-size: 30px !important;
+    line-height: 1.02 !important;
+  }
+
+  .terminal-layer.is-mounted .screen-project-copy > div:not(.keyword-chips),
+  .terminal-layer[aria-hidden="false"] .screen-project-copy > div:not(.keyword-chips) {
+    font-size: 12px !important;
+    line-height: 1.42 !important;
+  }
+
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame img,
+  .terminal-layer.is-mounted .screen-hero-artwork .artwork-frame video,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork .artwork-frame img,
+  .terminal-layer[aria-hidden="false"] .screen-hero-artwork .artwork-frame video {
+    max-height: 58dvh !important;
+  }
+}
+
 /* Mobile-only: use the bottom-left back button as the only close control for info overlays. */
 @media screen and (max-width: 992px) {
   .info-overlay.is-open .overlay-close {
