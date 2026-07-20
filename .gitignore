@@ -5,3 +5,7 @@ dist/
 .env.*
 .DS_Store
 Thumbs.db
+/.tmp-*/
+/baseline-mobile-about-open.png
+/preview-*.png
+/verify-*
