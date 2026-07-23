@@ -314,37 +314,8 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
         if (maxScroll > 0) {
           const delta = ((time - lastTime) / 1000) * speed * directionRef.current;
           const next = scrollPositionRef.current + delta;
-          const screenRect = screen.getBoundingClientRect();
-          const stops = Array.from(
-            screen.querySelectorAll<HTMLElement>(
-              ".screen-hero-artwork .artwork-frame, .artwork-flow > .artwork-frame",
-            ),
-          )
-            .map((frame) => {
-              const frameRect = frame.getBoundingClientRect();
-              return Math.min(
-                maxScroll,
-                Math.max(
-                  0,
-                  screen.scrollTop + frameRect.top - screenRect.top - (screen.clientHeight - frameRect.height) / 2,
-                ),
-              );
-            })
-            .sort((first, second) => first - second);
-          const nextStop =
-            directionRef.current > 0
-              ? stops.find((stop) => stop > scrollPositionRef.current + 1)
-              : [...stops].reverse().find((stop) => stop < scrollPositionRef.current - 1);
 
-          if (nextStop !== undefined && directionRef.current > 0 && next >= nextStop) {
-            screen.scrollTop = nextStop;
-            scrollPositionRef.current = nextStop;
-            pauseUntilRef.current = time + 1600;
-          } else if (nextStop !== undefined && directionRef.current < 0 && next <= nextStop) {
-            screen.scrollTop = nextStop;
-            scrollPositionRef.current = nextStop;
-            pauseUntilRef.current = time + 1600;
-          } else if (next >= maxScroll) {
+          if (next >= maxScroll) {
             screen.scrollTop = maxScroll;
             scrollPositionRef.current = maxScroll;
             directionRef.current = -1;

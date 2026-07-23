@@ -33,28 +33,19 @@ export function LazyArtwork({
   onLayoutPreset,
 }: LazyArtworkProps) {
   const frameRef = useRef<HTMLElement | null>(null);
-  const [isVisible, setIsVisible] = useState(priority || !editable);
+  const [isVisible, setIsVisible] = useState(priority);
   const [isLoaded, setIsLoaded] = useState(false);
   const isVideo = image.type === "video";
   const frameStyle = {
-    "--artwork-fit": editable ? image.fit ?? "cover" : "contain",
-    "--artwork-position": editable ? image.objectPosition ?? "center center" : "center center",
-    "--artwork-zoom": editable ? image.zoom ?? 1 : 1,
-    ...(editable
-      ? {
-          "--grid-start": image.gridStart,
-          "--grid-span": image.gridSpan,
-          "--artwork-ratio": image.layoutRatio,
-        }
-      : {}),
+    "--artwork-fit": image.fit ?? "cover",
+    "--artwork-position": image.objectPosition ?? "center center",
+    "--artwork-zoom": image.zoom ?? 1,
+    "--grid-start": image.gridStart,
+    "--grid-span": image.gridSpan,
+    "--artwork-ratio": image.layoutRatio,
   } as CSSProperties;
 
   useEffect(() => {
-    if (!editable) {
-      setIsVisible(true);
-      return;
-    }
-
     const frame = frameRef.current;
     if (!frame || isVisible) {
       return;
@@ -72,7 +63,7 @@ export function LazyArtwork({
 
     observer.observe(frame);
     return () => observer.disconnect();
-  }, [editable, isVisible]);
+  }, [isVisible]);
 
   const beginLayoutDrag = (event: ReactPointerEvent<HTMLElement>, mode: "move" | "resize") => {
     if (!editable) {
@@ -164,8 +155,8 @@ export function LazyArtwork({
         isLoaded ? "is-loaded" : "",
         isVideo ? "is-video" : "",
         editable ? "is-editable" : "",
-        editable && image.gridSpan ? "has-direct-layout" : "",
-        editable && image.span && image.span !== "auto" ? `is-${image.span}` : "",
+        image.gridSpan ? "has-direct-layout" : "",
+        image.span && image.span !== "auto" ? `is-${image.span}` : "",
       ].filter(Boolean).join(" ")}
       style={frameStyle}
       onPointerDown={(event) => beginLayoutDrag(event, "move")}
@@ -209,14 +200,14 @@ export function LazyArtwork({
           loop
           playsInline
           autoPlay
-          preload={priority || !editable ? "auto" : "metadata"}
+          preload={priority ? "auto" : "metadata"}
           onLoadedData={() => setIsLoaded(true)}
         />
       ) : isVisible ? (
         <img
           src={image.src}
           alt={image.alt}
-          loading={priority || !editable ? "eager" : "lazy"}
+          loading={priority ? "eager" : "lazy"}
           decoding="async"
           fetchPriority={priority ? "high" : "auto"}
           onLoad={() => setIsLoaded(true)}
