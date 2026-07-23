@@ -1088,7 +1088,7 @@ button:focus-visible {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-auto-flow: dense;
+  grid-auto-flow: row;
   gap: clamp(1px, 0.22vw, 4px);
   align-content: start;
   min-height: 0;
@@ -1110,7 +1110,7 @@ button:focus-visible {
   grid-column: span 6;
   min-height: 0;
   margin: 0;
-  overflow: visible;
+  overflow: hidden;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -1180,19 +1180,7 @@ button:focus-visible {
 .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame {
   display: grid;
   place-items: center;
-  min-height: clamp(120px, 19dvh, 300px);
-}
-
-.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(6n + 1),
-.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(6n) {
-  min-height: min(460px, calc(100dvh - 300px));
-}
-
-.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(6n + 2),
-.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(6n + 3),
-.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(6n + 4),
-.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(6n + 5) {
-  min-height: min(280px, calc(31dvh - 34px));
+  min-height: 0;
 }
 
 .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout {
@@ -1206,7 +1194,7 @@ button:focus-visible {
   height: 100%;
   min-height: 0;
   max-width: 100%;
-  max-height: calc(100dvh - 130px);
+  max-height: none;
   object-fit: contain;
   background: transparent;
 }
@@ -1413,12 +1401,12 @@ button:focus-visible {
   }
 
   .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n) {
-    min-height: min(330px, calc(100dvh - 260px));
+    min-height: 0;
   }
 
   .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame img,
   .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame video {
-    max-height: min(560px, calc(100dvh - 180px));
+    max-height: none;
   }
 
   .portfolio-screen.is-project-aigc-xiuyijing .screen-hero {
@@ -9748,5 +9736,86 @@ button:focus-visible {
   .terminal-layer[aria-hidden="false"] .portfolio-screen.is-project-visual-project-d06ccd44 .artwork-flow > .artwork-frame img,
   .terminal-layer[aria-hidden="false"] .portfolio-screen.is-project-visual-project-d06ccd44 .artwork-flow > .artwork-frame video {
     transform: scale(calc(var(--artwork-zoom, 1) * 0.94)) translateZ(0) !important;
+  }
+}
+
+/* Project detail layout patch: keep artwork in normal flow and prevent saved image crops from overlapping. */
+.portfolio-screen:not(.is-layout-editing) .artwork-flow,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow {
+  grid-auto-flow: row !important;
+  align-items: start !important;
+  overflow: visible !important;
+}
+
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n) {
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  align-self: start !important;
+  overflow: hidden !important;
+  transform: none !important;
+}
+
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout {
+  aspect-ratio: var(--artwork-ratio, 1.6) !important;
+}
+
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) img,
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) video,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) img,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) video,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) img,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) video {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+}
+
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout img,
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout video,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout img,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout video,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout img,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout video {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+}
+
+@media screen and (max-width: 992px) {
+  .terminal-layer.is-mounted .portfolio-screen,
+  .terminal-layer[aria-hidden="false"] .portfolio-screen {
+    padding-top: max(128px, calc(env(safe-area-inset-top) + 112px)) !important;
+  }
+
+  .portfolio-screen:not(.is-layout-editing) .artwork-flow,
+  .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow,
+  .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+  .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+  .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout,
+  .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+  .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+  .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout,
+  .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+  .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+  .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
