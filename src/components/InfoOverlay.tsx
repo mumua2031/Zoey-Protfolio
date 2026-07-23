@@ -111,7 +111,7 @@ const infoContactColumns = {
     contactTitle: "\u63a5\u89e6",
     profile: [
       ["GitHub", "mumua2031"],
-      ["LinkedIn", "www.linkedin.com/in/muxizou"],
+      ["LinkedIn", "https://www.linkedin.com/in/muxizou/"],
     ],
     contact: [
       ["\u7535\u5b50\u90ae\u7bb1", "mumua2031@gmail.com"],
@@ -128,7 +128,7 @@ const infoContactColumns = {
     contactTitle: "Contact",
     profile: [
       ["GitHub", "mumua2031"],
-      ["LinkedIn", "www.linkedin.com/in/muxizou"],
+      ["LinkedIn", "https://www.linkedin.com/in/muxizou/"],
     ],
     contact: [
       ["Email", "mumua2031@gmail.com"],
