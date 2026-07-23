@@ -137,7 +137,59 @@ const writeHistoryIndex = (versions) => {
   });
 };
 
-export const listHistoryVersions = () => readHistoryIndex();
+const noisyHistoryActionPrefixes = [
+  "browser-cache-import",
+  "rollback:",
+  "scheduled-snapshot",
+  "self-test",
+  "two-hour-script-snapshot",
+];
+
+const isNoisyHistoryAction = (action = "") =>
+  noisyHistoryActionPrefixes.some((prefix) => action.startsWith(prefix));
+
+const compactHistoryVersions = (versions) => {
+  const seenProjectIncrement = new Set();
+  let snapshotCount = 0;
+  let dailyCount = 0;
+  const snapshotRetain = Number(backupConfig.snapshot?.retain ?? 24);
+  const dailyRetain = Number(backupConfig.daily?.retain ?? 90);
+
+  return versions.filter((record) => {
+    const action = String(record.action ?? "");
+    if (isNoisyHistoryAction(action)) {
+      return false;
+    }
+
+    if (record.kind === "snapshot") {
+      snapshotCount += 1;
+      return snapshotCount <= snapshotRetain;
+    }
+
+    if (record.kind === "daily") {
+      dailyCount += 1;
+      return dailyCount <= dailyRetain;
+    }
+
+    if (record.kind === "incremental") {
+      const key = `${record.projectId ?? "global"}:${action}`;
+      if (seenProjectIncrement.has(key)) {
+        return false;
+      }
+      seenProjectIncrement.add(key);
+    }
+
+    return true;
+  });
+};
+
+export const listHistoryVersions = () => {
+  const index = readHistoryIndex();
+  return {
+    ...index,
+    versions: compactHistoryVersions(index.versions),
+  };
+};
 
 const addHistoryRecord = (record) => {
   const previousIndex = readHistoryIndex();
