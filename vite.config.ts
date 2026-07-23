@@ -28,6 +28,9 @@ type PortfolioImageOverride = {
   gridStart?: number;
   gridSpan?: number;
   layoutRatio?: number;
+  freeX?: number;
+  freeY?: number;
+  freeScale?: number;
   enabled?: boolean;
 };
 
@@ -397,6 +400,9 @@ const normalizeProjectOverride = (project: ProjectOverride): ProjectOverride => 
     objectPosition: image.objectPosition ?? "center center",
     span: image.span ?? "auto",
     zoom: typeof image.zoom === "number" ? image.zoom : 1,
+    freeX: typeof image.freeX === "number" ? image.freeX : 0,
+    freeY: typeof image.freeY === "number" ? image.freeY : 0,
+    freeScale: typeof image.freeScale === "number" ? image.freeScale : 1,
   })),
 });
 

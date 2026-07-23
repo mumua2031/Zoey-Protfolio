@@ -27,6 +27,9 @@ export type PortfolioImage = {
   gridStart?: number;
   gridSpan?: number;
   layoutRatio?: number;
+  freeX?: number;
+  freeY?: number;
+  freeScale?: number;
 };
 
 export type PortfolioProject = {

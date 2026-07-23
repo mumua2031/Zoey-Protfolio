@@ -115,6 +115,8 @@ export default function App() {
   const activePrimary = usePortfolioStore((state) => state.activePrimary);
   const activeCategoryId = usePortfolioStore((state) => state.activeCategoryId);
   const isTerminalOpen = usePortfolioStore((state) => state.isTerminalOpen);
+  const startExperience = usePortfolioStore((state) => state.startExperience);
+  const openProject = usePortfolioStore((state) => state.openProject);
 
   useEffect(() => {
     const isModalOpen = isTerminalOpen || (activePrimary !== null && activePrimary !== "projects");
@@ -124,6 +126,23 @@ export default function App() {
       document.body.classList.remove("zoey-mobile-modal-open");
     };
   }, [activePrimary, isTerminalOpen]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const isDeveloperEntry = params.get("dev") === "1" || params.get("edit") === "1";
+    if (!isDeveloperEntry) {
+      return;
+    }
+
+    const requestedCategory = params.get("category");
+    const categoryId =
+      requestedCategory && categoryMap.has(requestedCategory as Parameters<typeof openProject>[0])
+        ? (requestedCategory as Parameters<typeof openProject>[0])
+        : "visual";
+
+    startExperience();
+    openProject(categoryId);
+  }, [openProject, startExperience]);
 
   useEffect(() => {
     const category = categoryMap.get(activeCategoryId);

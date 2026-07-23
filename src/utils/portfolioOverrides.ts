@@ -402,7 +402,16 @@ export const toEditableImages = (images: PortfolioImage[]): EditablePortfolioIma
     objectPosition: image.objectPosition ?? "center center",
     span: image.span ?? "auto",
     zoom: image.zoom ?? 1,
+    freeX: image.freeX ?? 0,
+    freeY: image.freeY ?? 0,
+    freeScale: image.freeScale ?? 1,
   }));
+
+export const clearPortfolioOverrideCache = () => {
+  latestBackendStoreValue = null;
+  latestBackendStoreFetchedAt = 0;
+  latestBackendStoreRequest = null;
+};
 
 export const toEditableProjectCopy = (project: PortfolioProject): EditableProjectCopy => ({
   name: project.name,

@@ -5,6 +5,7 @@ import { usePortfolioStore } from "../../store/usePortfolioStore";
 import {
   createPortfolioHistorySnapshot,
   defaultProjectTypography,
+  clearPortfolioOverrideCache,
   getProjectOverride,
   getProjectOverrideAsync,
   saveProjectOverrideAsync,
@@ -287,6 +288,44 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
   }, [activeProject]);
 
   useEffect(() => {
+    const hot = import.meta.hot;
+    if (!hot) {
+      return;
+    }
+
+    const refreshSavedOverrides = async (data?: { projectId?: string }) => {
+      clearPortfolioOverrideCache();
+      const entries = await Promise.all(
+        category.projects.map(async (project) => {
+          const override = await getProjectOverrideAsync(project);
+          return [project.id, override] as const;
+        }),
+      );
+
+      const copyMap: Record<string, EditableProjectCopy> = {};
+      for (const [id, override] of entries) {
+        copyMap[id] = override.copy;
+      }
+      setProjectCopyMap(copyMap);
+
+      const targetProjectId = data?.projectId ?? activeProjectId;
+      const activeEntry = entries.find(([id]) => id === targetProjectId);
+      if (activeEntry && targetProjectId === activeProjectId) {
+        const [, override] = activeEntry;
+        setEditableImages(override.images);
+        setEditableCopy(override.copy);
+        editableImagesRef.current = override.images;
+        editableCopyRef.current = override.copy;
+      }
+    };
+
+    hot.on("portfolio-overrides-saved", refreshSavedOverrides);
+    return () => {
+      hot.off("portfolio-overrides-saved", refreshSavedOverrides);
+    };
+  }, [activeProjectId, category.projects]);
+
+  useEffect(() => {
     if (editableImages) {
       editableImagesRef.current = editableImages;
     }
@@ -505,10 +544,10 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
         { gridSpan: 4, layoutRatio: 0.92 },
       ],
       quad: [
-        { gridSpan: 6, layoutRatio: 2.15 },
-        { gridSpan: 6, layoutRatio: 2.15 },
-        { gridSpan: 6, layoutRatio: 2.15 },
-        { gridSpan: 6, layoutRatio: 2.15 },
+        { gridSpan: 3, layoutRatio: 1.78 },
+        { gridSpan: 3, layoutRatio: 1.78 },
+        { gridSpan: 3, layoutRatio: 1.78 },
+        { gridSpan: 3, layoutRatio: 1.78 },
       ],
       five: [
         { gridSpan: 4, layoutRatio: 1.85 },

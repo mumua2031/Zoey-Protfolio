@@ -43,6 +43,9 @@ export function LazyArtwork({
     "--grid-start": image.gridStart,
     "--grid-span": image.gridSpan,
     "--artwork-ratio": image.layoutRatio,
+    "--free-x": `${image.freeX ?? 0}px`,
+    "--free-y": `${image.freeY ?? 0}px`,
+    "--free-scale": image.freeScale ?? 1,
   } as CSSProperties;
 
   useEffect(() => {
@@ -74,18 +77,18 @@ export function LazyArtwork({
     event.stopPropagation();
 
     const frame = frameRef.current;
-    const flow = frame?.closest(".artwork-flow") as HTMLElement | null;
-    if (!frame || !flow) {
+    if (!frame) {
       return;
     }
 
     frame.setPointerCapture(event.pointerId);
 
-    const flowRect = flow.getBoundingClientRect();
-    const columnWidth = flowRect.width / 12;
     const baseSpan = image.gridSpan ?? spanToColumns(image.span);
     const baseStart = image.gridStart ?? 1;
     const baseRatio = image.layoutRatio ?? 1.6;
+    const baseFreeX = image.freeX ?? 0;
+    const baseFreeY = image.freeY ?? 0;
+    const baseFreeScale = image.freeScale ?? 1;
     const startX = event.clientX;
     const startY = event.clientY;
     let latestPatch: Partial<PortfolioImage> = {
@@ -93,37 +96,39 @@ export function LazyArtwork({
       gridSpan: baseSpan,
       layoutRatio: baseRatio,
       span: "auto",
+      freeX: baseFreeX,
+      freeY: baseFreeY,
+      freeScale: baseFreeScale,
     };
 
-    frame.classList.add("has-direct-layout");
     frame.style.setProperty("--grid-start", String(baseStart));
     frame.style.setProperty("--grid-span", String(baseSpan));
     frame.style.setProperty("--artwork-ratio", String(baseRatio));
+    frame.style.setProperty("--free-x", `${baseFreeX}px`);
+    frame.style.setProperty("--free-y", `${baseFreeY}px`);
+    frame.style.setProperty("--free-scale", String(baseFreeScale));
 
     const onMove = (moveEvent: PointerEvent) => {
       const deltaX = moveEvent.clientX - startX;
       const deltaY = moveEvent.clientY - startY;
 
       if (mode === "move") {
-        const nextStart = clamp(Math.round(baseStart + deltaX / columnWidth), 1, 13 - baseSpan);
-        latestPatch = { gridStart: nextStart, gridSpan: baseSpan, span: "auto" };
-        frame.style.setProperty("--grid-start", String(nextStart));
-        frame.style.setProperty("--grid-span", String(baseSpan));
+        const nextX = Math.round(baseFreeX + deltaX);
+        const nextY = Math.round(baseFreeY + deltaY);
+        latestPatch = { freeX: nextX, freeY: nextY, freeScale: baseFreeScale };
+        frame.style.setProperty("--free-x", `${nextX}px`);
+        frame.style.setProperty("--free-y", `${nextY}px`);
         return;
       }
 
-      const nextSpan = clamp(Math.round(baseSpan + deltaX / columnWidth), 3, 12);
-      const nextRatio = Number(clamp(baseRatio - deltaY / 260, 0.58, 2.2).toFixed(2));
-      const nextStart = clamp(baseStart, 1, 13 - nextSpan);
+      const diagonalDelta = (deltaX + deltaY) / 2;
+      const nextScale = Number(clamp(baseFreeScale + diagonalDelta / 320, 0.35, 2.4).toFixed(2));
       latestPatch = {
-        gridStart: nextStart,
-        gridSpan: nextSpan,
-        layoutRatio: nextRatio,
-        span: "auto",
+        freeX: baseFreeX,
+        freeY: baseFreeY,
+        freeScale: nextScale,
       };
-      frame.style.setProperty("--grid-start", String(nextStart));
-      frame.style.setProperty("--grid-span", String(nextSpan));
-      frame.style.setProperty("--artwork-ratio", String(nextRatio));
+      frame.style.setProperty("--free-scale", String(nextScale));
     };
 
     const onUp = () => {
@@ -156,6 +161,7 @@ export function LazyArtwork({
         isVideo ? "is-video" : "",
         editable ? "is-editable" : "",
         image.gridSpan ? "has-direct-layout" : "",
+        image.freeX || image.freeY || image.freeScale && image.freeScale !== 1 ? "has-free-layout" : "",
         image.span && image.span !== "auto" ? `is-${image.span}` : "",
       ].filter(Boolean).join(" ")}
       style={frameStyle}
