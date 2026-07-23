@@ -9942,3 +9942,24 @@ button:focus-visible {
     --detail-artwork-max-block: min(64dvh, 520px);
   }
 }
+
+/* Browsing never uses the editor's multi-column grid. */
+.portfolio-screen:not(.is-layout-editing) .artwork-flow,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: clamp(16px, 1.6vw, 26px) !important;
+}
+
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n) {
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  grid-column: auto !important;
+}
