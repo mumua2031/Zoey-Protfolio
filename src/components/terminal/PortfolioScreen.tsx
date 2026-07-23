@@ -460,8 +460,22 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
   const visibleEditableImages = currentEditableImages
     .map((image, sourceIndex) => ({ image, sourceIndex }))
     .filter(({ image }) => image.enabled && image.src.trim().length > 0);
-  const firstPresentationItem = isLayoutEditing ? undefined : visibleEditableImages[0];
-  const flowItems = isLayoutEditing ? visibleEditableImages : visibleEditableImages.slice(1);
+  const usesFullArtworkFlow =
+    !isLayoutEditing &&
+    visibleEditableImages.length > 0 &&
+    visibleEditableImages.length <= 4 &&
+    visibleEditableImages.every(({ image }) =>
+      Boolean(
+        image.gridSpan ||
+          image.layoutRatio ||
+          image.gridStart ||
+          image.freeX ||
+          image.freeY ||
+          (image.freeScale && image.freeScale !== 1),
+      ),
+    );
+  const firstPresentationItem = isLayoutEditing || usesFullArtworkFlow ? undefined : visibleEditableImages[0];
+  const flowItems = isLayoutEditing || usesFullArtworkFlow ? visibleEditableImages : visibleEditableImages.slice(1);
   const brandTypeTiles = [
     {
       index: "01",
@@ -548,6 +562,12 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
         { gridSpan: 3, layoutRatio: 1.78 },
         { gridSpan: 3, layoutRatio: 1.78 },
         { gridSpan: 3, layoutRatio: 1.78 },
+      ],
+      pairScreens: [
+        { gridSpan: 6, layoutRatio: 1.78 },
+        { gridSpan: 6, layoutRatio: 1.78 },
+        { gridSpan: 6, layoutRatio: 1.78 },
+        { gridSpan: 6, layoutRatio: 1.78 },
       ],
       five: [
         { gridSpan: 4, layoutRatio: 1.85 },
@@ -649,6 +669,7 @@ export function PortfolioScreen({ category, isOpen, onBack }: PortfolioScreenPro
         `is-project-${activeProject.id}`,
         isManualScrolling ? "is-manual-scroll" : "",
         isLayoutEditing ? "is-layout-editing" : "",
+        usesFullArtworkFlow ? "is-full-artwork-flow" : "",
         isBrandTypographyProject && !isLayoutEditing ? "is-brand-typography-study" : "",
       ].filter(Boolean).join(" ")}
       onClick={(event) => {

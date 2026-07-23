@@ -2,7 +2,7 @@ import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { PortfolioImage } from "../../data/portfolio";
 
-export type LayoutPreset = "single" | "pair" | "trio" | "quad" | "five" | "mosaic" | "wide";
+export type LayoutPreset = "single" | "pair" | "trio" | "quad" | "pairScreens" | "five" | "mosaic" | "wide";
 
 type LazyArtworkProps = {
   image: PortfolioImage;
@@ -186,6 +186,9 @@ export function LazyArtwork({
           </button>
           <button type="button" onPointerDown={(event) => applyPreset(event, "quad")}>
             四图
+          </button>
+          <button type="button" onPointerDown={(event) => applyPreset(event, "pairScreens")}>
+            2x2
           </button>
           <button type="button" onPointerDown={(event) => applyPreset(event, "five")}>
             五图
