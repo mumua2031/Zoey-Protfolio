@@ -9743,29 +9743,32 @@ button:focus-visible {
 .portfolio-screen:not(.is-layout-editing) .artwork-flow,
 .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow,
 .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow {
+  grid-template-columns: 1fr !important;
   grid-auto-flow: row !important;
   align-items: start !important;
+  gap: clamp(16px, 1.6vw, 26px) !important;
   overflow: visible !important;
 }
 
 .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
 .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout,
 .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
 .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout,
 .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame,
-.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n) {
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:nth-child(n),
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout {
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-height: 0 !important;
   height: auto !important;
   max-height: none !important;
   align-self: start !important;
+  aspect-ratio: auto !important;
   overflow: hidden !important;
   transform: none !important;
-}
-
-.portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout,
-.terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout,
-.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout {
-  aspect-ratio: var(--artwork-ratio, 1.6) !important;
 }
 
 .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) img,
@@ -9773,13 +9776,7 @@ button:focus-visible {
 .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) img,
 .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) video,
 .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) img,
-.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) video {
-  width: 100% !important;
-  height: auto !important;
-  max-height: none !important;
-  object-fit: contain !important;
-}
-
+.terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame:not(.has-direct-layout) video,
 .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout img,
 .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout video,
 .terminal-layer.is-mounted .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout img,
@@ -9787,7 +9784,7 @@ button:focus-visible {
 .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout img,
 .terminal-layer[aria-hidden="false"] .portfolio-screen:not(.is-layout-editing) .artwork-flow > .artwork-frame.has-direct-layout video {
   width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
   max-height: none !important;
   object-fit: contain !important;
 }
